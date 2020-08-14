@@ -18,9 +18,11 @@ function printLog(...$objects)
         $object = $objects[$i];
         $str = "";
         if (is_array($object)) {
-            $str = implode(" ", $object);
+            
+            $str = print_r($object, true);
+
         } else {
-            $str = $object;
+            $str = " ".($object);
         }
         $printed .= " " . $str;
     }

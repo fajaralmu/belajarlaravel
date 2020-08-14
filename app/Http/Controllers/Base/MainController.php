@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Base;
-use App\Http\Controllers\Controller;
+ 
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class MainController extends BaseController
 {
   
     public function __construct()
@@ -13,8 +13,8 @@ class MainController extends Controller
     }
 
     public function index(Request $request){
-
-        return view('welcome');
+        
+        return $this->appView($request, 'index', ['title'=>'Testing']);
     }
 
 }
