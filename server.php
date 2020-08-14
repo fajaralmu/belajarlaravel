@@ -7,6 +7,27 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+function out(...$obj){
+    printLog($obj);
+}
+function printLog(...$objects)
+{
+    $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+    $printed = "";
+    for ($i = 0; $i < sizeof($objects); $i ++) {
+        $object = $objects[$i];
+        $str = "";
+        if (is_array($object)) {
+            $str = implode(" ", $object);
+        } else {
+            $str = $object;
+        }
+        $printed .= " " . $str;
+    }
+    
+    $out->writeln("Message from Terminal: " . $printed);
+}
+
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );
