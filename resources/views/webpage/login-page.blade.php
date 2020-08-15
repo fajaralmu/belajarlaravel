@@ -1,13 +1,9 @@
 
-<%@ page language="java" contentType="text/html; charset=windows-1256"
-	pageEncoding="windows-1256"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+@extends('layouts.app')
 
+@section('content')
 <script type="text/javascript">
-	var ctxPath = "${contextPath}";
+	var ctxPath = "{{$context_path}}";
 	function login() {
 
 		var username = _byId("user-name").value;
@@ -21,7 +17,7 @@
 			}
 		}
 		postReq(
-				"<spring:url value="/api/account/login" />",
+				ctxPath +"/api/account/login" ,
 				requestObject,
 				function(xhr) {
 					infoDone();
@@ -33,7 +29,7 @@
 						if (redirectLocation!= null) {
 							window.location.href = redirectLocation;
 						} else
-							window.location.href = "<spring:url value="/admin/home" />";
+							window.location.href = ctxPath+"/admin/home";
 					} else {
 						alert("LOGIN FAILED");
 					}
@@ -62,3 +58,5 @@
 		</div>
 	</div>
 </div>
+
+@endsection

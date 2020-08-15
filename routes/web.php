@@ -13,3 +13,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Base\MainController@index');
+Route::prefix('account')->group(function () {
+   
+    Route::get('login', 'Account\LoginController@index');
+});
+

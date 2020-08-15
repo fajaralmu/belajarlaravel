@@ -54,7 +54,7 @@
 
 	var pagesLink = document.getElementsByClassName("pagelink");
 	var pageMenus = {};
-	var ctxPath = {{$context_path}};
+	var ctxPath = "{{$context_path}}";
 	function logout() {
 		/* postReq(
 				"<spring:url value="/api/account/logout" />",
@@ -73,7 +73,7 @@
 
 	function getCurrentPageCode() {
 		try{
-			postReq("<spring:url value="/api/public/pagecode" />", {},
+			postReq(ctxPath+"/api/public/pagecode"  , {},
 				function(xhr) {
 					infoDone();
 					var response = (xhr.data);
@@ -111,7 +111,7 @@
 		const pageCode = e.target.id;
 
 		if (pageMenus[pageCode] == null) {
-			const url = "<spring:url value="/api/public/menus/" />" + pageCode;
+			const url =  ctxPath+ "/api/public/menus/" + pageCode;
 			postReq(url, {}, function(xhr) {
 				infoDone();
 				var response = (xhr.data);
@@ -144,7 +144,7 @@
 
 		for (var i = 0; i < menus.length; i++) {
 			const menu = menus[i];
-			const url = "<spring:url value="/"/>" + menu.url;
+			const url = ctxPath+"/" + menu.url;
 			const link = createAnchor(menu.code, menu.name, url);
 			menuContainer.appendChild(link);
 		}

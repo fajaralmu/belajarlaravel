@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+//AUTO api prefixed
+Route::prefix('account')->group(function () { 
+    Route::post('login', 'Account\LoginController@login');
+});
+
+Route::prefix('public')->group(function () { 
+    Route::post('pagecode', 'Rest\PublicController@pageCode');
 });

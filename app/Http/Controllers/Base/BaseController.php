@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AppProfile;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class BaseController extends Controller{
 
@@ -35,7 +36,7 @@ class BaseController extends Controller{
     function fillData(  $data = [], Request  $request){
         $pageModel = new PageModel;
 
-        $pageModel->context_path  =  $request->url();
+        $pageModel->context_path  = URL::to("");
         $pageModel->page_token = '12345';
         $pageModel->registered_request_id = '12345';
         $pageModel->request_id = '12345'; 

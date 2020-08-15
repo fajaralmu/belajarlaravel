@@ -2,28 +2,52 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable
+class User  extends Authenticatable 
 {
-    use Notifiable;
-
+	use Notifiable;
+	// use  Authenticatable;
     /**
-     * The attributes that are mass assignable.
+     * The table associated with the model.
      *
-     * @var array
+     * @var string
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    	protected $table = 'users';
+	 protected $username;
+	 protected $display_name;
+	 protected $password;
+	 //join column	
+	public $role_id;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color; 
+	public $created_at, $updated_at; 
+ 
+	public function user_roles()
+    {
+        return $this->belongsTo('App\Model\UserRoles', 'role_id');
+    }
+	public function getAuthPassword()
+    {	
+		$pwd =  $this->attributes['password'];
+		 
+        return $pwd;
+	}
+	
+	public function getAuthIdentifierName(){
+		out("getAuthIdentifierName");
+		return "username";
+	}
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+	public function getAuthIdentifier(){
+		out("getAuthIdentifier");
+		return $this->username;
+	}
 }
