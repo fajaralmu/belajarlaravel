@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers\MyApp;
 
 use App\Dto\PageModel;
 use App\Http\Controllers\Controller; 
