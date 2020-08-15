@@ -11,15 +11,27 @@
 */
 
 use Illuminate\Support\Facades\Route;
+Route::group(['middleware' => 'web'], function () {
+    
+    Route::get('/', 'MyApp\MainController@index');
+    Route::auth();
 
-Route::get('/', 'MyApp\MainController@index');
-Route::prefix('account')->group(function () {
-   
-    Route::get('login', 'MyApp\AccountController@login_page');
+
+    Route::prefix('account')->group(function () {
+  
+         Route::get('login', 'MyApp\AccountController@login_page')->name('login');
+    });
+
+
+
+
+    Route:: group(['prefix' => 'public' /*, 'middleware'=>'auth' */], function () {
+     
+        Route::get('about', 'MyApp\PublicPageController@about_page');
+    });
 });
 
-Route::prefix('public')->group(function () {
-   
-    Route::get('about', 'MyApp\PublicPageController@about_page');
+Route::group(['middleware' => 'auth:web', 'prefix' => 'admin'], function () {
+       
+    Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
 });
-

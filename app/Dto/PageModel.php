@@ -4,7 +4,7 @@ namespace App\Dto;
 
 use App\Models\AppProfile;
 use App\Models\Page; 
-use App\User as AppUser;
+use App\User;
 
 class PageModel {
     public string $page_code, $request_id, $title, $message;
@@ -18,7 +18,7 @@ class PageModel {
 
     //header 
 	public array $pages;
-    public AppUser $user;
+    public User $user;
 	public bool $authenticated = false;
     public string $greeting;
     

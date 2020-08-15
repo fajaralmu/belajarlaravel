@@ -2,21 +2,22 @@
 namespace App\Http\Controllers\MyApp;
 
 use App\Dto\PageModel;
-use App\Http\Controllers\Controller; 
-use App\Models\Page;
-use App\Repositories\ProfileRepository;
+use App\Http\Controllers\Controller;  
 use App\Services\ComponentService;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class BaseController extends Controller{
 
     protected ComponentService $component_service;
-
+    
     public function __construct(ComponentService $component_service)
     {
         out("__construct BASE CONTROLLER__");
         $this->component_service = $component_service;
+        
     }
 
 
@@ -50,9 +51,15 @@ class BaseController extends Controller{
         $pageModel->registered_request_id = '12345';
         $pageModel->request_id = '12345'; 
         $pageModel->profile = $this->getProfile();
-        $pageModel->year = date("Y");
+        $pageModel->year = date("Y"); 
 
-        $pages = $this->component_service->get_pages($request);
+        out("BASE CONTROLLER::user(): ", Auth::guard('web')->user());
+        if(Auth::user()!=null){ 
+            $pageModel->user = Auth::user();
+            $pageModel->authenticated = true;
+        }
+
+        $pages = $this->component_service->getPages($request);
         $pageModel->pages = $pages;
         if(!isset($data['title'])){
             $pageModel->title = "Default Page";

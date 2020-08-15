@@ -23,7 +23,9 @@ class ComponentService {
         return $this->profile_repository->getOneBy("app_code", $profile_code);
     }
 
-    public function get_pages(Request $request){
+    public function getPages(Request $request){
+        out("USER: ", $request->user());
+
         $pages = Page::where('authorized', 0)
         ->orderBy('sequence', 'asc') 
         ->get()->toArray(); 

@@ -5,7 +5,11 @@ use App\User;
 
 class UserRepository {
 
-    public function getByUsername($username){
-        return User::where(['username'=>$username])->first();
+
+    public function getByUsername($username){ 
+        $arrayResult = User::where(['username'=>$username])->first()->toArray();
+        return $arrayResult; 
     }
+ 
+    
 }

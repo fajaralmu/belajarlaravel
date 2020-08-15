@@ -30,10 +30,12 @@ class MyAppCustomServiceProvider extends ServiceProvider
     { 
         $this->app->profile_repository = new ProfileRepository(); 
         $this->app->page_repository = new PageRepository();
+        $this->app->user_repository = new UserRepository(); 
 
+        
         //Repositories//
         $this->app->bind('App\Repositories\UserRepository', function ($app) {
-            return new UserRepository();
+            return $app->user_repository;
         });
         $this->app->bind('App\Repositories\ProfileRepository', function ($app) {
             return $app->profile_repository;
@@ -44,7 +46,7 @@ class MyAppCustomServiceProvider extends ServiceProvider
 
          //Services//
         $this->app->bind('App\Services\AccountService', function ($app) {
-            return new AccountService();
+            return new AccountService($app->user_repository);
         });
          $this->app->bind('App\Services\ComponentService', function ($app) {
             return new ComponentService($app->profile_repository, $app->page_repository);
