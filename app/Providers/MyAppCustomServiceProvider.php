@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Repositories\PageRepository;
 use App\Repositories\ProfileRepository;
 use App\Repositories\UserRepository;
 use App\Services\AccountService;
+use App\Services\ComponentService;
 use Illuminate\Support\ServiceProvider;
 
 class MyAppCustomServiceProvider extends ServiceProvider
@@ -26,19 +28,26 @@ class MyAppCustomServiceProvider extends ServiceProvider
      */
     public function register()
     { 
-        //Services//
-        $this->app->bind('App\Services\AccountService', function ($app) {
-            return new AccountService();
-          });
-
-
+        $this->app->profile_repository = new ProfileRepository(); 
+        $this->app->page_repository = new PageRepository();
 
         //Repositories//
         $this->app->bind('App\Repositories\UserRepository', function ($app) {
             return new UserRepository();
         });
         $this->app->bind('App\Repositories\ProfileRepository', function ($app) {
-         return new ProfileRepository();
+            return $app->profile_repository;
+        });
+        $this->app->bind('App\Repositories\PageRepository', function ($app) {
+            return $app->page_repository;
+        });
+
+         //Services//
+        $this->app->bind('App\Services\AccountService', function ($app) {
+            return new AccountService();
+        });
+         $this->app->bind('App\Services\ComponentService', function ($app) {
+            return new ComponentService($app->profile_repository, $app->page_repository);
         });
           
     }

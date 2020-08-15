@@ -5,17 +5,18 @@ use App\Dto\PageModel;
 use App\Http\Controllers\Controller; 
 use App\Models\Page;
 use App\Repositories\ProfileRepository;
+use App\Services\ComponentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class BaseController extends Controller{
 
-    protected ProfileRepository $profile_repository;
+    protected ComponentService $component_service;
 
-    public function __construct(ProfileRepository $profile_repository)
+    public function __construct(ComponentService $component_service)
     {
         out("__construct BASE CONTROLLER__");
-        $this->profile_repository = $profile_repository;
+        $this->component_service = $component_service;
     }
 
 
@@ -28,8 +29,8 @@ class BaseController extends Controller{
     }
 
     function getProfile(){
-        $profile_code = config("app.general.APP_CODE");
-        $profile = $this->profile_repository->getByCode($profile_code);
+        
+        $profile = $this->component_service->getProfile();
         
         return $profile;
     }
@@ -51,9 +52,7 @@ class BaseController extends Controller{
         $pageModel->profile = $this->getProfile();
         $pageModel->year = date("Y");
 
-        $pages = Page::where('authorized', 0)
-            ->orderBy('sequence', 'asc') 
-            ->get()->toArray(); 
+        $pages = $this->component_service->get_pages($request);
         $pageModel->pages = $pages;
         if(!isset($data['title'])){
             $pageModel->title = "Default Page";
