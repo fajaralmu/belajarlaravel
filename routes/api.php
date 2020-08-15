@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 //AUTO api prefixed
 Route::prefix('account')->group(function () { 
-    Route::post('login', 'Account\LoginController@login');
+    Route::post('login', 'Rest\RestAccountController@login');
 });
 
 Route::prefix('public')->group(function () { 

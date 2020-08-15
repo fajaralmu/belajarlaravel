@@ -5,11 +5,9 @@ use Illuminate\Http\Request;
 
 class PublicController extends BaseRestController {
 
-    public function pageCode(Request $request){
+    public function pageCode(Request $request){ 
 
-       
-
-        $msg = bcrypt("123");
+        $msg = 'code';
         return $this->webResponse("00", $msg);
     }
 

@@ -36,18 +36,15 @@ class User  extends Authenticatable
     }
 	public function getAuthPassword()
     {	
-		$pwd =  $this->attributes['password'];
-		 
+		$pwd =  $this->attributes['password']; 
         return $pwd;
 	}
 	
-	public function getAuthIdentifierName(){
-		out("getAuthIdentifierName");
+	public function getAuthIdentifierName(){ 
 		return "username";
 	}
 
-	public function getAuthIdentifier(){
-		out("getAuthIdentifier");
+	public function getAuthIdentifier(){ 
 		return $this->username;
 	}
 }

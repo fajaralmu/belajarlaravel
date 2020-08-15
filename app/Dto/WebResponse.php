@@ -18,5 +18,5 @@ class WebResponse   {
         
         // $this->additionalData = Hash::make("123");
         $this->date = date("Y-m-d H:i:s");
-    }
+    } 
 }
