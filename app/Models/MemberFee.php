@@ -14,19 +14,19 @@ class MemberFee extends Model
     protected $table = 'member_fees';
 	 //join column	
 public $member_id;
-	public $month;
-	public $year;
-	public $nominal;
-	public $fee_type;
-	public $transaction_date;
-	public $week;
-	public $decription;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $month;
+	 protected $year;
+	 protected $nominal;
+	 protected $fee_type;
+	 protected $transaction_date;
+	 protected $week;
+	 protected $decription;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;
@@ -34,7 +34,7 @@ public $member_id;
  
 	public function members()
     {
-        return $this->hasOne('App\Model\Members');
+        return $this->belongsTo('App\Model\Members', 'member_id');
     }
   
       }

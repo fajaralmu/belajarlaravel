@@ -12,19 +12,19 @@ class Menu extends Model
      * @var string
      */
     protected $table = 'menus';
-	public $code;
-	public $name;
-	public $description;
-	public $url;
+	 protected $code;
+	 protected $name;
+	 protected $description;
+	 protected $url;
 	 //join column	
 public $page_id;
-	public $icon_url;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $icon_url;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;
@@ -32,7 +32,7 @@ public $page_id;
  
 	public function pages()
     {
-        return $this->hasOne('App\Model\Pages');
+        return $this->belongsTo('App\Model\Pages', 'page_id');
     }
   
       }

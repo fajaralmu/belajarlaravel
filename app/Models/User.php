@@ -12,17 +12,17 @@ class User extends Model
      * @var string
      */
     protected $table = 'users';
-	public $username;
-	public $display_name;
-	public $password;
+	 protected $username;
+	 protected $display_name;
+	 protected $password;
 	 //join column	
 public $role_id;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;
@@ -30,7 +30,7 @@ public $role_id;
  
 	public function user_roles()
     {
-        return $this->hasOne('App\Model\UserRoles');
+        return $this->belongsTo('App\Model\UserRoles', 'role_id');
     }
   
       }

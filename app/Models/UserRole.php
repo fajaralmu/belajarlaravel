@@ -12,15 +12,15 @@ class UserRole extends Model
      * @var string
      */
     protected $table = 'user_roles';
-	public $name;
-	public $access;
-	public $code;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $name;
+	 protected $access;
+	 protected $code;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;

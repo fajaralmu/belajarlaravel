@@ -14,14 +14,14 @@ class FoodTaskGroupMember extends Model
     protected $table = 'food_task_group_members';
 	 //join column	
 public $group_id;
-	public $sequence;
-	public $member_identities;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $sequence;
+	 protected $member_identities;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;
@@ -29,7 +29,7 @@ public $group_id;
  
 	public function food_task_groups()
     {
-        return $this->hasOne('App\Model\FoodTaskGroups');
+        return $this->belongsTo('App\Model\FoodTaskGroups', 'group_id');
     }
   
       }

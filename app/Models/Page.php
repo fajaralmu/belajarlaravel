@@ -12,20 +12,20 @@ class Page extends Model
      * @var string
      */
     protected $table = 'pages';
-	public $code;
-	public $name;
-	public $authorized;
-	public $is_non_menu_page;
-	public $link;
-	public $description;
-	public $image_url;
-	public $sequence;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $code;
+	 protected $name;
+	 protected $authorized;
+	 protected $is_non_menu_page;
+	 protected $link;
+	 protected $description;
+	 protected $image_url;
+	 protected $sequence;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;

@@ -14,16 +14,16 @@ class ScheduledFoodTaskGroup extends Model
     protected $table = 'scheduled_food_task_groups';
 	 //join column	
 public $group_member_id;
-	public $day;
-	public $month;
-	public $year;
-	public $meal_time;
-	public $id;
-	public $created_date;
-	public $modified_date;
-	public $deleted;
-	public $general_color;
-	public $font_color;
+	 protected $day;
+	 protected $month;
+	 protected $year;
+	 protected $meal_time;
+	 protected $id;
+	 protected $created_date;
+	 protected $modified_date;
+	 protected $deleted;
+	 protected $general_color;
+	 protected $font_color;
 
  
 	public $created_at, $updated_at;
@@ -31,7 +31,7 @@ public $group_member_id;
  
 	public function food_task_group_members()
     {
-        return $this->hasOne('App\Model\FoodTaskGroupMembers');
+        return $this->belongsTo('App\Model\FoodTaskGroupMembers', 'group_member_id');
     }
   
       }

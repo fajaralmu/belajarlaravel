@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Base;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppProfile;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller{
@@ -16,11 +17,10 @@ class BaseController extends Controller{
     }
 
     function getProfile(){
-        $profile = new Profile;
-        $profile->name = "My Dormitory";
-        $profile->short_description = "my awesome dormitory";
-
-        return  $profile;
+        $profile_code = config("app.general.APP_CODE");
+        $profile = AppProfile::where('app_code',  $profile_code)  ->first(); 
+        
+        return $profile;
     }
 
     function fillData($data, Request  $request){
@@ -38,8 +38,4 @@ class BaseController extends Controller{
         return $data;
     }
 }
-
-class Profile {
-    public $name, $short_description;
-
-}
+ 
