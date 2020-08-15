@@ -18,3 +18,8 @@ Route::prefix('account')->group(function () {
     Route::get('login', 'Account\LoginController@index');
 });
 
+Route::prefix('public')->group(function () {
+   
+    Route::get('about', 'PublicPage\PublicPageController@about');
+});
+

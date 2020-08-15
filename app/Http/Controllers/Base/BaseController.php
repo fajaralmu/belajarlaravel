@@ -2,13 +2,21 @@
 namespace App\Http\Controllers\Base;
 
 use App\Dto\PageModel;
-use App\Http\Controllers\Controller;
-use App\Models\AppProfile;
+use App\Http\Controllers\Controller; 
 use App\Models\Page;
+use App\Repositories\ProfileRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class BaseController extends Controller{
+
+    protected ProfileRepository $profile_repository;
+
+    public function __construct(ProfileRepository $profile_repository)
+    {
+        out("__construct BASE CONTROLLER__");
+        $this->profile_repository = $profile_repository;
+    }
 
 
     public function appView(Request $request, string $view ,   $data = [], $mergeData = []){
@@ -21,7 +29,7 @@ class BaseController extends Controller{
 
     function getProfile(){
         $profile_code = config("app.general.APP_CODE");
-        $profile = AppProfile::where('app_code',  $profile_code)  ->first(); 
+        $profile = $this->profile_repository->getByCode($profile_code);
         
         return $profile;
     }

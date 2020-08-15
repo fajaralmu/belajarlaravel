@@ -8,8 +8,8 @@ class MainController extends BaseController
   
     public function __construct()
     {
-        //$this->middleware('guest');
-        out("-----MainController------");
+        
+        out("-----Main Controller------");
     }
 
     public function index(Request $request){
