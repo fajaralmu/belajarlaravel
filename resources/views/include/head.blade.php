@@ -36,10 +36,10 @@
 			@if(isset($pages) && is_array($pages))
 				@foreach ($pages as $page_item)
 			  		<li class="nav-item page-li"  >
-				  		<a class="nav-link pagelink" id="{{$page_item->code}}"
-							menupage="{{$page_item->is_non_menu_page == 0}}"
-							href="{{$context_path}}/{{$page_item->link}} ">
-						{{$page_item->name}}
+				  		<a class="nav-link pagelink" id="{{$page_item ['code']}}"
+							menupage="{{$page_item ['is_non_menu_page'] == 0}}"
+							href="{{$context_path}}/{{$page_item ['link']}} ">
+						{{$page_item ['name']}}
 						</a> 
 					</li>
 				@endforeach

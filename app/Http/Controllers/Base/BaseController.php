@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Base;
 use App\Dto\PageModel;
 use App\Http\Controllers\Controller;
 use App\Models\AppProfile;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller{
@@ -41,6 +42,10 @@ class BaseController extends Controller{
         $pageModel->profile = $this->getProfile();
         $pageModel->year = date("Y");
 
+        $pages = Page::where('authorized', 0)
+            ->orderBy('sequence', 'asc') 
+            ->get()->toArray(); 
+        $pageModel->pages = $pages;
         if(!isset($data['title'])){
             $pageModel->title = "Default Page";
         }
