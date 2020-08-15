@@ -27,7 +27,7 @@ function printLog(...$objects)
         $printed .= " " . $str;
     }
     
-    $out->writeln("Message from Terminal: " . $printed);
+    $out->writeln("... " . $printed);
 }
 
 $uri = urldecode(

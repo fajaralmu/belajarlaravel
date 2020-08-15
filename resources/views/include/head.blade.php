@@ -2,7 +2,7 @@
  
 <div class="header" style="height: auto">
 	
-	<div class="page-header" style="color:${profile.fontColor}">
+	<div class="page-header" id="page-header" >
 		<h1>{{$profile->name}}</h1>
 		<p>{{$profile->short_description}}</p>
 	</div>
@@ -12,45 +12,45 @@
 		<ul class="nav  flex-column">
 
 			<!-- Account Menu -->
-			<c:if test="${loggedUser == null  }">
+			@if(!isset($authenticated) || !$authenticated)
 				<li class="nav-item "><a
-					class="nav-link  ${page == 'login' ? 'active':'' }"
-					href="<spring:url value="/account/login"/>">Log In </a></li>
-			</c:if>
-			<c:if test="${loggedUser != null }">
+					class="nav-link  {{ isset($page) && $page->code == "login" ?  "active":""}}"
+					href="{{$context_path}}/account/login" >Log In </a></li>
+			@else 
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button"
 						data-toggle="dropdown">
-						${loggedUser.displayName }<span class="caret"></span>
+						{{$user->display_name}}<span class="caret"></span>
 					</button>
 					<div class="dropdown-menu">
 						<a class="dropdown-item"
-							href="<spring:url value="/management/profile"/>">Profile</a> <a
-							class="dropdown-item" href="<spring:url value="/account/logout"/>" onclick="logout()">Logout</a>
+							href="{{$context_path}}/management/profile" >Profile</a> <a
+							class="dropdown-item" href="{{$context_path}}/account/logout"  onclick="logout()">Logout</a>
 					</div>
 				</div>
-			</c:if>
-
-			<%--  
-			<c:if test="${loggedUser != null }">
 				<li class="nav-item"><a
-					class="nav-link ${page == 'dashboard' ? 'active':'' }"
-					href="<spring:url value="/admin/home"/>">Dashboard</a></li> 
-			</c:if> --%>
+					class="nav-link {{ isset($page) && $page->code == "dashboard" ? "active":"" }}"
+					href="{{$context_path}}/admin/home">Dashboard</a></li> 
+			@endif
 
-			<c:forEach var="pageItem" items="${pages}">
-				<li class="nav-item page-li"  ><a
-					class="nav-link pagelink" id="${pageItem.code }"
-					menupage="${pageItem.isMenuPage() }"
-					href="<spring:url value="${pageItem.link }"/>">${pageItem.name }</a></li>
-
-			</c:forEach>
+			@if(isset($pages) && is_array($pages))
+				@foreach ($pages as $page_item)
+			  		<li class="nav-item page-li"  >
+				  		<a class="nav-link pagelink" id="{{$page_item->code}}"
+							menupage="{{$page_item->is_non_menu_page == 0}}"
+							href="{{$context_path}}/{{$page_item->link}} ">
+						{{$page_item->name}}
+						</a> 
+					</li>
+				@endforeach
+			 
+			@endif
 
 		</ul>
 	</div>
 </div>
 <script type="text/javascript">
-	document.body.style.backgroundColor = {{ $profile->name }};
+	
 
 	var pagesLink = document.getElementsByClassName("pagelink");
 	var pageMenus = {};
