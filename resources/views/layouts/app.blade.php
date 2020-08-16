@@ -98,9 +98,10 @@
 
      </div>
      <script type="text/javascript">
-         const websocketUrl = '{{$context_path}}/realtime-app';
+        document.body.style.backgroundColor = '{{ $profile->general_color }}';
+        const websocketUrl = '{{$context_path}}/realtime-app';
 
-         function initProgressWebsocket() {
+        function initProgressWebsocket() {
              hide('progress-bar-wrapper');
 
              addWebsocketRequest('/wsResp/progress/${requestId}', function(
@@ -122,7 +123,7 @@
              connectToWebsocket();
 
              _byId("page-header").style.color = '{{$profile->font_color}}';
-             document.body.style.backgroundColor = '{{ $profile->general_color }}';
+             
          }
 
      </script>

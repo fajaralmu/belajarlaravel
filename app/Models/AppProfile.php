@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Annotations\FormField;
+ use Illuminate\Database\Eloquent\Model;
 
 class AppProfile extends Model
 {

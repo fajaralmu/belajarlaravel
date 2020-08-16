@@ -35,7 +35,14 @@ Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
     });
 });
 
+//ADMIN 
 Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'admin'], function () {
        
     Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
+});
+
+//MANAGEMENT
+Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'management'], function () {
+       
+    Route::get('common/{code}', 'MyApp\ManagementController@management_page')->name('management_common');
 });

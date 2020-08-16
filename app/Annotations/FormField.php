@@ -1,15 +1,19 @@
 <?php 
 namespace App\Annotations; 
 
-/** @Annotation */
+/** 
+ * @Annotation 
+ * @Target({"METHOD","PROPERTY"})
+ * 
+ */
 class FormField
 {
     
-	 public $type;
+	 public string $type;
 
 	 public $multipleImage;
 
-	 public $lableName;
+	 public string $lableName;
 
 	 public $availableValues;
 
@@ -28,6 +32,8 @@ class FormField
 	 public $defaultValue;
 
 	 public $multipleSelect;
+
+	 public string $foreignKey;
 
 }
 ?>
