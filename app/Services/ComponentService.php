@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Menu;
 use App\Models\Page;
 use App\Repositories\PageRepository;
 use App\Repositories\ProfileRepository;
@@ -28,11 +29,9 @@ class ComponentService {
         out("USER: ", $request->user());
         $pages = array();
         if(Auth::check()){
-            $pages = Page::orderBy('sequence', 'asc')  ->get()->toArray(); 
-
+            $pages = Page::orderBy('sequence', 'asc')  ->get()->toArray();  
         }else{
-            $pages = Page::where('authorized', 0) ->orderBy('sequence', 'asc')  ->get()->toArray(); 
-
+            $pages = Page::where('authorized', 0) ->orderBy('sequence', 'asc')  ->get()->toArray();  
         }
        
         return  $pages;
@@ -40,7 +39,13 @@ class ComponentService {
 
     public function getPageAndMenus(string $page_code){
         $page = $this->page_repository->getFirstByCode($page_code); 
-         
+        if(is_null($page) == false){
+            $menus = Menu::where('page_id', $page->id)->get()->toArray();
+            $page->menus = $menus;
+           
+        } else{
+            out("page with code ".$page_code." is NULL");
+        }
         return $page;
     }
 

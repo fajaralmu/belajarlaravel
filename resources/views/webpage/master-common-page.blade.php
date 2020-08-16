@@ -10,15 +10,15 @@
 			 
 			<div class="col-sm-3">
 				<div class="card" style="width: 100%;">
-					<img class="card-img-top"  width="100" height="150" src="{{$context_path}}/img/{{$menu->icon_url }}"
+					<img class="card-img-top"  width="100" height="150" src="{{$context_path}}/img/{{$menu ['icon_url'] }}"
 						alt="Card image cap">
-					<div class="card-body" style="background-color:{{$menu->color}}; color:{{$menu->font_color}}">
+					<div class="card-body" style="background-color:{{$menu ['general_color']}}; color:{{$menu ['font_color']}}">
 						<h5 class="card-title">
-							  {{$menu->name }} 
+							  {{$menu ['name']  }} 
 						</h5>
 						<a class="badge badge-primary"
 							data-toggle="tooltip" data-placement="bottom"
-							title="{{$menu->description }}" href="{{$context_path}}/{{$menu->url }}" >Detail</a>
+							title="{{$menu ['description'] }}" href="{{$context_path}}/{{$menu ['url'] }}" >Detail</a>
 					</div>
 				</div>
 			</div>

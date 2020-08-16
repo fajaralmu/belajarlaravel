@@ -4,7 +4,7 @@
  <head>
      <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
      <title>{{ $title }}</title>
-     <link rel="icon" href="{{ asset('img/javaEE.ico') }}" type="image/x-icon">
+     <link rel="icon" href="{{ asset('img/icon.ico') }}" type="image/x-icon">
 
      <link rel="stylesheet" type="text/css" href="{{ asset('css/shop.css') }}" />
      <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />

@@ -27,6 +27,11 @@ class Page extends Model
 	 protected $general_color;
 	 protected $font_color;
 
+	 /**
+	  * @transient
+	  */
+	 protected array $menus;
+
  
 	public $created_at, $updated_at;
  
