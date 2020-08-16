@@ -4,9 +4,7 @@ namespace App\Http\Controllers\MyApp;
 use App\Dto\PageModel;
 use App\Http\Controllers\Controller;  
 use App\Services\ComponentService;
-use App\User;
-use Illuminate\Auth\SessionGuard;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Services\WebConfigService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -14,11 +12,19 @@ use Illuminate\Support\Facades\URL;
 class BaseController extends Controller{
 
     protected ComponentService $component_service;
+    protected WebConfigService $web_config_service;
     
-    public function __construct(ComponentService $component_service)
+    public function __construct(ComponentService $component_service,  WebConfigService $web_config_service)
     {  
         $this->component_service = $component_service;  
+        $this->web_config_service = $web_config_service;
+        $this->postConstruct();
     }
+
+    /**
+     * can be overriden
+     */
+    protected function postConstruct(){  }
 
     protected function clearLatestUrl(Request $request){
         $request->session()->put("latest_request_url", null);
@@ -48,7 +54,7 @@ class BaseController extends Controller{
     }
 
     function fillData(  $data = [], Request  $request){
-        $pageModel = new PageModel;
+        $pageModel = new PageModel();
 
         $pageModel->context_path  = URL::to("");
         $pageModel->page_token = '12345';

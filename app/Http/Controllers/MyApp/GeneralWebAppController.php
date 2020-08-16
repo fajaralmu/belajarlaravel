@@ -12,7 +12,7 @@ class GeneralWebAppController extends BaseController{
 
         $unauthorized =  ($page->authorized && Auth::check()==false);
         
-        if(is_null( $page) || $unauthorized){
+        if(is_null($page) || $unauthorized){
 
             $this->clearLatestUrl($request);
             return redirect()->route("login");

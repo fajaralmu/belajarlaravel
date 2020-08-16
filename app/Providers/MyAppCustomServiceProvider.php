@@ -7,6 +7,7 @@ use App\Repositories\ProfileRepository;
 use App\Repositories\UserRepository;
 use App\Services\AccountService;
 use App\Services\ComponentService;
+use App\Services\WebConfigService;
 use Illuminate\Support\ServiceProvider;
 
 class MyAppCustomServiceProvider extends ServiceProvider
@@ -50,6 +51,9 @@ class MyAppCustomServiceProvider extends ServiceProvider
         });
          $this->app->bind('App\Services\ComponentService', function ($app) {
             return new ComponentService($app->profile_repository, $app->page_repository);
+        });
+        $this->app->bind('App\Services\WebConfigService', function ($app) {
+            return new WebConfigService();
         });
           
     }
