@@ -25,6 +25,11 @@ class AccountService {
         return $obj;
     }
 
+    public function do_logout(Request $request){
+        Auth::logout();
+        out("logged out");
+    }
+
     /** 
      *  
      */
@@ -32,16 +37,9 @@ class AccountService {
         $user = $request->input("user"); 
         $response = new WebResponse();
         $cred= ['username' =>$user['username'], 'password' => $user['password']];
-        //auth('web')->attempt($cred);
+        
         if ( Auth::attempt(['username' =>$user['username'], 'password' => $user['password']])) {
-            // The user is active, not suspended, and exists.  
-            // $user = $this->user_repository->getByUsername($user['username']);
-            // $id = $user['id'];
-            // out("login using id: ", $id);
-            // Auth::loginUsingId($id);
-            // Auth::check(); 
-            // out("Auth::guard('web'): ", Auth::guard('web')->user());
-            // Auth::login($this->array_to_object("App\User", $user));
+           
             out("SUCCESS LOGIN: ", Auth::user());
             out("Auth::name: ", Auth::getName());
             out($request->session()->get(Auth::getName()));

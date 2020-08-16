@@ -20,11 +20,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::prefix('account')->group(function () {
   
          Route::get('login', 'MyApp\AccountController@login_page')->name('login');
+         Route::get('logout', 'MyApp\AccountController@logout')->name('logout');
     });
-
-
-
-
+ 
     Route:: group(['prefix' => 'public' /*, 'middleware'=>'auth' */], function () {
      
         Route::get('about', 'MyApp\PublicPageController@about_page');
