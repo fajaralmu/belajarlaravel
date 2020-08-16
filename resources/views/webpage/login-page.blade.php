@@ -52,7 +52,7 @@
 				 
 				<button class="btn btn-primary" onclick="login(); return false;">Login</button> 
 				<a role="button" class="btn btn-success"
-					href='<spring:url value="/account/register"></spring:url>'>Register</a>  
+					href="{{$context_path}}/account/register" >Register</a>  
 
 			</div>
 		</div>
