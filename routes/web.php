@@ -28,6 +28,11 @@ Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
      
         Route::get('about', 'MyApp\PublicPageController@about_page');
     });
+
+    Route:: group(['prefix' => 'webapp' /*, 'middleware'=>'auth' */], function () {
+     
+        Route::get('page/{code}', 'MyApp\GeneralWebAppController@common_page');
+    });
 });
 
 Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'admin'], function () {

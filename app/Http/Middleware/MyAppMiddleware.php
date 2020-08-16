@@ -17,7 +17,7 @@ class MyAppMiddleware
     public function handle(Request $request, Closure $next)
     {
         out("___________________ INTERCEPT _________________");
-        out("URL:", $request->url());
+        out("URL:", $request->url()); // Without Query String...
         if(!$this->endWithVals($request->url(), "account/login" , "account/logout")){
             out("SET LATEST URI TO: ", $request->url());
             $request->session()->put("latest_request_url", $request->url());

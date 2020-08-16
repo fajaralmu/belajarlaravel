@@ -1,11 +1,11 @@
 <?php 
 namespace App\Repositories;
-
-use App\Models\AppProfile; 
+ 
+use App\Models\Page;
 
 class PageRepository {
-
-    public function getByCode($profile_code){
-        return AppProfile::where('app_code',  $profile_code)  ->first(); 
+    public function getFirstByCode($page_code){
+        return Page::where('code',  $page_code)  ->first(); 
     }
+    
 }

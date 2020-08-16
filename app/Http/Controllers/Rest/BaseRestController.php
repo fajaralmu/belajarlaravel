@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Rest;
 
 use App\Dto\WebResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Http\Request;
 
 class BaseRestController extends Controller {
@@ -44,12 +45,12 @@ class BaseRestController extends Controller {
     }
     return $data;
     }
-
+    
     protected function json_response(WebResponse $response, array $header = null){
         if(null == $header ){
             return response( )->json($this->object_to_array($response)); 
         } 
-
+ 
         return response(json_encode($this->object_to_array($response)), 200, $header);
     }
 }

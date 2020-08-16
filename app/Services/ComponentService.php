@@ -6,6 +6,7 @@ use App\Models\Page;
 use App\Repositories\PageRepository;
 use App\Repositories\ProfileRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ComponentService {
 
@@ -25,12 +26,22 @@ class ComponentService {
 
     public function getPages(Request $request){
         out("USER: ", $request->user());
+        $pages = array();
+        if(Auth::check()){
+            $pages = Page::orderBy('sequence', 'asc')  ->get()->toArray(); 
 
-        $pages = Page::where('authorized', 0)
-        ->orderBy('sequence', 'asc') 
-        ->get()->toArray(); 
+        }else{
+            $pages = Page::where('authorized', 0) ->orderBy('sequence', 'asc')  ->get()->toArray(); 
 
+        }
+       
         return  $pages;
+    }
+
+    public function getPageAndMenus(string $page_code){
+        $page = $this->page_repository->getFirstByCode($page_code); 
+         
+        return $page;
     }
 
 }
