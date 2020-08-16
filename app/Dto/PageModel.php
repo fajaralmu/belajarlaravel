@@ -2,6 +2,7 @@
 
 namespace App\Dto;
 
+use App\Helpers\EntityProperty;
 use App\Models\AppProfile;
 use App\Models\Page; 
 use App\User;

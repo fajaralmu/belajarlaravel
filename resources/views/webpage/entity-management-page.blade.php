@@ -1,53 +1,48 @@
 
-<%@ page language="java" contentType="text/html; charset=windows-1256"
-	pageEncoding="windows-1256"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+@extends('layouts.app')
 
-
+@section('content')
 <script type="text/javascript">
-	var entityName = "${entityProperty.entityName}";
+	var entityName = "{{$entityProperty->entityName}}";
 	var page = 0;
 	var limit = 5;
 	var totalData = 0;
 
-	var imgElements = ${ entityProperty.imageElementsJson };
-	var currencyElements = ${ entityProperty.currencyElementsJson };
-	var dateElements = ${ entityProperty.dateElementsJson };
-	var multipleSelectElements = ${ entityProperty.multipleSelectElementsJson };
+	var imgElements = {!! $entityProperty->imageElementsJson !!};
+	var currencyElements =  {!!$entityProperty->currencyElementsJson !!};
+	var dateElements =  {!! $entityProperty->dateElementsJson !!};
+	var multipleSelectElements = {!! $entityProperty->multipleSelectElementsJson !!};
 
-	var fieldNames = ${ entityProperty.fieldNames };
-	var optionElements = ${ options };
+	var fieldNames = {!! $entityProperty->fieldNames !!};
+	var optionElements = {{ $options }};
 	var fixedListOptionValues = {};
 	var imagesData = {};
-	var idField = "${entityProperty.idField}";
-	var editable = ${ entityProperty.editable };
-	var singleRecord = ${ singleRecord == null || singleRecord == false ? false : true }
-	var entityIdValue = "${entityId}";
+	var idField = "{{$entityProperty->idField}}";
+	var editable = {{ $entityProperty->editable }};
+	var singleRecord = false;// { $singleRecord == null || singleRecord == false ? false : true }
+	var entityIdValue = "{{$entityId}}";
 	var managedEntity = {};
-	var fullImagePath = "${host}/${contextPath}/${imagePath}/";
-	//var entityPropJson = ${entityPropJson};
+	var fullImagePath = "{{$context_path}}/img/";
+	//var entityPropJson = {entityPropJson};
 </script>
-
-<%-- <c:if test="${entityProperty.editable == true }"> --%>
+ 
 <!-- DETAIL ELEMENT -->
-<jsp:include page="../entity-management-component/detail-element.jsp"></jsp:include>
+@include('entity-management-component/detail-element')
 
 <!-- INPUT FORM -->
-<jsp:include page="../entity-management-component/form-element.jsp"></jsp:include>
-<%-- </c:if> --%>
+@include('entity-management-component/form-element')
+ 
 <!-- CONTENT -->
 <div class="content">
-	<h2>${entityProperty.alias }</h2>
+	<h2>{{$entityProperty->alias }}</h2>
 	<p></p>
-	<c:if test="${entityProperty.editable == true }">
+	@if($entityProperty->editable == true)
 		<button type="btn-show-form" class="btn btn-primary"
 			data-toggle="modal" data-target="#modal-entity-form">Show
 			Form</button>
 		<!-- <button id="btn-show-form" class="btn btn-info" onclick="show('modal-entity-form')">Show
 			Form</button> -->
-	</c:if>
+	@endif
 	<p></p>
 
 	<!-- PAGINATION -->
@@ -145,7 +140,7 @@
 		requestObject.filter.fieldsFilter = {};
 		requestObject.filter.fieldsFilter[itemField] = filterValue;
 
-		doLoadDropDownItems("<spring:url value="/api/entity/get" />",
+		doLoadDropDownItems("{{$context_path}}/api/entity/get" ,
 				requestObject, function(entities) {
 					for (let i = 0; i < entities.length; i++) {
 						const entity = entities[i];
@@ -178,7 +173,7 @@
 		requestObject.filter.fieldsFilter = {};
 		requestObject.filter.fieldsFilter[this.idField] = entityId;
 
-		doGetById("<spring:url value="/api/entity/get" />", requestObject,
+		doGetById("{{$context_path}}/api/entity/get"  , requestObject,
 				callback);
 
 	}
@@ -204,7 +199,7 @@
 		console.log("Goto Page: ", page);
 
 		const requestObject = buildRequestObject(page);
-		doLoadEntities("<spring:url value="/api/entity/get" />", requestObject,
+		doLoadEntities("{{$context_path}}/api/entity/get" , requestObject,
 				function(response) {
 
 					var entities = response.entities;
@@ -236,7 +231,7 @@
 
 		requestObject.filter.limit = limit;
 
-		postReq("<spring:url value="/api/report/entity" />", requestObject,
+		postReq("{{$context_path}}/api/report/entity"  , requestObject,
 				function(xhr) {
 
 					downloadFileFromResponse(xhr);
@@ -436,10 +431,10 @@
 				tagName : "img",
 				width : 30,
 				height : 30,
-				src : "${host}${contextPath}/${imagePath}/" + (entityValue)
+				src : "{{$context_path}}/img/" + (entityValue)
 			});
 			entityValue = domToString(dom);
-			//"<img width=\"30\" height=\"30\" src=\"${host}/${contextPath}/${imagePath}/" + (entityValue) + "\" />";
+			//"<img width=\"30\" height=\"30\" src=\"{host}/{contextPath}/{imagePath}/" + (entityValue) + "\" />";
 		}
 		//regular value
 		else if (entityValue != null) {
@@ -814,7 +809,7 @@
 
 		console.log("request more detail", requestObject);
 
-		doGetDetail("<spring:url value="/api/entity/get" />", requestObject,
+		doGetDetail("{{$context_path}}/api/entity/get" , requestObject,
 				function(entities) {
 					const bodyRows = createTableBody(detailFields, entities,
 							this.currentDetailOffset * 5);
@@ -850,7 +845,7 @@
 		console.log("request", requestObject);
 		detailTable.innerHTML = "";
 
-		doGetDetail("<spring:url value="/api/entity/get" />", requestObject,
+		doGetDetail("{{$context_path}}/api/entity/get"  , requestObject,
 				function(entities) {
 					populateDetailModal(entities, detailFields);
 				});
@@ -898,7 +893,7 @@
 	}
 	init();
 </script>
-<c:if test="${entityProperty.editable == true }">
+@if( $entityProperty->editable == true  )
 	<script type="text/javascript">
 		function commonFieldRequired(field) {
 			return field.required && (field.value == "" || field.value == null)
@@ -946,7 +941,7 @@
 			if (!isNew) {
 				endPoint = "update";
 			}
-			doSubmit("<spring:url value="/api/entity/" />" + endPoint,
+			doSubmit("{{$context_path}}/api/entity/"   + endPoint,
 					requestObject, function() {
 						if (singleRecord) {
 
@@ -1037,7 +1032,7 @@
 		}
 
 		function deleteEntity(entityId) {
-			doDeleteEntity("<spring:url value="/api/entity/delete" />",
+			doDeleteEntity("{{$context_path}}/api/entity/delete"  ,
 					entityName, idField, entityId, function() {
 						loadEntity(page);
 					});
@@ -1055,4 +1050,6 @@
 
 		initEvents();
 	</script>
-</c:if>
+@endif
+
+@endsection

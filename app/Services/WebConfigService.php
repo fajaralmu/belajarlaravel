@@ -42,7 +42,7 @@ class WebConfigService {
             return [];
         }
         $refectionClass = $this->entityConfig[$model_code]; 
-        return EntityUtil::getAnnotations($refectionClass);
+        return EntityUtil::createEntityProperty($refectionClass);
 
     }
 

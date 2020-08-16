@@ -6,34 +6,35 @@ namespace App\Annotations;
  * @Target({"METHOD","PROPERTY"})
  * 
  */
+/** @Annotation */  
 class FormField
 {
     
-	 public string $type;
+	 public string $type="FIELD_TYPE_TEXT";
 
-	 public $multipleImage;
+	 public bool $multipleSelect=false;
 
-	 public string $lableName;
+	 public string $lableName="";
 
-	 public $availableValues;
+	 public string $optionItemName="";
 
-	 public $required;
+	 public array $multiply=[];
 
-	 public $multiply;
+	 public bool $emptyAble=true;
 
-	 public $optionItemName;
+	 public array $detailFields=[];
 
-	 public $detailFields;
+	 public bool $showDetail=false;
 
-	 public $showDetail;
+	 public string $defaultValue="";
 
-	 public $emptyAble;
+	 public bool $required=true;
 
-	 public $defaultValue;
+	 public array $availableValues=[];
 
-	 public $multipleSelect;
+	 public bool $multipleImage=false;
 
-	 public string $foreignKey;
+	 public string $foreignKey="";
 
 }
 ?>

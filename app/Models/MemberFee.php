@@ -20,7 +20,7 @@ class MemberFee extends Model
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",foreignKey="member_id")
 	 */ 
 		
- protected  Models\Member $member;
+ protected  Member $member;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
@@ -43,7 +43,7 @@ class MemberFee extends Model
 	 protected $fee_type;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_NUMBER")
+	 *	@FormField(type="FIELD_TYPE_DATE")
 	 */ 
 	 protected $transaction_date;
 
