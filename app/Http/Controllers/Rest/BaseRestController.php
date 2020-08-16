@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class BaseRestController extends Controller {
 
+    public function __construct()
+    {
+        // $this->middleware('api');
+    }
+
     public function pageCode(Request $request){
 
     

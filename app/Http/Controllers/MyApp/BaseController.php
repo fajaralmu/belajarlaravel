@@ -18,11 +18,9 @@ class BaseController extends Controller{
     public function __construct(ComponentService $component_service)
     {  
         $this->component_service = $component_service;
-        $this->middleware(function ($request, $next) {
-            $u = Auth::user();
-            out("AUTH USER: ", $u);
-            return $next($request);
-        });
+        $u = Auth::user();
+        out("AUTH USER: ", $u);
+      
         
     }
 

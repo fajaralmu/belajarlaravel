@@ -31,7 +31,7 @@ Route::group(['middleware' => 'web'], function () {
     });
 });
 
-//Route::group(['middleware' => ['web,','auth'], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => [ 'auth'], 'prefix' => 'admin'], function () {
        
     Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
-//});
+});

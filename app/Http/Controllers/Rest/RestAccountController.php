@@ -11,6 +11,7 @@ class RestAccountController extends BaseRestController {
     public function __construct( AccountService $account_service)
     {
         $this->account_service = $account_service;
+        parent::__construct();
     }
 
     public function login(Request $request){ 

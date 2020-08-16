@@ -42,7 +42,9 @@ class AccountService {
             // Auth::check(); 
             // out("Auth::guard('web'): ", Auth::guard('web')->user());
             // Auth::login($this->array_to_object("App\User", $user));
-            out("SUCCESS LOGIN");
+            out("SUCCESS LOGIN: ", Auth::user());
+            out("Auth::name: ", Auth::getName());
+            out($request->session()->get(Auth::getName()));
         }else{ 
             $response->code = "01";
             $response->message = "FAILED";

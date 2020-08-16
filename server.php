@@ -14,15 +14,17 @@ function printLog(...$objects)
 {
     $out = new \Symfony\Component\Console\Output\ConsoleOutput();
     $printed = "";
+    
     for ($i = 0; $i < sizeof($objects); $i ++) {
         $object = $objects[$i];
         $str = "";
-        if (is_array($object)) {
+        
+        if (is_array($object )) {
             
-            $str = json_encode($object );
+            $str = json_encode($object  );
 
         } else {
-            $str = " ".($object);
+            $str = " ".($object );
         }
         $printed .= " " . $str;
     }
