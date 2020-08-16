@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\Rest;
 
 use App\Services\AccountService;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RestAccountController extends BaseRestController {
     protected $account_service;
@@ -16,5 +17,9 @@ class RestAccountController extends BaseRestController {
         $webResponse = $this->account_service->loginAttemp($request); 
         return $this->json_response($webResponse);
     }
-
+    protected function guard()
+{
+    return Auth::guard('web');
+}
+ 
 }

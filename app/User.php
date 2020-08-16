@@ -45,6 +45,6 @@ class User  extends Authenticatable
 	}
 
 	public function getAuthIdentifier(){ 
-		return $this->username;
+		return $this->attributes['username'];
 	}
 }

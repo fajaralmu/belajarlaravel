@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\MyApp; 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends BaseController{ 
 
@@ -8,6 +9,5 @@ class AccountController extends BaseController{
          
         return $this->appView($request, 'webpage.login-page', ['title'=>'Login']);
     }
-    
- 
+
 }

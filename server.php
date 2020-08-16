@@ -19,7 +19,7 @@ function printLog(...$objects)
         $str = "";
         if (is_array($object)) {
             
-            $str = print_r($object, true);
+            $str = json_encode($object );
 
         } else {
             $str = " ".($object);
@@ -27,7 +27,7 @@ function printLog(...$objects)
         $printed .= " " . $str;
     }
     
-    $out->writeln("... " . $printed);
+    $out->writeln("[".date("D M d H:i:s yy") . "] >" . $printed . "");
 }
 
 $uri = urldecode(

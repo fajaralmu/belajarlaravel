@@ -40,9 +40,9 @@ class AccountService {
             // out("login using id: ", $id);
             // Auth::loginUsingId($id);
             // Auth::check(); 
-            out("Auth::guard('web'): ", Auth::guard('web')->user());
+            // out("Auth::guard('web'): ", Auth::guard('web')->user());
             // Auth::login($this->array_to_object("App\User", $user));
-
+            out("SUCCESS LOGIN");
         }else{ 
             $response->code = "01";
             $response->message = "FAILED";

@@ -5,6 +5,8 @@ use App\Dto\PageModel;
 use App\Http\Controllers\Controller;  
 use App\Services\ComponentService;
 use App\User;
+use Illuminate\Auth\SessionGuard;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
@@ -14,9 +16,13 @@ class BaseController extends Controller{
     protected ComponentService $component_service;
     
     public function __construct(ComponentService $component_service)
-    {
-        out("__construct BASE CONTROLLER__");
+    {  
         $this->component_service = $component_service;
+        $this->middleware(function ($request, $next) {
+            $u = Auth::user();
+            out("AUTH USER: ", $u);
+            return $next($request);
+        });
         
     }
 
@@ -51,9 +57,8 @@ class BaseController extends Controller{
         $pageModel->registered_request_id = '12345';
         $pageModel->request_id = '12345'; 
         $pageModel->profile = $this->getProfile();
-        $pageModel->year = date("Y"); 
-
-        out("BASE CONTROLLER::user(): ", Auth::guard('web')->user());
+        $pageModel->year = date("Y");  
+        
         if(Auth::user()!=null){ 
             $pageModel->user = Auth::user();
             $pageModel->authenticated = true;

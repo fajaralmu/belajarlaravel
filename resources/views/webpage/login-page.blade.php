@@ -26,10 +26,10 @@
 						alert("LOGIN SUCCESS");
 						const redirectLocation = xhr.getResponseHeader("location");
 						
-						if (redirectLocation!= null) {
-							window.location.href = redirectLocation;
-						} else
-							window.location.href = ctxPath+"/admin/home";
+						// if (redirectLocation!= null) {
+						// 	window.location.href = redirectLocation;
+						// } else
+						// 	window.location.href = ctxPath+"/admin/home";
 					} else {
 						alert("LOGIN FAILED");
 					}
