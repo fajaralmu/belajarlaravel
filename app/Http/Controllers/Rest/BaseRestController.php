@@ -45,7 +45,11 @@ class BaseRestController extends Controller {
     return $data;
     }
 
-    protected function json_response(WebResponse $response){
-        return response()->json($this->object_to_array($response)); 
+    protected function json_response(WebResponse $response, array $header = null){
+        if(null == $header ){
+            return response( )->json($this->object_to_array($response)); 
+        } 
+
+        return response(json_encode($this->object_to_array($response)), 200, $header);
     }
 }

@@ -16,11 +16,16 @@ class RestAccountController extends BaseRestController {
 
     public function login(Request $request){ 
         $webResponse = $this->account_service->loginAttemp($request); 
-        return $this->json_response($webResponse);
+        $header = null;
+        if($webResponse->code == "00"){
+            $header = ["location"=>$request->session()->get("latest_request_url")];
+        }
+
+        return $this->json_response($webResponse,  $header);
     }
     protected function guard()
-{
-    return Auth::guard('web');
-}
+    {
+        return Auth::guard('web');
+    }
  
 }

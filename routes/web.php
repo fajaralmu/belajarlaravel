@@ -10,8 +10,9 @@
 |
 */
 
+use App\Http\Middleware\MyAppMiddleware;
 use Illuminate\Support\Facades\Route;
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
     
     Route::get('/', 'MyApp\MainController@index');
     Route::auth();
@@ -29,7 +30,7 @@ Route::group(['middleware' => 'web'], function () {
     });
 });
 
-Route::group(['middleware' => [ 'auth'], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'admin'], function () {
        
     Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
 });

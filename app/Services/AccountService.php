@@ -38,7 +38,7 @@ class AccountService {
         $response = new WebResponse();
         $cred= ['username' =>$user['username'], 'password' => $user['password']];
         
-        if ( Auth::attempt(['username' =>$user['username'], 'password' => $user['password']])) {
+        if ( Auth::attempt($cred)) {
            
             out("SUCCESS LOGIN: ", Auth::user());
             out("Auth::name: ", Auth::getName());
