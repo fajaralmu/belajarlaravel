@@ -8,7 +8,7 @@ class MainController extends BaseController
    
     public function index(Request $request){
         
-        return $this->appView($request, 'index', ['title'=>'Testing']);
+        return $this->appView($request, 'index', ['title'=>'My Dormitory']);
     }
 
 }

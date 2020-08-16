@@ -20,6 +20,10 @@ class BaseController extends Controller{
         $this->component_service = $component_service;  
     }
 
+    protected function clearLatestUrl(Request $request){
+        $request->session()->put("latest_request_url", null);
+    }
+
 
     public function appView(Request $request, string $view ,   $data = [], $mergeData = []){
         out("URL:",$request->url());

@@ -18,7 +18,7 @@
 						</h5>
 						<a class="badge badge-primary"
 							data-toggle="tooltip" data-placement="bottom"
-							title="{{$menu ['description'] }}" href="{{$context_path}}/{{$menu ['url'] }}" >Detail</a>
+							title="{{$menu ['description'] }}" href="{{$context_path}}{{$menu ['url'] }}" >Detail</a>
 					</div>
 				</div>
 			</div>

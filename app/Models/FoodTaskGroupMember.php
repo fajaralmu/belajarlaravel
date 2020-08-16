@@ -12,15 +12,41 @@ class FoodTaskGroupMember extends Model
      * @var string
      */
     protected $table = 'food_task_group_members';
-	 //join column	
-public $group_id;
+		
+ protected $group_id;
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Group",optionItemName="name",foreignKey="group_id")
+	 */ 
+		
+ protected  Models\FoodTaskGroup $group;
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",multipleSelect="true")
+	 */ 
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_NUMBER")
+	 */ 
 	 protected $sequence;
 	 protected $member_identities;
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_TEXT")
+	 */ 
 	 protected $id;
 	 protected $created_date;
 	 protected $modified_date;
 	 protected $deleted;
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
+	 */ 
 	 protected $general_color;
+
+	 /** 
+	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
+	 */ 
 	 protected $font_color;
 
  
