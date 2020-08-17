@@ -30,13 +30,13 @@ class User  extends Authenticatable
 	 */ 
 	 protected $password;
 		
- protected $role_id;
+ 	protected $role_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",optionItemName="name",foreignKey="role_id")
 	 */ 
 		
- protected  Models\UserRole $role;
+ 	protected  Models\UserRole $role;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")

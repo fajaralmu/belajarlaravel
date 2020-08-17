@@ -5,6 +5,7 @@ use App\Annotations\FormField;
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
+use App\Models\BaseModel;
 use App\Repositories\EntityRepository;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
@@ -83,13 +84,17 @@ class EntityService {
     }
 
     public function add(WebRequest $webRequest){
-        $reflectionClass = $this->getEntityConfig($webRequest->entity);
+        $entityCode = ($webRequest->entity);
+        $entityObject = $webRequest->$entityCode; 
+        return $this->doAdd($entityCode,  $entityObject);
+    }
+
+    public function doAdd(string $entityCode, BaseModel $entityObject){
+        $reflectionClass = $this->getEntityConfig($entityCode);
         if(is_null( $reflectionClass )){
             return WebResponse::failed("Invalid request");
         }
-
-        $fieldName = ($webRequest->entity);
-        $entityObject = $webRequest->$fieldName;
+ 
         $validatedObj = $this->validateEntityValuesBeforePersist($entityObject);
         unset($validatedObj->id);  
         $validatedObj->save();
@@ -100,19 +105,21 @@ class EntityService {
     }
 
     public function update(WebRequest $webRequest){
-        $reflectionClass = $this->getEntityConfig($webRequest->entity);
+        $entityCode = ($webRequest->entity);
+        $entityObject = $webRequest->$entityCode; 
+        return $this->doUpdate($entityCode,  $entityObject);
+    }
+
+    public function doUpdate(string $entityCode, BaseModel $entityObject){
+        $reflectionClass = $this->getEntityConfig($entityCode);
        
         if(is_null($reflectionClass )){
             return WebResponse::failed("Invalid request");
         }
-       
-        $fieldName = ($webRequest->entity);
-        $entityObject = $webRequest->$fieldName; 
+        
         $validatedObj = $this->validateEntityValuesBeforePersist($entityObject);
         
-        $result = $this->entityRepository->update($reflectionClass,  $validatedObj); 
-
-         
+        $result = $this->entityRepository->update($reflectionClass,  $validatedObj);  
         // dd($queries);
         $response = new WebResponse(); 
          $response->message =  $result;
