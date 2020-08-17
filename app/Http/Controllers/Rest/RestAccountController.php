@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RestAccountController extends BaseRestController {
-    protected $account_service;
+    protected AccountService $account_service;
 
     public function __construct( AccountService $account_service)
     {

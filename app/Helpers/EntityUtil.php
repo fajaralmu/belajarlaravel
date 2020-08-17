@@ -110,6 +110,14 @@ class EntityUtil {
 		// 	throw e;
 		// }
 
-	}
+    }
+    
+    public static function arraytoobj($obj, $arr){
+        foreach ($arr as $key => $value) {
+            $obj->$key = $value;
+        }
+
+        return $obj;
+    }
 
 }

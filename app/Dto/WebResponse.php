@@ -8,11 +8,11 @@ class WebResponse   {
     public 	$date    ;      
     public string	$code   ="00" ;       
     public string	$message ="success"  ;     
-    public array	$resultList  ;    
-	public object $result   ;      
+    public array	$entities  ;    
+	public object $entitiy   ;      
     public int	$totalData   ;   
     public	$additionalData;  
-    public 	          $filter;
+    public 	Filter  $filter;
 
     public function __construct(){
         

@@ -3,9 +3,10 @@
 
 namespace App\Http\Controllers\Rest;
 
+use App\Dto\WebRequest;
 use App\Dto\WebResponse;
-use App\Http\Controllers\Controller;
-use Illuminate\Auth\SessionGuard;
+use App\Helpers\EntityUtil;
+use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
 
 class BaseRestController extends Controller {
@@ -18,6 +19,10 @@ class BaseRestController extends Controller {
     public function pageCode(Request $request){
 
     
+    }
+
+    protected function getWebRequest(Request $request){
+        return   EntityUtil::arraytoobj(new WebRequest(), $request->json());
     }
 
     protected function webResponse($code=null, $message=null){
@@ -50,7 +55,7 @@ class BaseRestController extends Controller {
         if(null == $header ){
             return response( )->json($this->object_to_array($response)); 
         } 
- 
+        
         return response(json_encode($this->object_to_array($response)), 200, $header);
     }
 }

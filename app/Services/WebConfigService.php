@@ -23,8 +23,18 @@ class WebConfigService {
     public function __construct()
     {
         $this->postConstruct();
-    }
+    } 
 
+    /**
+     * @param key
+     * @return ReflectionClass
+     */
+    public function getConfig(string $key){
+        if(array_has( $this->entityConfig, $key)){
+            return $this->entityConfig[$key];
+        } 
+        return null;
+    }
     /**
      * override parent method
      */

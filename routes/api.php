@@ -25,3 +25,8 @@ Route::prefix('account')->group(function () {
 Route::prefix('public')->group(function () { 
     Route::post('pagecode', 'Rest\PublicController@pageCode');
 });
+
+Route::prefix('entity')->group(function () { 
+    Route::post('get', 'Rest\RestEntityController@get_entity');
+});
+
