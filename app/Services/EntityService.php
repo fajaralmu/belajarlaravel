@@ -46,7 +46,7 @@ class EntityService {
         $db = DB::table($tableName);//->get()->toArray();
         $whereClause = [];
        
-        if( isset($webRequest->filter)){
+        if(property_exists($webRequest, "filter") && isset($webRequest->filter)){
             // $webRequest->filter = EntityUtil::arraytoobj(new Filter(), $webRequest->filter);
             // dd(json_encode($webRequest->filter));
             $fieldsFilter = $webRequest->filter->fieldsFilter;
