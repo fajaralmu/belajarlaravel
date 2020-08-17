@@ -21,6 +21,14 @@ class EntityRepository {
         return null;
     }
 
+    public function findAllEntities(ReflectionClass $reflectionClass){
+        $tableName = $this->getTableName($reflectionClass);
+
+        $db = DB::table($tableName)->get();
+
+        return $db->toArray();
+    }
+
     public function update(ReflectionClass $reflectionClass, object $entityObject){
         $tableName = $this->getTableName($reflectionClass);
 
@@ -39,17 +47,18 @@ class EntityRepository {
         if( isset($filter)){
             $filter =  $filter;
             $fieldsFilter = $filter->fieldsFilter;
-            $exactSearch = $filter->exacts;
+            $exactSearch = $filter->exacts == true;
             
             if(isset( $fieldsFilter) && sizeof( $fieldsFilter) > 0){
                 foreach( $fieldsFilter as $key=>$value){
                     $operator = null;
                      
                     if($exactSearch){
+                        $operator = "=";
+                    }else{
                         $operator = "like";
                         $value = '%'.$value.'%';
-                    }else{
-                        $operator = "=";
+                      
                     }
                     array_push($whereClause, [$key, $operator, $value]);
                 }
