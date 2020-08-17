@@ -19,4 +19,11 @@ class WebResponse   {
         // $this->additionalData = Hash::make("123");
         $this->date = date("Y-m-d H:i:s");
     } 
+
+    public static function failed(string $msg){
+        $response = new WebResponse();
+        $response->code = "01";
+        $response->message = $msg;
+        return $response;
+    }
 }

@@ -8,6 +8,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use  Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionProperty;
 use ReflectionClass;
+use ReflectionNamedType;
+use ReflectionType;
 
 class EntityUtil {
 
@@ -108,15 +110,27 @@ class EntityUtil {
 		// } catch (Exception e) {
 		// 	e.printStackTrace();
 		// 	throw e;
-		// }
-
+		// } 
     }
     
     public static function arraytoobj($obj, $arr){
+		$reflectionClass = new ReflectionClass($obj); 
         foreach ($arr as $key => $value) {
-            $obj->$key = $value;
-        }
-
+			$prop = $reflectionClass->getProperty($key);
+			if(!is_null($prop)){
+			 
+				$propType = $prop->getType();
+				$propName =  $propType->getName(); //ReflectionNamedType::getName()
+				if(substr(  $propName,  0, 4 ) === "App\\"){
+					out("==========>".$propName);
+					$obj->$key = EntityUtil::arraytoobj(new $propName(), $value);
+				}else{
+					$obj->$key = $value;
+				}
+			}
+           
+		} 
+		
         return $obj;
     }
 

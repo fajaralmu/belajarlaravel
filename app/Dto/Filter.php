@@ -10,4 +10,5 @@ class Filter{
     public int $year = 0;
     public int $monthTo = 0;
     public int $yearTo = 0;
+    public array $fieldsFilter = [];
 }

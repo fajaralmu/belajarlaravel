@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
+use App\Helpers\EntityUtil;
 use App\Repositories\EntityRepository;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
@@ -37,8 +38,26 @@ class EntityService {
 
     public function filter(WebRequest $webRequest){
         $reflectionClass = $this->getEntityConfig($webRequest->entityName);
+        if(is_null( $reflectionClass )){
+            return WebResponse::failed("Invalid request");
+        }
         $tableName = $this->getTableName($reflectionClass);
-        $resultList = DB::table($tableName)->get()->toArray();
+        
+        $db = DB::table($tableName);//->get()->toArray();
+        $whereClause = [];
+       
+        if( isset($webRequest->filter)){
+            // $webRequest->filter = EntityUtil::arraytoobj(new Filter(), $webRequest->filter);
+            // dd(json_encode($webRequest->filter));
+            $fieldsFilter = $webRequest->filter->fieldsFilter;
+            if(isset( $fieldsFilter) && sizeof( $fieldsFilter) > 0){
+                foreach( $fieldsFilter as $key=>$value){
+                    //like clause
+                    array_push($whereClause, [$key, 'like', '%'.$value.'%']);
+                }
+            }
+         }
+        $resultList = $db->where($whereClause)->get()->toArray();
         $response = new WebResponse();
         $response ->entities = $resultList;
         return $response;
