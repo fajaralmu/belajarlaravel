@@ -25,7 +25,7 @@ class EntityService {
         return $result;
     } 
 
-    private function validateEntityValues(&$entity){
+    private function validateEntityValuesBeforePersist($entity){
 
         $joinColumns = $this->webConfigService->getJoinColumns(new ReflectionClass($entity));
         foreach ($joinColumns as $prop) {
@@ -37,14 +37,14 @@ class EntityService {
             $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
             $foreignKey = $formField->foreignKey;
             $entity->$foreignKey =  $propValue->id;
-            // unset($entity, $prop->name);
+            unset($entity->$propName);
         }
+        return ($entity);
     }
 
     private function validateEntityValuesAfterFilter(ReflectionClass $class, $entity){
          
-        $joinColumns = $this->webConfigService->getJoinColumns($class);
-        
+        $joinColumns = $this->webConfigService->getJoinColumns($class); 
         
         foreach ($joinColumns as $prop) {
             $propName = $prop->name; 
@@ -53,10 +53,9 @@ class EntityService {
             $propValue =  $entity->$foreignKey; 
             
             $referenceClass = new ReflectionClass( $formField->className); 
-            $res = $this->entityRepository->findById($referenceClass, $propValue ); 
+            $referenceObject = $this->entityRepository->findById($referenceClass, $propValue ); 
             
-            $entity->$propName = $res;// $this->arraytoobject($res, $formField->className);
-            
+            $entity->$propName = $referenceObject; 
         }
           
         return $entity;
@@ -91,9 +90,9 @@ class EntityService {
 
         $fieldName = ($webRequest->entity);
         $entityObject = $webRequest->$fieldName;
-        
-        unset($entityObject->id);  
-        $entityObject->save();
+        $validatedObj = $this->validateEntityValuesBeforePersist($entityObject);
+        unset($validatedObj->id);  
+        $validatedObj->save();
 
         $response = new WebResponse(); 
         // $response->entity =  $entityObject;
@@ -106,10 +105,15 @@ class EntityService {
         if(is_null($reflectionClass )){
             return WebResponse::failed("Invalid request");
         }
+       
         $fieldName = ($webRequest->entity);
         $entityObject = $webRequest->$fieldName; 
-        $this->validateEntityValues($entityObject);
-        $result = $this->entityRepository->update($reflectionClass,  $entityObject);
+        $validatedObj = $this->validateEntityValuesBeforePersist($entityObject);
+        
+        $result = $this->entityRepository->update($reflectionClass,  $validatedObj); 
+
+         
+        // dd($queries);
         $response = new WebResponse(); 
          $response->message =  $result;
         return $response;

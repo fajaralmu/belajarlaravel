@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Annotations\Column;
 use App\Annotations\FormField;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -120,6 +121,21 @@ class EntityUtil {
 			$propName =  $propType->getName(); //ReflectionNamedType::getName()
 		}
 		return $propName;
+	}
+
+	public static function objecttoarrayforpersist(object $obj){
+		$arr = [];
+		$reflectionClass = new ReflectionClass($obj);
+		$props = $reflectionClass->getProperties();
+		foreach($props as $prop){
+			if(is_null(EntityUtil::getPropertyAnnotation($prop, Column::class))){
+				continue;
+			}
+			$propName = $prop->name;
+			$arr[$propName] = $obj->$propName;
+		}
+
+		return $arr;
 	}
 	 
     public static function arraytoobj($obj, $arr){

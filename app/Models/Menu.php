@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\Column; 
 
 class Menu extends BaseModel
 {
@@ -16,62 +16,107 @@ class Menu extends BaseModel
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $code;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $code;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $name;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $name;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXTAREA")
-	 */ 
-	 public $description;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $description;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $url;
-		
- 	public $page_id;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $url;
+
+		 /**
+	 * @Column() 
+ */  		
+ protected $page_id;
 
 	 /** 
-	 *	@FormField(className="App\Models\Page",type="FIELD_TYPE_FIXED_LIST",lableName="Page",optionItemName="name",foreignKey="page_id")
+	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Page",optionItemName="name",className="App\Models\Page",foreignKey="page_id")
 	 */ 
 		
- 	public   Page $menuPage;
+ protected   Page $menuPage;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP" )
-	 */ 
-	 public $icon_url;
+	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP",required=false)
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $icon_url;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	protected $id;
-	 public $created_date;
-	 public $modified_date;
-	 public $deleted;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $id;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $created_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $modified_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-	 */ 
-	 public $general_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-	 */ 
-	 public $font_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $font_color;
 
  
-	 protected $created_at, $updated_at;
+	/**
+	 * @Column() 
+	*/
+	 protected $created_at; 
+	/**
+	 * @Column() 
+	*/ 
+	protected $updated_at;
  
-
-	 public function __construct(){
-		 $this->menuPage = new Page();
-	 }
  
 	public function pages()
     {

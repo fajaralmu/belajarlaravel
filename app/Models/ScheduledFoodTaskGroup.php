@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\Column; 
 
 class ScheduledFoodTaskGroup extends BaseModel
 {
@@ -13,55 +13,101 @@ class ScheduledFoodTaskGroup extends BaseModel
      * @var string
      */
     protected $table = 'scheduled_food_task_groups';
-		
- public $group_member_id;
+
+		 /**
+	 * @Column() 
+ */  		
+ protected $group_member_id;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Group",optionItemName="group.name",foreignKey="group_member_id")
+	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Group",optionItemName="group.name",className="App\Models\FoodTaskGroupMember",foreignKey="group_member_id")
 	 */ 
 		
- public   FoodTaskGroupMember $groupMember;
+ protected   FoodTaskGroupMember $groupMember;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $day;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $day;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $month;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $month;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $year;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $year;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST")
-	 */ 
-	 public $meal_time;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $meal_time;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	protected $id;
-	 public $created_date;
-	 public $modified_date;
-	 public $deleted;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $id;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $created_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $modified_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-	 */ 
-	 public $general_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-	 */ 
-	 public $font_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $font_color;
 
  
-	 protected $created_at, $updated_at;
+	/**
+	 * @Column() 
+	*/
+	 protected $created_at; 
+	/**
+	 * @Column() 
+	*/ 
+	protected $updated_at;
  
  
 	public function food_task_group_members()

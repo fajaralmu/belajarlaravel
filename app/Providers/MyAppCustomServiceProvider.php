@@ -31,7 +31,7 @@ class MyAppCustomServiceProvider extends ServiceProvider
      */
     public function register()
     { 
-        out("::registering services::");
+        // out("::registering services::");
         $this->app->profile_repository = new ProfileRepository(); 
         $this->app->page_repository = new PageRepository();
         $this->app->user_repository = new UserRepository(); 

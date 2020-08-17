@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Dto\Filter;
+use App\Helpers\EntityUtil;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 
@@ -43,8 +44,8 @@ class EntityRepository {
 
     public function update(ReflectionClass $reflectionClass, object $entityObject){
         $tableName = $this->getTableName($reflectionClass);
-
-        DB::table($tableName)->where([['id','=',$entityObject->id]])->update($entityObject->toArray());
+        // DB::connection()->enableQueryLog();
+        DB::table($tableName)->where([['id','=',$entityObject->id]])->update(EntityUtil::objecttoarrayforpersist($entityObject));
         return true;
     }
 

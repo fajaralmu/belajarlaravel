@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\Column; 
 
 class Page extends BaseModel
 {
@@ -16,64 +16,119 @@ class Page extends BaseModel
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $code;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $code;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $name;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $name;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Authorized (yes:1 or no:0)",availableValues={0,1})
-	 */ 
-	 public $authorized;
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Authorized (yes:1 or no:0)",availableValues= {0,1} )
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $authorized;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Is Non-Menu Page (yes:1 or no:0)",availableValues={0,1})
-	 */ 
-	 public $is_non_menu_page;
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Is Non-Menu Page (yes:1 or no:0)",availableValues= {0,1} )
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $is_non_menu_page;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT",lableName="Link for non menu page")
-	 */ 
-	 public $link;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $link;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXTAREA")
-	 */ 
-	 public $description;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $description;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP",required="false")
-	 */ 
-	 public $image_url;
+	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP",required=false)
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $image_url;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER",lableName="Urutan Ke")
-	 */ 
-	 public $sequence;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $sequence;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	protected $id;
-	 public $created_date;
-	 public $modified_date;
-	 public $deleted;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $id;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $created_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $modified_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-	 */ 
-	 public $general_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-	 */ 
-	 public $font_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $font_color;
 
  
-	 protected $created_at, $updated_at;
+	/**
+	 * @Column() 
+	*/
+	 protected $created_at; 
+	/**
+	 * @Column() 
+	*/ 
+	protected $updated_at;
  
    
       }

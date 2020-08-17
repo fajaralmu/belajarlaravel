@@ -26,7 +26,7 @@ Route::prefix('public')->group(function () {
     Route::post('pagecode', 'Rest\PublicController@pageCode');
 });
 
-Route::prefix('entity')->group(function () { 
+Route:: group(['prefix' => 'entity' , 'middleware'=>'auth'  ],function () { 
     Route::post('get', 'Rest\RestEntityController@get_entity');
     Route::post('add', 'Rest\RestEntityController@add_entity');
     Route::post('update', 'Rest\RestEntityController@update_entity');

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\Column; 
 
 class MemberFee extends BaseModel
 {
@@ -13,70 +13,125 @@ class MemberFee extends BaseModel
      * @var string
      */
     protected $table = 'member_fees';
-		
- public $member_id;
+
+		 /**
+	 * @Column() 
+ */  		
+ protected $member_id;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",foreignKey="member_id")
+	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",className="App\Models\Member",foreignKey="member_id")
 	 */ 
 		
- public  Member $member;
+ protected   Member $member;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $month;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $month;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $year;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $year;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $nominal;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $nominal;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST")
-	 */ 
-	 public $fee_type;
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST", availableValues={"WATER", "OTHER"})
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $fee_type;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_DATE")
-	 */ 
-	 public $transaction_date;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $transaction_date;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
-	 */ 
-	 public $week;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $week;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXTAREA")
-	 */ 
-	 public $decription;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $decription;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	protected $id;
-	 public $created_date;
-	 public $modified_date;
-	 public $deleted;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $id;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $created_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $modified_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $deleted;
 
-	 /** 
-	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-	 */ 
-	 public $general_color;
+	//  /** 
+	//  *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
+	  
+	 
+	//  * @Column() 
+	//  */
+	//  protected $general_color;
 
-	 /** 
-	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-	 */ 
-	 public $font_color;
+	//  /** 
+	//  *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
+	  
+	 
+	//  * @Column() 
+	//  */
+	//  protected $font_color;
 
  
-	 protected $created_at, $updated_at;
+	/**
+	 * @Column() 
+	*/
+	 protected $created_at; 
+	/**
+	 * @Column() 
+	*/ 
+	protected $updated_at;
  
  
 	public function members()

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\Column; 
 
 class RegisteredRequest extends BaseModel
 {
@@ -16,37 +16,89 @@ class RegisteredRequest extends BaseModel
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $request_id;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $request_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	 public $value;
-	 public $referrer;
-	 public $user_agent;
-	 public $ip_address;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $value;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $referrer;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $user_agent;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $ip_address;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
-	 */ 
-	protected $id;
-	 public $created_date;
-	 public $modified_date;
-	 public $deleted;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $id;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $created_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $modified_date;
+	
+	/*
+	 
+	 * @Column() 
+	 */
+	 protected $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-	 */ 
-	 public $general_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-	 */ 
-	 public $font_color;
+	  
+	 
+	 * @Column() 
+	 */
+	 protected $font_color;
 
  
-	 protected $created_at, $updated_at;
+	/**
+	 * @Column() 
+	*/
+	 protected $created_at; 
+	/**
+	 * @Column() 
+	*/ 
+	protected $updated_at;
  
    
       }
