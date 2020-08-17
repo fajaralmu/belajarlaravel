@@ -11,6 +11,11 @@ class ManagementController extends BaseController{
         
         out("Management code: ", $model_code); 
         $entityProperty = $this->web_config_service->getModelInfos($model_code);
+        
+        if(null ==  $entityProperty){
+            return $this->error($request, "EntityCode:".$model_code." Not Found");
+        }
+
         return $this->appView($request, 'webpage.entity-management-page', [
             "entityProperty"=>$entityProperty,
             "additional_style_paths"=>["entitymanagement"],

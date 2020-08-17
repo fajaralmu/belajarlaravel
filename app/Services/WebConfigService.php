@@ -47,13 +47,14 @@ class WebConfigService {
     } 
     
     public function getModelInfos(string $model_code){
-       
+        // dd( $this->entityConfig);
         if(!array_has( $this->entityConfig, $model_code)){
-            return [];
+            return null;
         }
         $refectionClass = $this->entityConfig[$model_code]; 
-        return EntityUtil::createEntityProperty($refectionClass);
-
+        $entityProperty = EntityUtil::createEntityProperty($refectionClass);
+        
+        return  $entityProperty;
     }
 
     private function putConfig(...$classes){

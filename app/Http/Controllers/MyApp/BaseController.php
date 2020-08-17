@@ -30,6 +30,14 @@ class BaseController extends Controller{
         $request->session()->put("latest_request_url", null);
     }
 
+    public function error(Request $request, string $message){
+        return response()->json(
+            [
+                "title"=>"Error",
+                "message"=>$message
+            ]
+        )->setStatusCode(400);
+    }
 
     public function appView(Request $request, string $view ,   $data = [], $mergeData = []){
         out("URL:",$request->url());
