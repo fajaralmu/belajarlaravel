@@ -105,19 +105,20 @@ class EntityElement {
 	public function getJsonListstring(bool $removeBeginningAndEndIndex) {
 	 
 			$jsonstringified = trim( json_encode($this->jsonList));
-			if ($removeBeginningAndEndIndex) {
-                $stringBuilder ="";
-				$stringBuilder = $jsonstringified;
-				$stringBuilder[0]= ' ';
-				$stringBuilder[strlen($jsonstringified) - 1]=' ';
-				$jsonstringified = trim($stringBuilder);
-				// log->info("jsonstringified: {}", jsonstringified);
-			}
+			 
+			// if ($removeBeginningAndEndIndex) {
+            //     $stringBuilder ="";
+			// 	$stringBuilder = $jsonstringified;
+			// 	$stringBuilder[0]= ' ';
+			// 	$stringBuilder[strlen($jsonstringified) - 1]=' ';
+			// 	$jsonstringified = trim($stringBuilder);
+			// 	// log->info("jsonstringified: {}", jsonstringified);
+			// }
 			$jsonstringified = str_replace($jsonstringified,"\\t", "");
 			$jsonstringified = str_replace($jsonstringified,"\\r", "");
 			$jsonstringified = str_replace($jsonstringified,"\\n", "");
 			// log->info("RETURN jsonstringified: {}", jsonstringified);
-			return $jsonstringified;
+			return $this->jsonList;
 		   
 	}
 
@@ -294,30 +295,33 @@ class EntityElement {
 		// if (referenceEntityIdField == null) {
 		// 	throw new Exception("ID Field Not Found");
 		// }
-
-		if ($fieldType="FIELD_TYPE_FIXED_LIST" && $this->additionalMap != null && array_has($this->additionalMap,$this->field->getName() )) {
-
+	
+		if ($fieldType=="FIELD_TYPE_FIXED_LIST" && $this->additionalMap != null && array_has($this->additionalMap,$this->field->getName() )) {
+			
 			$referenceEntityList = $this->additionalMap[$this->field->getName()];
-			if (null == $referenceEntityList || sizeof($referenceEntityList ) == 0) {
-                
+			if (null == $referenceEntityList || sizeof($referenceEntityList ) == 0) {  
                 out("null == referenceEntityList");
                 return;
 			}
 			out("Additional map with key: {} -> Length: {}", $this->field->getName(), sizeof($referenceEntityList ));
 			if ($referenceEntityList != null) {
-				$this->options=($referenceEntityList);
+				
+				$this->options=($referenceEntityList); 
 				$this->jsonList=(json_encode($referenceEntityList));
+				 
 			}
 
-		} else if ($fieldType="FIELD_TYPE_DYNAMIC_LIST") {
-
-			$this->entityReferenceClass = $referenceEntityClass->getName();
+		} else if ($fieldType=="FIELD_TYPE_DYNAMIC_LIST") {
+			$className = $referenceEntityClass->getName();
+			$className = StringUtil::getWordsAfterLastChar($className, "\\");
+			$this->entityReferenceClass = strtolower($className) ;
+			
 		}
- 
+		// dd($this->entityReferenceClass);
         //DEFAULT IS ID
 		$this->optionValueName=("id");
 		$this->multipleSelect=($this->formField->multipleSelect);
-		$this->otionItemName=($this->formField->optionItemName);
+		$this->optionItemName=($this->formField->optionItemName);
 	}
 
 }

@@ -2,6 +2,18 @@
 namespace App\Helpers;
 
 class StringUtil {
+
+
+            public static function getWordsAfterLastChar(string $word, string $char){
+                $res = "";
+                for ($i=0; $i < strlen($word); $i++) { 
+                    $res.=$word[$i];
+                    if($word[$i]=="\\"){
+                        $res = "";
+                    }
+                }
+                return $res;
+            }
             public static function isUpperCase( $char) { 
                  
                 return $char == strtoupper($char);

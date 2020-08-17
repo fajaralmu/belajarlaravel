@@ -39,11 +39,10 @@
 										</select>
 										<script>
 											managedEntity["valueField_{{$element->id}}"] = "{{$element->optionValueName}}";
-											managedEntity["itemField_{{$element->id}}"] = "{$element->optionItemName}";
-											var optionJsonString = "{{$element->getJsonListString(true)}}";
+											managedEntity["itemField_{{$element->id}}"] = "{{$element->optionItemName}}";
+											var optionJsonString =  {!!$element->getJsonListString(true)!!};
 
-											fixedListOptionValues["{{$element->id}}"] = JSON
-													.parse(optionJsonString);
+											fixedListOptionValues["{{$element->id}}"] =  (optionJsonString);
 											for (let i = 0; i < fixedListOptionValues["{{$element->id}}"].length; i++) {
 												var optionItemName = managedEntity["itemField_{{$element->id}}"];
 												var toDisplay; 

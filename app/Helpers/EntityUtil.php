@@ -111,21 +111,24 @@ class EntityUtil {
 		// 	e.printStackTrace();
 		// 	throw e;
 		// } 
-    }
+	}
+	
+	public static function getPropName(ReflectionProperty $prop){
+		$propType = $prop->getType();
+		$propName = $prop->name;
+		if(!is_null($propType)){
+			$propName =  $propType->getName(); //ReflectionNamedType::getName()
+		}
+		return $propName;
+	}
     
     public static function arraytoobj($obj, $arr){
 		$reflectionClass = new ReflectionClass($obj); 
         foreach ($arr as $key => $value) {
 			if($reflectionClass->hasProperty($key) && !is_null($value)){
 				$prop = $reflectionClass->getProperty($key);
-				$propType = $prop->getType();
-				$propName = $prop->name;
-				if(!is_null($propType)){
-					$propName =  $propType->getName(); //ReflectionNamedType::getName()
-					// out($prop ."IS NULLLLLLLLLLL", $propType, $prop );
-					// continue;
-				}
-				
+			 
+				$propName =  EntityUtil::getPropName($prop);
 				$isCustomObject = substr(  $propName,  0, 4 ) === "App\\";
 
 				if($isCustomObject){
