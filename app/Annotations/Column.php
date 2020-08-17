@@ -3,7 +3,7 @@ namespace App\Annotations;
 
 /** 
  * @Annotation 
- * @Target({"METHOD","PROPERTY"})
+ * @Target({"PROPERTY"})
  * 
  */
 /** @Annotation */  

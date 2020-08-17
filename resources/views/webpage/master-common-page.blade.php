@@ -10,8 +10,13 @@
 			 
 			<div class="col-sm-3">
 				<div class="card" style="width: 100%;">
-					<img class="card-img-top"  width="100" height="150" src="{{$context_path}}/img/{{$menu ['icon_url'] }}"
+					@if(is_null($menu ['icon_url']) || "" == trim($menu ['icon_url']))
+					<img class="card-img-top"  width="100" height="150" src="{{$context_path}}/img/DefaultIcon.BMP"
 						alt="Card image cap">
+					@else 
+					<img class="card-img-top"  width="100" height="150" src="{{$context_path}}/img/{{ $menu ['icon_url']  }}"
+						alt="Card image cap">
+					@endif
 					<div class="card-body" style="background-color:{{$menu ['general_color']}}; color:{{$menu ['font_color']}}">
 						<h5 class="card-title">
 							  {{$menu ['name']  }} 

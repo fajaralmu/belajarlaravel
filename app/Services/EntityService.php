@@ -2,12 +2,12 @@
 namespace App\Services;
 
 use App\Annotations\FormField;
+use App\Dto\Filter;
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
 use App\Models\BaseModel;
-use App\Repositories\EntityRepository;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\EntityRepository; 
 use ReflectionClass;
 
 class EntityService {
@@ -43,45 +43,84 @@ class EntityService {
         return ($entity);
     }
 
-    private function validateEntityValuesAfterFilter(ReflectionClass $class, $entity){
+    private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn){
          
         $joinColumns = $this->webConfigService->getJoinColumns($class); 
+
+        $props = $class->getProperties();
         
-        foreach ($joinColumns as $prop) {
-            $propName = $prop->name; 
+        foreach($props as $prop){
+            $propName = $prop->name;
             $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-            $foreignKey = $formField->foreignKey; 
-            $propValue =  $entity->$foreignKey; 
+            if(is_null($formField)){
+                continue;
+            }
             
-            $referenceClass = new ReflectionClass( $formField->className); 
-            $referenceObject = $this->entityRepository->findById($referenceClass, $propValue ); 
-            
-            $entity->$propName = $referenceObject; 
+            if( $formField->foreignKey != "" && $validateJoinColumn == true){ 
+                 /**
+                  * join columns
+                  */ 
+                  $foreignKey = $formField->foreignKey; 
+                  $propValue =  $entity->$foreignKey; 
+                  
+                  $referenceClass = new ReflectionClass( $formField->className); 
+                  $referenceObject = $this->entityRepository->findById($referenceClass, $propValue ); 
+                  
+                  $entity->$propName = $referenceObject; 
+            }else{
+                /**
+                 * regular
+                 */
+                $propValue = $entity->$propName;
+                if((is_null($propValue) || $propValue == "") && $formField->defaultValue != ""){
+                    $entity->$propName = $formField->defaultValue;
+                }
+
+
+            }
         }
+        
+        // foreach ($joinColumns as $prop) {
+        //     $propName = $prop->name; 
+        //     $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
+        //     $foreignKey = $formField->foreignKey; 
+        //     $propValue =  $entity->$foreignKey; 
+            
+        //     $referenceClass = new ReflectionClass( $formField->className); 
+        //     $referenceObject = $this->entityRepository->findById($referenceClass, $propValue ); 
+            
+        //     $entity->$propName = $referenceObject; 
+        // }
           
-        return $entity;
-       
+        return $entity;  
     } 
 
     public function filter(WebRequest $webRequest){
-        $reflectionClass = $this->getEntityConfig($webRequest->entity);
+        $entityCode = ($webRequest->entity);
+       
+        return $this->doFilter($entityCode,  $webRequest->filter);
+    }
+
+    public function doFilter(string $entityCode, Filter $filter){
+        $reflectionClass = $this->getEntityConfig($entityCode);
         if(is_null( $reflectionClass )){
             return WebResponse::failed("Invalid request");
         }
        
-        $result = $this->entityRepository->filter($reflectionClass, $webRequest->filter);
+        $result = $this->entityRepository->filter($reflectionClass, $filter);
         $resultList =  $result["resultList"];
         $validated = [];
         foreach ($resultList as $res) {
-           array_push($validated, $this->validateEntityValuesAfterFilter( $reflectionClass, $res));
+           array_push($validated, $this->validateEntityValuesAfterFilter( $reflectionClass, $res, true));
         }
         
         $response = new WebResponse(); 
         $response->entities =  $validated;
         $response->totalData = $result["count"];
-        $response->filter = $webRequest->filter;
+        $response->filter = $filter;
         return $response;
     }
+    
 
     public function add(WebRequest $webRequest){
         $entityCode = ($webRequest->entity);
