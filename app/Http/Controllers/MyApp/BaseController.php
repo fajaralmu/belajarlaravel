@@ -74,6 +74,14 @@ class BaseController extends Controller{
             $pageModel->title = "Default Page";
         }
         
+        //Additional resouce paths
+        if(array_has($data,"additional_style_paths")){
+            $pageModel->additional_style_paths = $data ["additional_style_paths"];
+        }
+        if(array_has($data,"additional_script_paths")){
+            $pageModel->additional_script_paths = $data ["additional_script_paths"];
+        }
+
         return $this->toArray($pageModel, $data);
     }
 }

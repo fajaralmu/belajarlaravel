@@ -154,7 +154,7 @@ class EntityElement {
             $this->type = "date";
             break;
         case "FIELD_TYPE_IMAGE":
-            $this->type = "img";
+            $this->type = "file";
             break;
         }
     }
@@ -240,7 +240,7 @@ class EntityElement {
 	}
 
 	private function processImageType() {
-		array_push($this->entityProperty->umageElements, $this->field->getName());
+		array_push($this->entityProperty->imageElements, $this->field->getName());
 	}
 
 	private function processDateType() {

@@ -4,5 +4,8 @@ namespace App\Dto;
 class WebRequest {
 
     public Filter $filter;
-    public string $entityName = "";
+    /**
+     * entityName
+     */
+    public string $entity = "";
 }

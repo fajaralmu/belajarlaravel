@@ -25,12 +25,12 @@ class Page extends Model
 	 protected $name;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Authorized (yes:1 or no:0)",availableValues="0,1")
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Authorized (yes:1 or no:0)",availableValues={0,1})
 	 */ 
 	 protected $authorized;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Is Non-Menu Page (yes:1 or no:0)",availableValues="0,1")
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST",lableName="Is Non-Menu Page (yes:1 or no:0)",availableValues={0,1})
 	 */ 
 	 protected $is_non_menu_page;
 

@@ -37,7 +37,7 @@ class EntityService {
     }
 
     public function filter(WebRequest $webRequest){
-        $reflectionClass = $this->getEntityConfig($webRequest->entityName);
+        $reflectionClass = $this->getEntityConfig($webRequest->entity);
         if(is_null( $reflectionClass )){
             return WebResponse::failed("Invalid request");
         }
@@ -60,6 +60,7 @@ class EntityService {
         $resultList = $db->where($whereClause)->get()->toArray();
         $response = new WebResponse();
         $response ->entities = $resultList;
+        $response ->filter = $webRequest->filter;
         return $response;
     }
 }

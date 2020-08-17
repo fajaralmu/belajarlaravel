@@ -18,14 +18,14 @@
      <script src="{{ asset('js/util.js?v=1') }}"></script>
      <script src="{{ asset('js/strings.js?v=1') }}"></script>
 
-     @if (isset($additional_style_path) && !is_null($additional_style_path))
-         @foreach ($additional_style_path as $stylePath)
-             <link rel="stylesheet" href="{{ asset('css/pages/$stylePath.css?version=1') }}" />
+     @if (isset($additional_style_paths) && !is_null($additional_style_paths))
+         @foreach ($additional_style_paths as $stylePath)
+             <link rel="stylesheet" href="{{ asset('css/pages/'.$stylePath.'.css?version=1') }}" />
          @endforeach
      @endif
-     @if (isset($additional_script_path) && !is_null($additional_script_path))
-         @foreach ($additional_script_path as $scriptPath)
-             <script src="{{ asset('js/pages/$scriptPath.js?v=1') }}"></script>
+     @if (isset($additional_script_paths) && !is_null($additional_script_paths))
+         @foreach ($additional_script_paths as $scriptPath)
+             <script src="{{ asset('js/pages/'.$scriptPath.'.js?v=1') }}"></script>
          @endforeach
      @endif
 

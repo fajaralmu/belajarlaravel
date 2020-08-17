@@ -116,12 +116,13 @@ class EntityUtil {
     public static function arraytoobj($obj, $arr){
 		$reflectionClass = new ReflectionClass($obj); 
         foreach ($arr as $key => $value) {
-			$prop = $reflectionClass->getProperty($key);
-			if(!is_null($prop)){
-			 
+			if($reflectionClass->hasProperty($key) && !is_null($value)){
+				$prop = $reflectionClass->getProperty($key);
 				$propType = $prop->getType();
 				$propName =  $propType->getName(); //ReflectionNamedType::getName()
-				if(substr(  $propName,  0, 4 ) === "App\\"){
+				$isCustomObject = substr(  $propName,  0, 4 ) === "App\\";
+
+				if($isCustomObject){
 					out("==========>".$propName);
 					$obj->$key = EntityUtil::arraytoobj(new $propName(), $value);
 				}else{
