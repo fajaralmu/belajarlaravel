@@ -137,6 +137,7 @@ class EntityUtil
     {
         $arr = [];
         $reflectionClass = new ReflectionClass($obj);
+        dd( $reflectionClass);
         $props = $reflectionClass->getProperties();
         foreach ($props as $prop)
         {

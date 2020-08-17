@@ -39,6 +39,7 @@ Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
 Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'admin'], function () {
        
     Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
+    Route::get('sidemenudisplayorder', 'MyApp\AdminController@menu_order')->name('menu_rder');
 });
 
 //MANAGEMENT

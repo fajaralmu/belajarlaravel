@@ -53,9 +53,21 @@ class EntityRepository
     {
         $tableName = $this->getTableName($reflectionClass);
         // DB::connection()->enableQueryLog();
+         
+        $arr = EntityUtil::objecttoarrayforpersist($entityObject);
+       
         DB::table($tableName)->where([['id', '=', $entityObject
             ->id]])
-            ->update(EntityUtil::objecttoarrayforpersist($entityObject));
+            ->update($arr);
+        return true;
+    }
+
+    public function updateWithKeys(ReflectionClass $reflectionClass, $id, array $arr)
+    {
+        $tableName = $this->getTableName($reflectionClass); 
+       
+        DB::table($tableName)->where([['id', '=', $id ]])
+            ->update($arr);
         return true;
     }
 

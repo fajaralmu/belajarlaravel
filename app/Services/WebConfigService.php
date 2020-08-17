@@ -21,7 +21,7 @@ use App\Repositories\EntityRepository;
 class WebConfigService {
 
     private $entityConfig = array();
-    private EntityRepository $entityRepository;
+    public EntityRepository $entityRepository;
 
     public function __construct(EntityRepository $entityRepository)
     {
@@ -110,5 +110,9 @@ class WebConfigService {
 
         }
         // dd( $this->entityConfig);
+    }
+
+    public function findById(ReflectionClass $cls, $id){
+        return $this->entityRepository->findById($cls, $id);
     }
 }

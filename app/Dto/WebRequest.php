@@ -25,6 +25,8 @@ class WebRequest {
     public UserRole $userrole;
     public User $user;
 
+    public array $orderedEntities;
+
     /**
      * entityName
      */

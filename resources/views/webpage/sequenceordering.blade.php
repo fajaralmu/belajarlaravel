@@ -1,15 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+@extends('layouts.app')
+@section('content')
 <div class="content" style="width: 100%">
 
 	<div id="content-report">
-		<h2>Report Page</h2>
-		<p>Good ${timeGreeting}, ${loggedUser.displayName}. Please set the
-			${entityName } order</p>
+		<h2>Ordering Setting</h2>
+		<p>Ordering Models: {{strtoupper($entityName) }}</p>
 
 
 		<div style="display: grid; grid-template-columns: 70% 20%;">
@@ -21,14 +16,13 @@
 		</div>
 		<button class="btn btn-success" onclick="save()">Save</button>
 	</div>
-	<c:if test="${withAdditionalSetting}">
+	@if(isset($withAdditionalSetting) && $withAdditionalSetting == true)
 		<div class="menu-and-page-setting">
 			<h4>Additional Setting</h4>
 			<a id="btn-reset-all-menus" class="btn btn-danger"
-				href="<spring:url value="${resetSequenceLink }"></spring:url>">Reset
-				All Menus</a>
+				href="{{$context_path."/".$resetSequenceLink}}">Reset All Menus</a>
 		</div>
-	</c:if>
+	@endif
 </div>
 <script type="text/javascript">
 	var contentItems;
@@ -75,11 +69,11 @@
 	function createEntityElements(entity) {
 
 		var className = "page-item";
-		if (entity["${idField}"] == selectedId) {
+		if (entity["{{$idField}}"] == selectedId) {
 			className = "page-item page-selected";
 		}
 
-		var displayField = "${displayField}";
+		var displayField = "{{$displayField}}";
 
 		var displayValue;
 
@@ -92,7 +86,7 @@
 
 		const div = createHtmlTag({
 			'tagName' : "div",
-			"id" : entity["${idField}"],
+			"id" : entity["{{$idField}}"],
 			"class" : className,
 			"child" : createHtmlTag({
 				'tagName' : "h3",
@@ -119,7 +113,7 @@
 
 		for (var i = 0; i < pages.length; i++) {
 			const page = pages[i];
-			if (page["${idField}"] == selectedId) {
+			if (page["{{$idField}}"] == selectedId) {
 
 				const newIndex = getNewIndexUp(i, pages.length);
 				swapArray(newIndex, i, pages);
@@ -159,7 +153,7 @@
 	function down() {
 		for (var i = 0; i < pages.length; i++) {
 			const page = pages[i];
-			if (page["${idField}"] == selectedId) {
+			if (page["{{$idField}}"] == selectedId) {
 
 				const newIndex = getNewIndexDown(i, pages.length);
 				swapArray(newIndex, i, pages);
@@ -173,7 +167,7 @@
 
 	function fetchPages() {
 		var requestObject = {
-			"entity" : "${entityName}",
+			"entity" : "{{$entityName}}",
 			"filter" : {
 				"limit" : 0,
 				"page" : 0,
@@ -182,7 +176,7 @@
 			}
 		};
 
-		doLoadEntities("<spring:url value="/api/entity/get" />", requestObject,
+		doLoadEntities("{{$context_path}}/api/entity/get"  , requestObject,
 				function(response) {
 					pages = response.entities;
 					populatePages();
@@ -193,7 +187,7 @@
 
 	function getPageById(id) {
 		for (var i = 0; i < pages.length; i++) {
-			if (pages[i]["${idField}"] == id) {
+			if (pages[i]["{{$idField}}"] == id) {
 				return pages[i];
 			}
 		}
@@ -201,11 +195,14 @@
 	}
 
 	function save() {
+		if(!confirm("continue?")){
+			return;
+		}
 		const reqObj = {
 			"orderedEntities" : pages
 		};
 		postReq(
-				"<spring:url value="/api/admin/saveentityorder/${entityName}" />",
+				"{{$context_path}}/api/admin/saveentityorder/{{$entityName}}",
 				reqObj, function(xhr) {
 					var response = xhr.data;
 					console.log("RESPONSE: ", response)
@@ -221,3 +218,4 @@
 
 	fetchPages();
 </script>
+@endsection

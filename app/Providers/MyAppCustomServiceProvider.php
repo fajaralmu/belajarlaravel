@@ -56,7 +56,7 @@ class MyAppCustomServiceProvider extends ServiceProvider
             return new AccountService($app->user_repository);
         });
          $this->app->bind('App\Services\ComponentService', function ($app) {
-            return new ComponentService($app->profile_repository, $app->page_repository);
+            return new ComponentService($app->profile_repository, $app->page_repository, $app->web_config_service);
         });
         $this->app->bind('App\Services\WebConfigService', function ($app) {
             return $app->web_config_service;
