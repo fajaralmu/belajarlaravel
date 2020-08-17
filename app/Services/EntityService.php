@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Annotations\FormField;
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
@@ -23,6 +24,21 @@ class EntityService {
         $result = $this->webConfigService->getConfig($entityName);
         return $result;
     } 
+
+    private function validateEntityValues(&$entity){
+
+        $joinColumns = $this->webConfigService->getJoinColumns(new ReflectionClass($entity));
+        foreach ($joinColumns as $prop) {
+            $propValue = $prop->getValue($entity);
+            if(!isset($propValue)){
+                continue;
+            }
+            $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
+            $foreignKey = $formField->foreignKey;
+            $entity->$foreignKey =  $propValue->id;
+            // unset($entity, $prop->name);
+        }
+    }
 
     public function filter(WebRequest $webRequest){
         $reflectionClass = $this->getEntityConfig($webRequest->entity);
@@ -64,6 +80,7 @@ class EntityService {
         }
         $fieldName = ($webRequest->entity);
         $entityObject = $webRequest->$fieldName; 
+        $this->validateEntityValues($entityObject);
         $result = $this->entityRepository->update($reflectionClass,  $entityObject);
         $response = new WebResponse(); 
          $response->message =  $result;

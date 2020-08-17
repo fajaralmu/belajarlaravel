@@ -70,7 +70,7 @@ class BaseController extends Controller{
         $pageModel->request_id = '12345'; 
         $pageModel->profile = $this->getProfile();
         $pageModel->year = date("Y");  
-        
+       
         if(Auth::user() != null){ 
             $pageModel->user = Auth::user();
             $pageModel->authenticated = true;
@@ -89,8 +89,10 @@ class BaseController extends Controller{
         if(array_has($data,"additional_script_paths")){
             $pageModel->additional_script_paths = $data ["additional_script_paths"];
         }
-
-        return $this->toArray($pageModel, $data);
+       
+        $result = $this->toArray($pageModel, $data);
+        
+        return  $result;
     }
 }
  

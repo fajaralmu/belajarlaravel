@@ -82,7 +82,7 @@ class WebConfigService {
         return $map;
     }
 
-    private function getJoinColumns(ReflectionClass $reflectionClass) {
+    public function getJoinColumns(ReflectionClass $reflectionClass) {
         $props = $reflectionClass->getProperties();
         $joinColumProps = [];
 

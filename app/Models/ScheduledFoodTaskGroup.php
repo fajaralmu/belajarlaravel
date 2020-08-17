@@ -14,54 +14,54 @@ class ScheduledFoodTaskGroup extends Model
      */
     protected $table = 'scheduled_food_task_groups';
 		
- protected $group_member_id;
+ public $group_member_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Group",optionItemName="group.name",foreignKey="group_member_id")
 	 */ 
 		
- protected  Models\FoodTaskGroupMember $groupMember;
+ public   FoodTaskGroupMember $groupMember;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $day;
+	 public $day;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $month;
+	 public $month;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $year;
+	 public $year;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST")
 	 */ 
-	 protected $meal_time;
+	 public $meal_time;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $id;
-	 protected $created_date;
-	 protected $modified_date;
-	 protected $deleted;
+	protected $id;
+	 public $created_date;
+	 public $modified_date;
+	 public $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
 	 */ 
-	 protected $general_color;
+	 public $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
-	 protected $font_color;
+	 public $font_color;
 
  
-	public $created_at, $updated_at;
+	 protected $created_at, $updated_at;
  
  
 	public function food_task_group_members()

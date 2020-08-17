@@ -14,13 +14,13 @@ class FoodTaskGroupMember extends Model
      */
     protected $table = 'food_task_group_members';
 		
- protected $group_id;
+ public $group_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Group",optionItemName="name",foreignKey="group_id")
 	 */ 
 		
- protected  Models\FoodTaskGroup $group;
+ public   FoodTaskGroup $group;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",multipleSelect="true")
@@ -29,29 +29,29 @@ class FoodTaskGroupMember extends Model
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $sequence;
-	 protected $member_identities;
+	 public $sequence;
+	 public $member_identities;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $id;
-	 protected $created_date;
-	 protected $modified_date;
-	 protected $deleted;
+	protected $id;
+	 public $created_date;
+	 public $modified_date;
+	 public $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
 	 */ 
-	 protected $general_color;
+	 public $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
-	 protected $font_color;
+	 public $font_color;
 
  
-	public $created_at, $updated_at;
+	 protected $created_at, $updated_at;
  
  
 	public function food_task_groups()

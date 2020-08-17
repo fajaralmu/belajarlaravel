@@ -17,38 +17,38 @@ class UserRole extends Model
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $name;
+	 public $name;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $access;
+	 public $access;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $code;
+	 public $code;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $id;
-	 protected $created_date;
-	 protected $modified_date;
-	 protected $deleted;
+	protected $id;
+	 public $created_date;
+	 public $modified_date;
+	 public $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
 	 */ 
-	 protected $general_color;
+	 public $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
-	 protected $font_color;
+	 public $font_color;
 
  
-	public $created_at, $updated_at;
+	 protected $created_at, $updated_at;
  
    
       }

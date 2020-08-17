@@ -29,7 +29,7 @@
 								 
 									@if($element->type == 'FIELD_TYPE_FIXED_LIST')
 										<select class="input-field form-control" id="{{$element->id }}"
-											required="{{$element->required }}"
+											 {{$element->required?"required":"" }} 
 											identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
@@ -40,7 +40,7 @@
 										<script>
 											managedEntity["valueField_{{$element->id}}"] = "{{$element->optionValueName}}";
 											managedEntity["itemField_{{$element->id}}"] = "{{$element->optionItemName}}";
-											var optionJsonString =  {!!$element->getJsonListString(true)!!};
+											var optionJsonString =  {!!$element->jsonList!!};
 
 											fixedListOptionValues["{{$element->id}}"] =  (optionJsonString);
 											for (let i = 0; i < fixedListOptionValues["{{$element->id}}"].length; i++) {
@@ -70,7 +70,7 @@
 											id="input-{{$element->id }}" class="form-control" type="text" />
 										<br />
 										<select style="width: 200px" class="input-field form-control"
-											id="{{$element->id }}" required="{{$element->required }}"
+											id="{{$element->id }}"  {{$element->required ? "required":""}} 
 											multiple="multiple" identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
@@ -86,7 +86,7 @@
 										</script>
 									@elseif($element->type == 'FIELD_TYPE_PLAIN_LIST')
 										<select class="input-field form-control" id="{{$element->id }}"
-											required="{{$element->required }}"
+											 {{$element->required ?"required":"" }}
 											identity="{{$element->identity?"true":"false" }}" 
 											plainlist="true"
 											{{$element->multipleSelect?'multiple':'' }}>

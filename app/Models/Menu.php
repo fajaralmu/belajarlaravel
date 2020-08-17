@@ -17,56 +17,56 @@ class Menu extends Model
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $code;
+	 public $code;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $name;
+	 public $name;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXTAREA")
 	 */ 
-	 protected $description;
+	 public $description;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $url;
+	 public $url;
 		
- protected $page_id;
+ 	public $page_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Page",optionItemName="name",foreignKey="page_id")
 	 */ 
 		
- protected  Models\Page $menuPage;
+ 	public   Page $menuPage;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP",required="false")
+	 *	@FormField(type="FIELD_TYPE_IMAGE",defaultValue="DefaultIcon.BMP" )
 	 */ 
-	 protected $icon_url;
+	 public $icon_url;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $id;
-	 protected $created_date;
-	 protected $modified_date;
-	 protected $deleted;
+	protected $id;
+	 public $created_date;
+	 public $modified_date;
+	 public $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
 	 */ 
-	 protected $general_color;
+	 public $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
-	 protected $font_color;
+	 public $font_color;
 
  
-	public $created_at, $updated_at;
+	 protected $created_at, $updated_at;
  
  
 	public function pages()

@@ -14,69 +14,69 @@ class MemberFee extends Model
      */
     protected $table = 'member_fees';
 		
- protected $member_id;
+ public $member_id;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",foreignKey="member_id")
 	 */ 
 		
- protected  Member $member;
+ public  Member $member;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $month;
+	 public $month;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $year;
+	 public $year;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $nominal;
+	 public $nominal;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST")
 	 */ 
-	 protected $fee_type;
+	 public $fee_type;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_DATE")
 	 */ 
-	 protected $transaction_date;
+	 public $transaction_date;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_NUMBER")
 	 */ 
-	 protected $week;
+	 public $week;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXTAREA")
 	 */ 
-	 protected $decription;
+	 public $decription;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")
 	 */ 
-	 protected $id;
-	 protected $created_date;
-	 protected $modified_date;
-	 protected $deleted;
+	protected $id;
+	 public $created_date;
+	 public $modified_date;
+	 public $deleted;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
 	 */ 
-	 protected $general_color;
+	 public $general_color;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
-	 protected $font_color;
+	 public $font_color;
 
  
-	public $created_at, $updated_at;
+	 protected $created_at, $updated_at;
  
  
 	public function members()

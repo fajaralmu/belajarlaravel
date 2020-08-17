@@ -29,6 +29,14 @@ class EntityRepository {
         return $db->toArray();
     }
 
+    public function findById(ReflectionClass $reflectionClass, $id){
+        $tableName = $this->getTableName($reflectionClass);
+
+        $db = DB::table($tableName)->where([['id','=', $id]]);
+
+        return $db->get();
+    }
+
     public function update(ReflectionClass $reflectionClass, object $entityObject){
         $tableName = $this->getTableName($reflectionClass);
 

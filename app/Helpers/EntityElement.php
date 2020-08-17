@@ -155,7 +155,7 @@ class EntityElement {
             $this->type = "date";
             break;
         case "FIELD_TYPE_IMAGE":
-            $this->type = "file";
+            // $this->type = "file";
             break;
         }
     }

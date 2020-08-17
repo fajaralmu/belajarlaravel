@@ -133,6 +133,7 @@ class EntityUtil {
 
 				if($isCustomObject){
 					out("==========>".$propName);
+					$propName = str_replace("Models\\Models", "Models", $propName);
 					$obj->$key = EntityUtil::arraytoobj(new $propName(), $value);
 				}else{
 					$obj->$key = $value;
