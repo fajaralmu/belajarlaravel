@@ -16,6 +16,8 @@ class FormField
 
 	 public string $lableName="";
 
+	 public string $className = "";
+
 	 public string $optionItemName="";
 
 	 public array $multiply=[];

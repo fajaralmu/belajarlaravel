@@ -33,6 +33,7 @@
 											identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
+											foreignkey="{{$element->foreignKey}}"
 											{{$element->multipleSelect?'multiple':'' }}
 											>
 
@@ -76,6 +77,7 @@
 											itemNameField="{{$element->optionItemName}}"
 											dynamic-list="true"
 											name="{{$element->entityReferenceClass}}"
+											foreignkey="{{$element->foreignKey}}"
 											 
 											>
 

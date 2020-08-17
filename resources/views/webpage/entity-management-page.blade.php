@@ -338,6 +338,7 @@
 			row.append(createCell(finalValue));
 		}
 		const optionCell = createCell("");
+		console.debug("entity: ", entity);
 		const btnOptionGroup = getButtonOptionGroup(entity, index);
 
 		optionCell.append(btnOptionGroup);
@@ -352,7 +353,7 @@
 		buttonEdit.className = "btn btn-warning";
 		const _idField = this.idField;
 		buttonEdit.onclick = function() {
-			alert("will Edit: " + entity[_idField]);
+			if(!confirm("will Edit: " + entity[_idField] +"?")){ return; }
 			getById(entity[_idField], function(entity) {
 				populateForm(entity);
 			});

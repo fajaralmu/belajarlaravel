@@ -37,7 +37,7 @@ class Menu extends Model
  	public $page_id;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Page",optionItemName="name",foreignKey="page_id")
+	 *	@FormField(className="App\Models\Page",type="FIELD_TYPE_FIXED_LIST",lableName="Page",optionItemName="name",foreignKey="page_id")
 	 */ 
 		
  	public   Page $menuPage;
@@ -68,6 +68,10 @@ class Menu extends Model
  
 	 protected $created_at, $updated_at;
  
+
+	 public function __construct(){
+		 $this->menuPage = new Page();
+	 }
  
 	public function pages()
     {

@@ -91,7 +91,7 @@ class WebConfigService {
             if(is_null($formField)){
                 continue;
             }
-            if( $formField->foreignKey != ""){
+            if( $formField->foreignKey != ""){ 
                 array_push($joinColumProps, $prop);
             }
         }
@@ -99,7 +99,7 @@ class WebConfigService {
 
         return $joinColumProps;
     }
-
+    
     private function putConfig(...$classes){
         foreach ($classes as $class) {
             if(!is_null($class)) {

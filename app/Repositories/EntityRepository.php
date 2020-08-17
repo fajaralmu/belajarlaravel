@@ -34,7 +34,11 @@ class EntityRepository {
 
         $db = DB::table($tableName)->where([['id','=', $id]]);
 
-        return $db->get();
+        $result = $db->get();
+        if(sizeof($result)>0){
+            return $result[0];
+        }
+        return null;
     }
 
     public function update(ReflectionClass $reflectionClass, object $entityObject){

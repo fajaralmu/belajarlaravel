@@ -22,6 +22,7 @@ class EntityElement {
 	public string $optionValueName= "";
 	public string $entityReferenceName= "";
 	public string $entityReferenceClass= "";
+	public string $foreignKey = "";
 
 	public string $detailFields= "";
     public string $inputGroupname= "";
@@ -320,6 +321,7 @@ class EntityElement {
 		// dd($this->entityReferenceClass);
         //DEFAULT IS ID
 		$this->optionValueName=("id");
+		$this->foreignKey = $this->formField->foreignKey;
 		$this->multipleSelect=($this->formField->multipleSelect);
 		$this->optionItemName=($this->formField->optionItemName);
 	}
