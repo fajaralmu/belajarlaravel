@@ -54,24 +54,14 @@ class EntityService {
             
             $referenceClass = new ReflectionClass( $formField->className); 
             $res = $this->entityRepository->findById($referenceClass, $propValue ); 
-            // $entity->$foreignKey =  $propValue ['id'];
-            $entity->$propName =  $this->arraytoobject($res, $formField->className);
-            // unset($entity, $prop->name);
+            
+            $entity->$propName = $res;// $this->arraytoobject($res, $formField->className);
+            
         }
           
         return $entity;
        
-    }
-
-    public function arraytoobject(  $arr, $className){
-       
-        $obj = new $className();
-        foreach($arr as $key => $value){
-            $obj->$key = $value;
-        }
-        
-        return $obj;
-    }
+    } 
 
     public function filter(WebRequest $webRequest){
         $reflectionClass = $this->getEntityConfig($webRequest->entity);

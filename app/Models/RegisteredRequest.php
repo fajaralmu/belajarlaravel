@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Annotations\FormField;
  use Illuminate\Database\Eloquent\Model;
 
-class RegisteredRequest extends Model
+class RegisteredRequest extends BaseModel
 {
     /**
      * The table associated with the model.

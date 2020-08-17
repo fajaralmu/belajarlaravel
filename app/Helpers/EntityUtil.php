@@ -121,7 +121,7 @@ class EntityUtil {
 		}
 		return $propName;
 	}
-    
+	 
     public static function arraytoobj($obj, $arr){
 		$reflectionClass = new ReflectionClass($obj); 
         foreach ($arr as $key => $value) {

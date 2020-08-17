@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Annotations\FormField;
  use Illuminate\Database\Eloquent\Model;
 
-class Member extends Model
+class Member extends BaseModel
 {
     /**
      * The table associated with the model.

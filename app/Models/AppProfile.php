@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Annotations\FormField;
- use Illuminate\Database\Eloquent\Model;
+use App\Annotations\FormField; 
 
-class AppProfile extends Model
+class AppProfile extends BaseModel
 {
     /**
      * The table associated with the model.
