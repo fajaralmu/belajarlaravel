@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Dto\Filter;
 use App\Helpers\EntityUtil;
+use App\Helpers\StringUtil;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 
@@ -65,8 +66,15 @@ class EntityRepository {
             if(isset( $fieldsFilter) && sizeof( $fieldsFilter) > 0){
                 foreach( $fieldsFilter as $key=>$value){
                     $operator = null;
+                    $partialExact = false;
                      
-                    if($exactSearch){
+                    if(StringUtil::strContains($key, "[EXACTS]")){
+                        $partialExact = true;
+                        $substringStart = strlen($key) - strlen("[EXACTS]");
+                        $key = substr($key,0, $substringStart);
+                    }
+
+                    if($exactSearch || $partialExact){
                         $operator = "=";
                     }else{
                         $operator = "like";

@@ -3,6 +3,9 @@ namespace App\Helpers;
 
 class StringUtil {
 
+    public static function strContains(string $string, string $word){
+        return strpos($string, $word) !== false;
+    }
 
             public static function getWordsAfterLastChar(string $word, string $char){
                 $res = "";
