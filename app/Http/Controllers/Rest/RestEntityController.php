@@ -16,8 +16,22 @@ class RestEntityController extends BaseRestController {
 
     public function get_entity(Request $request){
         $webRequest = $this->getWebRequest($request);
-        //dd($webRequest);
+        
         $response = $this->entity_service->filter($webRequest);
+        return $this->json_response($response);
+    }
+
+    public function add_entity(Request $request){
+        $webRequest = $this->getWebRequest($request);
+         
+        $response = $this->entity_service->add($webRequest);
+        return $this->json_response($response);
+    }
+
+    public function update_entity(Request $request){
+        $webRequest = $this->getWebRequest($request);
+         
+        $response = $this->entity_service->update($webRequest);
         return $this->json_response($response);
     }
 

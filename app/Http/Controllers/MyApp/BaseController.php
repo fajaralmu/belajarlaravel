@@ -40,7 +40,7 @@ class BaseController extends Controller{
     }
 
     public function appView(Request $request, string $view ,   $data = [], $mergeData = []){
-        out("URL:",$request->url());
+        out("URL:", $request->url());
        
         $pageModel = $this->fillData($data,  $request); 
         
@@ -71,7 +71,7 @@ class BaseController extends Controller{
         $pageModel->profile = $this->getProfile();
         $pageModel->year = date("Y");  
         
-        if(Auth::user()!=null){ 
+        if(Auth::user() != null){ 
             $pageModel->user = Auth::user();
             $pageModel->authenticated = true;
         }

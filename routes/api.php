@@ -28,5 +28,8 @@ Route::prefix('public')->group(function () {
 
 Route::prefix('entity')->group(function () { 
     Route::post('get', 'Rest\RestEntityController@get_entity');
+    Route::post('add', 'Rest\RestEntityController@add_entity');
+    Route::post('update', 'Rest\RestEntityController@update_entity');
 });
+
 

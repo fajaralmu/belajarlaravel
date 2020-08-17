@@ -119,7 +119,13 @@ class EntityUtil {
 			if($reflectionClass->hasProperty($key) && !is_null($value)){
 				$prop = $reflectionClass->getProperty($key);
 				$propType = $prop->getType();
-				$propName =  $propType->getName(); //ReflectionNamedType::getName()
+				$propName = $prop->name;
+				if(!is_null($propType)){
+					$propName =  $propType->getName(); //ReflectionNamedType::getName()
+					// out($prop ."IS NULLLLLLLLLLL", $propType, $prop );
+					// continue;
+				}
+				
 				$isCustomObject = substr(  $propName,  0, 4 ) === "App\\";
 
 				if($isCustomObject){

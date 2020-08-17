@@ -28,7 +28,7 @@ class FormField
 
 	 public string $defaultValue="";
 
-	 public bool $required=true;
+	 public bool $required=false;
 
 	 public array $availableValues=[];
 

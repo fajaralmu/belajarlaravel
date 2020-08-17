@@ -21,6 +21,13 @@ class EntityRepository {
         return null;
     }
 
+    public function update(ReflectionClass $reflectionClass, object $entityObject){
+        $tableName = $this->getTableName($reflectionClass);
+
+        DB::table($tableName)->where([['id','=',$entityObject->id]])->update($entityObject->toArray());
+        return true;
+    }
+
     public function filter(ReflectionClass $reflectionClass, Filter $filter){
         $tableName = $this->getTableName($reflectionClass);
         

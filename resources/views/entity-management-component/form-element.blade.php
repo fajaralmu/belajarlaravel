@@ -30,7 +30,7 @@
 									@if($element->type == 'FIELD_TYPE_FIXED_LIST')
 										<select class="input-field form-control" id="{{$element->id }}"
 											required="{{$element->required }}"
-											identity="{{$element->identity }}"
+											identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
 											{{$element->multipleSelect?'multiple':'' }}
@@ -72,7 +72,7 @@
 										<br />
 										<select style="width: 200px" class="input-field form-control"
 											id="{{$element->id }}" required="{{$element->required }}"
-											multiple="multiple" identity="{{$element->identity }}"
+											multiple="multiple" identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
 											dynamic-list="true"
@@ -88,7 +88,7 @@
 									@elseif($element->type == 'FIELD_TYPE_PLAIN_LIST')
 										<select class="input-field form-control" id="{{$element->id }}"
 											required="{{$element->required }}"
-											identity="{{$element->identity }}" 
+											identity="{{$element->identity?"true":"false" }}" 
 											plainlist="true"
 											{{$element->multipleSelect?'multiple':'' }}>
 											@foreach ($element->plainListValues as $item)
@@ -100,7 +100,7 @@
 									@elseif($element->type == 'FIELD_TYPE_TEXTAREA')
 										<textarea class="input-field form-control" id="{{$element->id }}"
 												type="textarea" {{$element->required?'required':'' }}
-												identity="{{$element->identity }}">
+												identity="{{$element->identity?"true":"false" }}">
 										</textarea>
 									@elseif($element->showDetail)
 										<input detailfields="{{$element->detailFields}}"
@@ -113,7 +113,7 @@
 									@elseif($element->type=='FIELD_TYPE_IMAGE' && $element->multiple == false)
 										<input class="input-field form-control" id="{{$element->id }}"
 											type="file" {{$element->required?'required':'' }}
-											identity="{{$element->identity }}" />
+											identity="{{$element->identity?"true":"false" }}" />
 
 										<button id="{{$element->id }}-file-ok-btn"
 											class="btn btn-primary btn-sm"
@@ -132,7 +132,7 @@
 
 												<input class="input-file" id="{{$element->id }}-0" type="file"
 													{{$element->required?'required':'' }}
-													identity="{{$element->identity }}" />
+													identity="{{$element->identity?"true":"false" }}" />
 
 												<button id="{{$element->id }}-0-file-ok-btn "
 													class="btn btn-primary btn-sm"
@@ -153,15 +153,15 @@
 										</div>
 										<button id="{{$element->id }}-add-list"
 											onclick="addImageList('{{$element->id }}')">Add</button>
-									@elseif($element->identity)
+									@elseif($element->identity )
 										<input class="input-field form-control" disabled="disabled"
 											id="{{$element->id }}" type="text"
 											{{$element->required?'required':'' }}
-											identity="{{$element->identity }}" />
+											identity="{{$element->identity?"true":"false" }}" />
 									@else 
 										<input class="input-field form-control" id="{{$element->id }}"
 											type="{{$element->type }}"{{$element->required?'required':'' }}
-											identity="{{$element->identity }}" />
+											identity="{{$element->identity?"true":"false" }}" />
 									@endif
 								 
 							</div>
