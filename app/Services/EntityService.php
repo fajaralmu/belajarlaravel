@@ -102,20 +102,14 @@ class EntityService
                 if($formField->multipleSelect == true){
                     $rawForeignKeys = explode("~", $propValue);
                     $values = [];
-                    foreach($rawForeignKeys as $fk){
-                        $referenceClass = new ReflectionClass($className);
-                        $referenceObject = $this
-                            ->entityRepository
-                            ->findById($referenceClass, $fk);
-                        array_push( $values, $referenceObject);
+                    foreach($rawForeignKeys as $fk){ 
+                        $obj = $this->findByClassNameAndId($className, $fk);
+                        array_push( $values, $obj);
                     }
                     $entity->$propName =  $values;
                 }else{
-                    $referenceClass = new ReflectionClass($className);
-                    $referenceObject = $this
-                        ->entityRepository
-                        ->findById($referenceClass, $propValue);
-
+                    
+                    $referenceObject = $this->findByClassNameAndId($className, $propValue);  
                     $entity->$propName = $referenceObject;
                 }
             }
@@ -146,6 +140,14 @@ class EntityService
         //     $entity->$propName = $referenceObject;
         // }
         return $entity;
+    }
+
+    public function findByClassNameAndId(string $className, $id){
+        $referenceClass = new ReflectionClass($className);
+        $referenceObject = $this
+            ->entityRepository
+            ->findById($referenceClass, $id);
+            return  $referenceObject;
     }
 
     public function filter(WebRequest $webRequest)
