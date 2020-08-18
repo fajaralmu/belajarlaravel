@@ -160,20 +160,20 @@ class EntityElement
         {
             case "FIELD_TYPE_TEXT":
                 $this->type = "text";
-            break;
+                break;
             case "FIELD_TYPE_NUMBER":
                 $this->type = "number";
-            break;
+                break;
             case "FIELD_TYPE_COLOR":
                 $this->type = "color";
-            break;
+                break;
             case "FIELD_TYPE_DATE":
                 $this->type = "date";
-            break;
+                break;
             case "FIELD_TYPE_IMAGE":
                 // $this->type = "file";
                 
-            break;
+                break;
         }
     }
 

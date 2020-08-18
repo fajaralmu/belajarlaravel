@@ -9,6 +9,31 @@
 
 define('LARAVEL_START', microtime(true));
 
+function out(...$Object){
+    printLog($Object);
+}
+
+function printLog(...$objects)
+{
+    $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+    $printed = "";
+    
+    for ($i = 0; $i < sizeof($objects); $i ++) {
+        $object = $objects[$i];
+        $str = "";
+        
+        if (is_array($object )) {
+            
+            $str = json_encode($object  );
+
+        } else {
+            $str = " ".($object );
+        }
+        $printed .= " " . $str;
+    }
+    
+    $out->writeln("[".date("D M d H:i:s yy") . "] >" . $printed . "");
+}
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

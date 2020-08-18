@@ -91,19 +91,43 @@ class EntityService
                  */
                 $foreignKey = $formField->foreignKey;
                 $propValue = $entity->$foreignKey;
+                if(!isset($propValue)){
+                    continue;
+                }
+                if(!property_exists($entity, $propName)){
+                    // dd($entity, $propName,"Does not exist");
+                    $entity->{$propName} = [];
+                }
+                $className = $formField->className;
+                if($formField->multipleSelect == true){
+                    $rawForeignKeys = explode("~", $propValue);
+                    $values = [];
+                    foreach($rawForeignKeys as $fk){
+                        $referenceClass = new ReflectionClass($className);
+                        $referenceObject = $this
+                            ->entityRepository
+                            ->findById($referenceClass, $fk);
+                        array_push( $values, $referenceObject);
+                    }
+                    $entity->$propName =  $values;
+                }else{
+                    $referenceClass = new ReflectionClass($className);
+                    $referenceObject = $this
+                        ->entityRepository
+                        ->findById($referenceClass, $propValue);
 
-                $referenceClass = new ReflectionClass($formField->className);
-                $referenceObject = $this
-                    ->entityRepository
-                    ->findById($referenceClass, $propValue);
-
-                $entity->$propName = $referenceObject;
+                    $entity->$propName = $referenceObject;
+                }
             }
             else
             {
                 /**
                  * regular
                  */
+                if(!property_exists($entity, $propName)){
+                    // dd($entity, $propName,"Does not exist");
+                    $entity->{$propName} = "";
+                }
                 $propValue = $entity->$propName;
                 if ((is_null($propValue) || $propValue == "") && $formField->defaultValue != "")
                 {

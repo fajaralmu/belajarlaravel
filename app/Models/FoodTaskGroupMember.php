@@ -25,9 +25,9 @@ class FoodTaskGroupMember extends BaseModel
     protected FoodTaskGroup $group;
 
     /** 
-     *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",multipleSelect=true)
+     *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",multipleSelect=true, className="App\Models\Member", foreignKey="member_identities")
      */
-    protected array $members;
+    public array $members;
     /** 
      *	@FormField(type="FIELD_TYPE_NUMBER")
      * @Column()

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\UserRole;
 use Illuminate\Foundation\Auth\User as Authenticatable; 
 use Illuminate\Notifications\Notifiable; 
 
@@ -36,7 +37,7 @@ class User  extends Authenticatable
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",optionItemName="name",foreignKey="role_id")
 	 */ 
 		
- 	protected  Models\UserRole $role;
+ 	protected UserRole $role;
 
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_TEXT")

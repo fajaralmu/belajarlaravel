@@ -68,7 +68,7 @@ class WebConfigService {
         foreach ($joinColumnProps as $prop) {
             $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
             
-            $propName = EntityUtil::getPropName($prop);
+            $propName =  $formField ->className;//EntityUtil::getPropName($prop);
            
             $isCustomObject = substr($propName,  0, 4 ) === "App\\";
             if($isCustomObject){
