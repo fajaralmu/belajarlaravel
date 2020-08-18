@@ -20,12 +20,12 @@
 
      @if (isset($additional_style_paths) && !is_null($additional_style_paths))
          @foreach ($additional_style_paths as $stylePath)
-             <link rel="stylesheet" href="{{ asset('css/pages/'.$stylePath.'.css?version=1') }}" />
+             <link rel="stylesheet" href="{{ asset('css/pages/' . $stylePath . '.css?version=1') }}" />
          @endforeach
      @endif
      @if (isset($additional_script_paths) && !is_null($additional_script_paths))
          @foreach ($additional_script_paths as $scriptPath)
-             <script src="{{ asset('js/pages/'.$scriptPath.'.js?v=1') }}"></script>
+             <script src="{{ asset('js/pages/' . $scriptPath . '.js?v=1') }}"></script>
          @endforeach
      @endif
 
@@ -37,8 +37,8 @@
          }
 
          .container {
-             display: grid;
-             grid-template-columns: 20% 80%
+             /* display: grid;
+             grid-template-columns: 20% 80% */
          }
 
          /**
@@ -85,23 +85,24 @@
      <input id="registered-request-id" value="{{ $registered_request_id }}" type="hidden" />
      <div id="loading-div"></div>
      <div class="container">
-         <div>
-             @include('include/head')
+         <div class="row">
+             <div class="col-2">
+                 @include('include/head')
+             </div>
+             <div class="col-10">
+                 @yield('content')
+             </div>
          </div>
-         <div>
-             @yield('content')
-         </div>
-         <div></div>
-         <div>
-             @include('include/foot')
+         <div style="min-height: 50px">
+             @include('include/foot') 
          </div>
 
      </div>
      <script type="text/javascript">
-        document.body.style.backgroundColor = '{{ $profile->general_color }}';
-        const websocketUrl = '{{$context_path}}/realtime-app';
+         document.body.style.backgroundColor = '{{ $profile->general_color }}';
+         const websocketUrl = '{{ $context_path }}/realtime-app';
 
-        function initProgressWebsocket() {
+         function initProgressWebsocket() {
              hide('progress-bar-wrapper');
 
              addWebsocketRequest('/wsResp/progress/${requestId}', function(
@@ -122,8 +123,8 @@
              initProgressWebsocket();
              connectToWebsocket();
 
-             _byId("page-header").style.color = '{{$profile->font_color}}';
-             
+             _byId("page-header").style.color = '{{ $profile->font_color }}';
+
          }
 
      </script>
