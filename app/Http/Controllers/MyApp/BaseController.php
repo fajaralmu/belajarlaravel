@@ -8,6 +8,7 @@ use App\Services\WebConfigService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use Throwable;
 
 class BaseController extends Controller{
 
@@ -45,6 +46,13 @@ class BaseController extends Controller{
         $pageModel = $this->fillData($data,  $request); 
         
         return view($view, $pageModel, $mergeData);
+    }
+
+    protected function errorPage(Request $request, Throwable $th){
+        return view('error.index',[
+            "title"=>"Internal Error",
+            "message"=>$th->getMessage()
+        ]);
     }
 
     function getProfile(){

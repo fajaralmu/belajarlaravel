@@ -7,8 +7,11 @@ class MainController extends BaseController
 {
    
     public function index(Request $request){
-        
-        return $this->appView($request, 'index', ['title'=>'My Dormitory']);
+        try{
+            return $this->appView($request, 'index', ['title'=>'My Dormitory']);
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
     }
 
 }

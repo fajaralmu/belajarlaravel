@@ -6,19 +6,22 @@ use Illuminate\Support\Facades\Auth;
 class GeneralWebAppController extends BaseController{ 
 
     public function common_page(Request $request, string $code){
-         
-        out("WEB PAGE WITH CODE: ", $code);
-        $page = $this->component_service->getPageAndMenus($code);
+         try{
+            out("WEB PAGE WITH CODE: ", $code);
+            $selectedPage = $this->component_service->getPageAndMenus($code);
 
-        $unauthorized =  ($page->authorized && Auth::check()==false);
-        
-        if(is_null($page) || $unauthorized){
+            $unauthorized =  ($selectedPage->authorized && Auth::check()==false);
+            
+            if(is_null($selectedPage) || $unauthorized){ 
+                $this->clearLatestUrl($request);
+                return redirect()->route("login");
+            }
 
-            $this->clearLatestUrl($request);
-            return redirect()->route("login");
+            return $this->appView($request, 'webpage.master-common-page', 
+                [ 'title'=>$selectedPage->name,  'page'=>$selectedPage   ]);
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
         }
-
-        return $this->appView($request, 'webpage.master-common-page', ['title'=>$page->name, 'page'=>$page]);
     }
     
  

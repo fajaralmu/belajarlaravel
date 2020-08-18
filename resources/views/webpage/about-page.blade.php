@@ -7,7 +7,7 @@
 		<div class="card-body">
 
 			<div style="display: grid; grid-template-columns: 20% 70%">
-
+		 
 				<div>Name</div>
 				<div>{{$profile->name }}</div>
 

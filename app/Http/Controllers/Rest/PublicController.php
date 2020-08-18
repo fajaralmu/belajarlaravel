@@ -7,7 +7,7 @@ class PublicController extends BaseRestController {
 
     public function pageCode(Request $request){ 
 
-        $msg = 'code';
+        $msg = 'UNDER-CONSTRUCTION';
         return $this->webResponse("00", $msg);
     }
 

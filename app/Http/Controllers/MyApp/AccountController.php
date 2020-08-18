@@ -18,15 +18,26 @@ class AccountController extends BaseController{
     }
 
     public function login_page(Request $request){ 
-        if(Auth::check()){
-           return redirect()->route('admin_home');
+        try{
+            if(Auth::check()){
+                return redirect()->route('admin_home');
+            }
+            
+            return $this->appView($request, 'webpage.login-page', ['title'=>'Login']);
+
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
         }
-        return $this->appView($request, 'webpage.login-page', ['title'=>'Login']);
     }
 
     public function logout(Request $request){
-        $this->account_service->do_logout($request);
-        return  redirect()->route('login');
+        try{
+            $this->account_service->do_logout($request);
+            return  redirect()->route('login');
+            
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
     }
 
 }

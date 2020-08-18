@@ -21,6 +21,7 @@ class RestAdminController extends BaseRestController {
             $webRequest = $this->getWebRequest($request); 
             $response = $this->component_service->saveEntitySequence($webRequest, $code);
             return $this->json_response($response); 
+            
         } catch (\Throwable $th) {
             return $this->webResponse("01", $th->getMessage()); 
         }

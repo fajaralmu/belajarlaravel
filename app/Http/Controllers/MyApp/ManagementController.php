@@ -8,23 +8,26 @@ use Illuminate\Http\Request;
 class ManagementController extends BaseController{ 
 
     public function management_page(Request $request, string $model_code){
-        
-        out("Management code: ", $model_code); 
-        $entityProperty = $this->web_config_service->getModelInfos($model_code);
-        
-        if(null ==  $entityProperty){
-            return $this->error($request, "EntityCode:".$model_code." Not Found");
-        }
+        try{
+            out("Management code: ", $model_code); 
+            $entityProperty = $this->web_config_service->getModelInfos($model_code);
+            
+            if(null ==  $entityProperty){
+                return $this->error($request, "EntityCode:".$model_code." Not Found");
+            }
 
-        return $this->appView($request, 'webpage.entity-management-page', [
-            "entityProperty"=>$entityProperty,
-            "additional_style_paths"=>["entitymanagement"],
-            "additional_script_paths"=>["entitymanagement"],
-            "options"=>"[]",
-            "entityId"=>null,
-            "singleRecord"=>false,
-            "title"=>StringUtil::extractCamelCase($entityProperty->entityName)
-        ]);
+            return $this->appView($request, 'webpage.entity-management-page', [
+                "entityProperty"=>$entityProperty,
+                "additional_style_paths"=>["entitymanagement"],
+                "additional_script_paths"=>["entitymanagement"],
+                "options"=>"[]",
+                "entityId"=>null,
+                "singleRecord"=>false,
+                "title"=>StringUtil::extractCamelCase($entityProperty->entityName)
+            ]);
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
     }
 }
 
