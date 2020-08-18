@@ -8,8 +8,7 @@ use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
 use App\Helpers\FileUtil;
 use App\Models\BaseModel;
-use App\Repositories\EntityRepository;
-use Illuminate\Support\Facades\Log;
+use App\Repositories\EntityRepository; 
 use ReflectionClass;
 
 class EntityService

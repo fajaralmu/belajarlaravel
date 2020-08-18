@@ -122,7 +122,10 @@ class EntityRepository
             }
             if (isset($filter->orderBy) && trim($filter->orderBy) != "")
             {
-                $orderType = strtolower($filter->orderType) == "desc" ? "asc" : strtolower($filter->orderType);
+                $orderType = "asc";
+                if(strtolower($filter->orderType) != "asc"){
+                    $orderType = "desc";
+                }
                 $db = $db->orderBy($filter->orderBy, $orderType);
             }
         }
