@@ -17,3 +17,9 @@
 	border: solid 1px gray;
 	border-radius: 15px;
 }
+
+.option-selected{
+	background-color: darkcyan;
+	color: darkblue;
+	border: solid 1px white;
+}

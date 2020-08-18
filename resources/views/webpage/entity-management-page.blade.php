@@ -407,7 +407,8 @@
 			const stringOfValues = new Array();
 			for (var i = 0; i < entityValue.length; i++) {
 				const val = entityValue[i];
-				stringOfValues.push(val[fieldNameToDisplay]);
+				if(null!=val)
+					stringOfValues.push(val[fieldNameToDisplay]);
 			}
 			
 			entityValue = stringOfValues.join();
@@ -588,8 +589,7 @@
 		const elementField = _byId(fieldName);  
 
 		//handle object type value
-		if (isObject(entityValue) ) {
-
+		if (isObject(entityValue) ) { 
 			
 			//handle multiple select
 			if (isDynamicList(elementField)) {
@@ -621,10 +621,17 @@
 					objectValueName = elementField.getAttribute("itemvaluefield");
 					const optionsTag = elementField.options;
 					for (var i = 0; i < optionsTag.length; i++) {
+						optionsTag[i].removeAttribute("selected" );
+						optionsTag[i].removeAttribute("class" );
+
 						for (var j = 0; j < entityValue.length; j++) {
-							if(optionsTag[i].value == entityValue[j][objectValueName].toString()){
-								optionsTag[i].setAttribute("selected", "true");
-							}
+							const entityVal = entityValue[j];
+							if(null!=entityVal)
+								if(optionsTag[i].value == entityVal[objectValueName].toString()){
+									console.info("optionsTag[i]", optionsTag[i]);
+									optionsTag[i].setAttribute("selected" , "true");
+									// optionsTag[i].setAttribute("class", "option-selected");
+								}
 						}
 					}
 				}

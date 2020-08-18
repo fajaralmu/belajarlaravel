@@ -62,17 +62,17 @@ class FoodTaskGroupMember extends BaseModel
     */
     protected $deleted;
 
-    /** 
-     *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
-     * @Column()
-     */
-    protected $general_color;
+    // /** 
+    //  *	@FormField(type="FIELD_TYPE_COLOR",lableName="Background Color",defaultValue="#ffffff")
+    //  * @Column()
+    //  */
+    // protected $general_color;
 
-    /** 
-     *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
-     * @Column()
-     */
-    protected $font_color;
+    // /** 
+    //  *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
+    //  * @Column()
+    //  */
+    // protected $font_color;
 
     /**
      * @Column()
