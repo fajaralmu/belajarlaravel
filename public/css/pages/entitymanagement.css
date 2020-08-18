@@ -27,8 +27,14 @@
 
 }
 
+option{
+	transition-duration: 300ms;
+}
+
 option:hover{
 	cursor: pointer;
+	background-color: cornflowerblue;
+	color:white;
 }
 
 .noselect {
