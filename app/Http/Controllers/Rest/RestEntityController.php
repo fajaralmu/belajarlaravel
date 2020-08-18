@@ -46,6 +46,16 @@ class RestEntityController extends BaseRestController {
             return $this->webResponse("01", $th->getMessage()); 
         }
     }
+    public function delete_entity(Request $request){
+        try{   
+            $webRequest = $this->getWebRequest($request); 
+            $response = $this->entity_service->delete($webRequest);
+            return $this->json_response($response);
+            
+        } catch (\Throwable $th) {
+            return $this->webResponse("01", $th->getMessage()); 
+        }
+    }
 
     
 }

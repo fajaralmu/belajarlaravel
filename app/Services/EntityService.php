@@ -8,7 +8,8 @@ use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
 use App\Helpers\FileUtil;
 use App\Models\BaseModel;
-use App\Repositories\EntityRepository; 
+use App\Repositories\EntityRepository;
+use Exception;
 use ReflectionClass;
 
 class EntityService
@@ -150,6 +151,20 @@ class EntityService
         $entityCode = ($webRequest->entity);
         $entityObject = $webRequest->$entityCode;
         return $this->doUpdate($entityCode, $entityObject);
+    }
+
+    public function delete(WebRequest $webRequest)
+    {
+        $entityCode = ($webRequest->entity);
+       
+        $reflectionClass = $this->getEntityConfig($entityCode);
+         $id = $webRequest->filter->fieldsFilter["id"];
+        $deleted = $this->entityRepository->deleteById( $reflectionClass, $id);
+        if($deleted){
+            return new WebResponse();
+        }
+        throw new Exception("Error Deleting");
+       
     }
 
     public function doUpdate(string $entityCode, BaseModel $entityObject)

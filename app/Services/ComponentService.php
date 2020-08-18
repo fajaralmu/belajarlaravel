@@ -56,8 +56,12 @@ class ComponentService {
         if(is_null($dbRecord)){
             return WebResponse::failed("Selected record not FOUND");
         } 
+
+        out("DB record found   ", $dbRecord);
+
         $groupMemberCount = sizeof($allGroups);
         $filter = $webRequest->filter;
+        
 		$dayCount =  cal_days_in_month(CAL_GREGORIAN, $filter->month,  $filter->year);
         $sequenceNumber =  $dbRecord->sequence;
         $mealtimes = ["BREAKFAST","LUNCH","DINNER"];
@@ -100,13 +104,18 @@ class ComponentService {
         $class = new ReflectionClass(ScheduledFoodTaskGroup::class);
 		$existings = $this->entityRepositry->findWithKeys(  $class, [ "month"=>$month, "year"=>$year]);
 
+        out("clearDataForSelectedMonth: ".$month."/".$year);
+
 		if ( sizeof($existings ) > 0) {
-			 
+             out("sizeof(existings ):".sizeof($existings ));
+             $deleted = 0;
 			foreach ($existings as $existing) {
-			    $this->entityRepositry->deleteById($class, $existing['id']); 
-			}
+                $this->entityRepositry->deleteById($class, $existing->id ); 
+                $deleted++;
+            }
+            out("deleted: ".$deleted);
 		} else {
-			 
+			 out("NOTHING TO DELETE...");
 		}
 	}
 

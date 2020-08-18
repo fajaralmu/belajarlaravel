@@ -91,6 +91,7 @@ class EntityRepository
             DB::table($tableName)->delete($id);
             return true;
         }catch(Throwable $th){
+            out("ERROR DELETING: ".$th->getMessage());
             return false;
         }
     }
@@ -165,9 +166,7 @@ class EntityRepository
 
         return ["resultList" => $validated, "count" => $count];
     }
-
-
-
+ 
     private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn)
     {
         
@@ -208,10 +207,15 @@ class EntityRepository
                     $entity->$propName = $values;
                 }else{
                     
-                    $referenceObject = $this->findByClassNameAndId($className, $propValue);  
-
-                    //recursive
-                    $validated = $this->validateEntityValuesAfterFilter(new ReflectionClass($className), $referenceObject, true);
+                    $referenceObject = $this->findByClassNameAndId($className, $propValue);   
+                  
+                    $validated  = [];
+                    try{
+                        //recursive
+                        $validated = $this->validateEntityValuesAfterFilter(new ReflectionClass($className), $referenceObject, true);
+                    }catch(Throwable $th){
+                        $validated = $referenceObject;
+                    }
                     $entity->$propName = $validated;
                 }
             }
