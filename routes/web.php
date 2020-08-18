@@ -27,6 +27,7 @@ Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
     Route:: group(['prefix' => 'public' /*, 'middleware'=>'auth' */], function () {
      
         Route::get('about', 'MyApp\PublicPageController@about_page');
+        Route::get('mealschedule', 'MyApp\PublicPageController@mealschedule');
     });
 
     Route:: group(['prefix' => 'webapp' /*, 'middleware'=>'auth' */], function () {

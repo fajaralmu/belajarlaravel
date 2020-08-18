@@ -24,6 +24,7 @@ Route::prefix('account')->group(function () {
 
 Route::prefix('public')->group(function () { 
     Route::post('pagecode', 'Rest\PublicController@pageCode');
+    Route::post('mealschedule', 'Rest\PublicController@mealschedule');
 });
 
 Route:: group(['prefix' => 'entity' , 'middleware'=>'auth'  ],function () { 

@@ -40,6 +40,54 @@
 		}
 		loadCalendar();
 
+	
+		function loadScheduleData(m, y) {
+			if(scheduledData[m+"-"+y]!=null){
+				this.fillScheduleData(m, y);
+				 
+			}else{
+			const requestObject = {
+				"entity" : "scheduledfoodtaskgroup",
+				"filter" : {
+					"page" : 0,
+					"fieldsFilter" : { "month" : m, "year" : y } 
+				}
+			};
+			doLoadEntities("{{$context_path}}/api/entity/get"  ,
+					requestObject, function(response) {
+
+						const entities = response.entities;
+						if (entities == null) {
+							alert("Server Error!");
+							return;
+						} 
+						scheduledData[m+"-"+y] = entities;
+						fillScheduleData(m, y);
+					});
+			}
+		}
+
+		function fillScheduleData(m, y) {
+			const currentMonthData = this.scheduledData[m+"-"+y];
+			if(!currentMonthData){
+				console.log("NO currentMonthData..");
+				return;
+			}
+			for (var i = 0; i < currentMonthData.length; i++) {
+				const data = currentMonthData[i];
+				const id = "date-"+data.day+"-"+data.month;
+				const deteElem = _byId(id);
+				// console.info("ID", id);
+				if(deteElem)
+					deteElem.appendChild(createHtmlTag({
+						tagName:"p",
+						innerHTML:data.groupMember.group.name,
+				}));
+			}
+		}
+
+/////////////////////////////// Operation ///////////////////////////////
+
 		function getRequestObject(){
 			const requestObject = {
 				'filter' : { 
@@ -89,51 +137,6 @@
 
 		}
 
-		function loadScheduleData(m, y) {
-			if(scheduledData[m+"-"+y]!=null){
-				this.fillScheduleData(m, y);
-				 
-			}else{
-			const requestObject = {
-				"entity" : "scheduledfoodtaskgroup",
-				"filter" : {
-					"page" : 0,
-					"fieldsFilter" : { "month" : m, "year" : y } 
-				}
-			};
-			doLoadEntities("{{$context_path}}/api/entity/get"  ,
-					requestObject, function(response) {
-
-						const entities = response.entities;
-						if (entities == null) {
-							alert("Server Error!");
-							return;
-						}
-
-						scheduledData[m+"-"+y] = entities;
-						fillScheduleData(m, y);
-					});
-			}
-		}
-
-		function fillScheduleData(m, y) {
-			const currentMonthData = this.scheduledData[m+"-"+y];
-			if(!currentMonthData){
-				console.log("NO currentMonthData..");
-				return;
-			}
-			for (var i = 0; i < currentMonthData.length; i++) {
-				const data = currentMonthData[i];
-				const id = "date-"+data.day+"-"+data.month;
-				const deteElem = _byId(id);
-				// console.info("ID", id);
-				if(deteElem)
-					deteElem.appendChild(createHtmlTag({
-						tagName:"p",
-						innerHTML:data.groupMember.group.name,
-				}));
-			}
-		}
 	</script>
 </div> 
 @endsection
