@@ -29,12 +29,13 @@
 								 
 									@if($element->type == 'FIELD_TYPE_FIXED_LIST')
 										<select class="input-field form-control" id="{{$element->id }}"
+											 
 											 {{$element->required?"required":"" }} 
 											identity="{{$element->identity?"true":"false" }}"
 											itemValueField="{{$element->optionValueName}}"
 											itemNameField="{{$element->optionItemName}}"
 											foreignkey="{{$element->foreignKey}}"
-											{{$element->multipleSelect?'multiple':'' }}
+											{{$element->multipleSelect?'multiple=multiple ':'' }}
 											>
 
 										</select>
@@ -60,7 +61,19 @@
 													tagName : 'option',
 													value : optionItem["{{$element->optionValueName}}"],
 													innerHTML : toDisplay
+												
 												});
+
+												@if($element->multipleSelect == true)
+													option.onclick = function(e){
+														if(e.target.className == "option-selected"){
+															e.target.className = "option-not-selected";
+														}else{
+															e.target.className = "option-selected";
+														}
+													};
+												
+												@endif;
 
 												_byId("{{$element->id }}").append(
 														option);

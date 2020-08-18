@@ -621,16 +621,16 @@
 					objectValueName = elementField.getAttribute("itemvaluefield");
 					const optionsTag = elementField.options;
 					for (var i = 0; i < optionsTag.length; i++) {
-						optionsTag[i].removeAttribute("selected" );
+						// optionsTag[i].removeAttribute("selected" );
 						optionsTag[i].removeAttribute("class" );
 
 						for (var j = 0; j < entityValue.length; j++) {
 							const entityVal = entityValue[j];
-							if(null!=entityVal)
+							if(null != entityVal)
 								if(optionsTag[i].value == entityVal[objectValueName].toString()){
 									console.info("optionsTag[i]", optionsTag[i]);
-									optionsTag[i].setAttribute("selected" , "true");
-									// optionsTag[i].setAttribute("class", "option-selected");
+									// optionsTag[i].setAttribute("selected" , "true");
+									optionsTag[i].className = "option-selected";
 								}
 						}
 					}
@@ -689,9 +689,10 @@
 			let id = fields[i].id;
 			let element = _byId(id);
 			if (element.nodeName == "SELECT"
-					&& element.getAttribute("multiple") == "multiple") {
+					&& element.getAttribute("multiple") == "multiple" && isMultipleSelect(id) == false) {
 				element.innerHTML = "";
-				_byId("input-" + id).value = "";
+				if(_byId("input-" + id))
+					{_byId("input-" + id).value = "";}
 			} else {
 				element.value = null;
 				element.value = "";
@@ -979,9 +980,12 @@
 				
 				if(isMultipleSelect(field.id)){
 					finalValue = [];
-					const selectedOptions = field.selectedOptions;
-					for (var i = 0; i < selectedOptions.length; i++) {
-						const selectedOption = selectedOptions[i];
+					const options = field.options;
+					for (var i = 0; i < options.length; i++) {
+						if(options[i].className != "option-selected"){
+							continue;
+						}
+						const selectedOption = options[i];
 						const finalValueItem = {};
 						finalValueItem[_idField] = selectedOption.value;
 						finalValue.push(finalValueItem);
