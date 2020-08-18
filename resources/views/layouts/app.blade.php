@@ -100,6 +100,7 @@
      </div>
      <script type="text/javascript">
          document.body.style.backgroundColor = '{{ $profile->general_color }}';
+         _byId("page-header").style.color = '{{ $profile->font_color }}';
          const websocketUrl = '{{ $context_path }}/realtime-app';
 
          function initProgressWebsocket() {
@@ -121,10 +122,7 @@
 
          document.body.onload = function() {
              initProgressWebsocket();
-             connectToWebsocket();
-
-             _byId("page-header").style.color = '{{ $profile->font_color }}';
-
+             connectToWebsocket();  
          }
 
      </script>

@@ -556,9 +556,7 @@ function fillDay(current_month, next, begin) {
 	let begin_day = day_;
 	let isToday = RUNNING_MONTH == current_month && RUNNING_YEAR == YEAR_NOW;
 
-	if (isToday && this.loadMonth) {
-		loadMonth(RUNNING_MONTH, RUNNING_YEAR);
-	}
+	
 
 	for (let d = 1; d <= MONTHS[current_month].day; d++) {
 		if (day_ > 7) {
@@ -580,6 +578,10 @@ function fillDay(current_month, next, begin) {
 		begin_new.info = "NOW";
 	} else {
 		begin_new.info = "SOME-DAY";
+	}
+	//WHEN MONTH COMPONENT LOADED ALL
+	if (isToday && this.loadMonth) {
+		loadMonth(RUNNING_MONTH, RUNNING_YEAR);
 	}
 	return begin_new;
 }

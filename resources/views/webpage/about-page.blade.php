@@ -12,8 +12,8 @@
 				<div>{{$profile->name }}</div>
 
 
-				<div>Code</div>
-				<div>{{$profile->appCode }}</div>
+				{{-- <div>Code</div>
+				<div>{{$profile->app_code }}</div> --}}
 
 
 				<div>About</div>
