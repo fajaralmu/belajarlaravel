@@ -50,6 +50,16 @@ class ComponentService {
     }
 
 
+    public function resetMealSchedule(WebRequest $webRequest, Request $request){
+        try{
+            $this->clearDataForSelectedMonth($webRequest->filter, $request); 
+            return new WebResponse();
+        }catch(Throwable $th){
+            out("Error Reseting ".$th->getMessage());
+            throw $th;
+        }
+    }
+
     public function createMealSchedule(WebRequest $webRequest, int $beginningIndex, Request $request){
         $allGroups = $this->mealTaskGroupMemberRepo->getAll();
         $dbRecord = $this->entityRepositry->findById(new ReflectionClass(FoodTaskGroupMember::class), $beginningIndex);

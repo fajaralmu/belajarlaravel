@@ -158,7 +158,7 @@ class EntityService
         $entityCode = ($webRequest->entity);
        
         $reflectionClass = $this->getEntityConfig($entityCode);
-         $id = $webRequest->filter->fieldsFilter["id"];
+        $id = $webRequest->filter->fieldsFilter["id"];
         $deleted = $this->entityRepository->deleteById( $reflectionClass, $id);
         if($deleted){
             return new WebResponse();

@@ -36,6 +36,16 @@ class RestAdminController extends BaseRestController {
             return $this->webResponse("01", $th->getMessage()); 
         }
     }
+    public function reset_meal_schedule(Request $request ){ 
+        try{
+            $webRequest = $this->getWebRequest($request);  
+            $response = $this->component_service->resetMealSchedule($webRequest, $request);
+            return $this->json_response($response); 
+            
+        } catch (\Throwable $th) {
+            return $this->webResponse("01", $th->getMessage()); 
+        }
+    }
 
     protected function guard()
     {

@@ -7,15 +7,17 @@
 		<table id="cal-input-fields" style="width: 100%;"></table>
 		<table id="calendarTable" style="width: 100%;"></table>
 	</div>
-	<div>
-		First Order Group Name: <select id="groupMembers">
+	<div style="display: grid; grid-column-gap:5px; grid-row-gap:5px; grid-template-columns: 30% 30%">
+		<label>First Order Group Name:</label><select id="groupMembers" class="form-control">
 			@foreach ($groupMembers as $groupMember)
 			<option value="{{$groupMember->id }}"> {{$groupMember->group->name }}</option>
 			@endforeach
 		 
 		</select>
-		<button class="btn btn-secondary" onclick="createSchedule()">Create
+		<button class="btn btn-secondary btn-sm" onclick="createSchedule()">CREATE
 			Schedule For Selected Month</button>
+		<button class="btn btn-danger btn-sm" onclick="resetSchedule()">RESET
+				Schedule For Selected Month</button>
 	</div>
 	<script type="text/javascript">
 		var scheduledData = new Array();
@@ -38,30 +40,48 @@
 		}
 		loadCalendar();
 
-		function createSchedule() {
-			if (!confirm("Create scheduler for: " + (MONTH_NOW + 1) + "/"
-					+ YEAR_NOW + "?")) {
-				return;
-			}
-			const beginningGroupMemberId = _byId("groupMembers").value;
-			if (null == beginningGroupMemberId) {
-				alert("beginningGroupMemberId invalid!");
-				return;
-			}
-			infoLoading();
-			var requestObject = {
+		function getRequestObject(){
+			const requestObject = {
 				'filter' : { 
 					'month' :( MONTH_NOW + 1), 
 					'year' : YEAR_NOW
 				}
 			}
+			return requestObject;
+		}
+
+		function resetSchedule(){
+			if (!confirm("RESET scheduler for: " + (MONTH_NOW + 1) + "/" + YEAR_NOW + "?")) {
+				return;
+			}
+			infoLoading(); 
+			postReq("{{$context_path}}/api/admin/resetmealschedule/" , getRequestObject(), function(xhr) {
+				infoDone(); 
+				if (xhr.data != null && xhr.data.code == "00") {
+					alert("OPERATION SUCCESS, please reload to see the change");
+				} else {
+					alert("FAILED")
+				}
+			});
+
+		}
+
+		function createSchedule() {
+			if (!confirm("CREATE scheduler for: " + (MONTH_NOW + 1) + "/" + YEAR_NOW + "?")) {
+				return;
+			}
+			const beginningID = _byId("groupMembers").value;
+			if (!beginningID) {
+				alert("beginningID invalid!");
+				return;
+			}
+			infoLoading(); 
 
 			postReq("{{$context_path}}/api/admin/createmealschedule/"  
-					+ beginningGroupMemberId, requestObject, function(xhr) {
-				infoDone();
-				var response = (xhr.data);
-				if (response != null && response.code == "00") {
-					alert("OPERATION SUCCESS");
+					+ beginningID, getRequestObject(), function(xhr) {
+				infoDone(); 
+				if (xhr.data != null && xhr.data.code == "00") {
+					alert("OPERATION SUCCESS, please reload to see the change");
 				} else {
 					alert("FAILED")
 				}

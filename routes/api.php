@@ -35,6 +35,7 @@ Route:: group(['prefix' => 'entity' , 'middleware'=>'auth'  ],function () {
 
 Route:: group(['prefix' => 'admin' , 'middleware'=>'auth'  ],function () { 
     Route::post('saveentityorder/{code}', 'Rest\RestAdminController@update_order');
+    Route::post('resetmealschedule', 'Rest\RestAdminController@reset_meal_schedule');
     Route::post('createmealschedule/{beginningIndex}', 'Rest\RestAdminController@create_meal_schedule');
 });
 
