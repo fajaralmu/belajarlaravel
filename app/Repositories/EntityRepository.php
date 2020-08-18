@@ -52,13 +52,14 @@ class EntityRepository
     public function update(ReflectionClass $reflectionClass, object $entityObject)
     {
         $tableName = $this->getTableName($reflectionClass);
-        // DB::connection()->enableQueryLog();
+       
          
         $arr = EntityUtil::objecttoarrayforpersist($entityObject);
-       
+        dd($arr);
         DB::table($tableName)->where([['id', '=', $entityObject
             ->id]])
             ->update($arr);
+             
         return true;
     }
 

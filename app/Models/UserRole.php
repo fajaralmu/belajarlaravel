@@ -46,13 +46,13 @@ class UserRole extends BaseModel
 	 */
 	 protected $id;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $created_date;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */

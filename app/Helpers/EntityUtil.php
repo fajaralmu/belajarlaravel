@@ -111,7 +111,7 @@ class EntityUtil
         $entityProperty->formInputColumn = 2; //(dto.formInputColumn().value);
         $entityProperty->determineIdField();
 
-        out("============ENTITY PROPERTY: {} ", $entityProperty);
+        out("============ENTITY PROPERTY: Created");
 
         return $entityProperty;
         // } catch (Exception e) {

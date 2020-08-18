@@ -2,6 +2,7 @@
 namespace App\Dto;
 
 use App\Models\AppProfile;
+use App\Models\FoodTaskGroupMember;
 use App\Models\Member;
 use App\Models\MemberFee;
 use App\Models\Menu;
@@ -24,6 +25,7 @@ class WebRequest {
     public AppProfile $appprofile;
     public UserRole $userrole;
     public User $user;
+    public FoodTaskGroupMember $foodtaskgroupmember;
 
     public array $orderedEntities;
 

@@ -73,19 +73,19 @@ class Menu extends BaseModel
 	 */
 	 protected $id;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $created_date;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $modified_date;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */

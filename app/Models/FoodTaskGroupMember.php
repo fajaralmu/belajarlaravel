@@ -34,8 +34,7 @@ class FoodTaskGroupMember extends BaseModel
      */
     protected $sequence;
 
-    /*
-    
+    /** 
     * @Column()
     */
     protected $member_identities;
@@ -46,19 +45,18 @@ class FoodTaskGroupMember extends BaseModel
      */
     protected $id;
 
-    /*
-    
+    /** 
     * @Column()
     */
     protected $created_date;
 
-    /*
+    /**
     
     * @Column()
     */
     protected $modified_date;
 
-    /*
+    /**
     
     * @Column()
     */

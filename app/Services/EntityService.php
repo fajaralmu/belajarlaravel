@@ -9,6 +9,7 @@ use App\Helpers\EntityUtil;
 use App\Helpers\FileUtil;
 use App\Models\BaseModel;
 use App\Repositories\EntityRepository;
+use Illuminate\Support\Facades\Log;
 use ReflectionClass;
 
 class EntityService
@@ -42,16 +43,33 @@ class EntityService
             $propName = $prop->name;
             $propValue = $entity->$propName;
             $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-            if (is_null($formField)  )
+            
+            if (is_null($formField) )
             {
                 continue;
             }
 
             if ($formField->foreignKey != "" && isset($propValue))
             {
-                $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-                $foreignKey = $formField->foreignKey;
-                $entity->$foreignKey = $propValue->id;
+                $foreignKey = $formField->foreignKey; 
+
+                if($formField->multipleSelect == true && is_array($propValue)){
+                    $foreignKeys = [];
+                    foreach($propValue as $propVal){
+                        array_push($foreignKeys, $propVal ["id"]);
+                    }
+                    
+                    if(sizeof( $foreignKeys) > 0){
+                        $entity->$foreignKey = join("~", $foreignKeys);
+                         
+                    }else{
+                        $entity->$foreignKey = "";
+                    }
+                    
+                }else
+                {
+                    $entity->$foreignKey = $propValue->id;
+                }
                 unset($entity->$propName);
             }
             else if ($formField->type == "FIELD_TYPE_IMAGE")
@@ -83,7 +101,10 @@ class EntityService
             {
                 continue;
             }
-
+            if(!property_exists($entity, $propName)){
+                // dd($entity, $propName,"Does not exist");
+                $entity->{$propName} = [];
+            }
             if ($formField->foreignKey != "" && $validateJoinColumn == true)
             {
                 /**
@@ -94,10 +115,7 @@ class EntityService
                 if(!isset($propValue)){
                     continue;
                 }
-                if(!property_exists($entity, $propName)){
-                    // dd($entity, $propName,"Does not exist");
-                    $entity->{$propName} = [];
-                }
+                
                 $className = $formField->className;
                 if($formField->multipleSelect == true){
                     $rawForeignKeys = explode("~", $propValue);
@@ -106,7 +124,7 @@ class EntityService
                         $obj = $this->findByClassNameAndId($className, $fk);
                         array_push( $values, $obj);
                     }
-                    $entity->$propName =  $values;
+                    $entity->$propName = $values;
                 }else{
                     
                     $referenceObject = $this->findByClassNameAndId($className, $propValue);  
@@ -117,11 +135,7 @@ class EntityService
             {
                 /**
                  * regular
-                 */
-                if(!property_exists($entity, $propName)){
-                    // dd($entity, $propName,"Does not exist");
-                    $entity->{$propName} = "";
-                }
+                 */ 
                 $propValue = $entity->$propName;
                 if ((is_null($propValue) || $propValue == "") && $formField->defaultValue != "")
                 {
@@ -153,7 +167,7 @@ class EntityService
     public function filter(WebRequest $webRequest)
     {
         $entityCode = ($webRequest->entity);
-
+        
         return $this->doFilter($entityCode, $webRequest->filter);
     }
 
@@ -228,7 +242,7 @@ class EntityService
         }
 
         $validatedObj = $this->validateEntityValuesBeforePersist($entityObject, $originalObject );
-
+        
         $result = $this
             ->entityRepository
             ->update($reflectionClass, $validatedObj);

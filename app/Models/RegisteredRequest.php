@@ -30,19 +30,19 @@ class RegisteredRequest extends BaseModel
 	 */
 	 protected $value;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $referrer;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $user_agent;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
@@ -56,19 +56,19 @@ class RegisteredRequest extends BaseModel
 	 */
 	 protected $id;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $created_date;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
 	 protected $modified_date;
 	
-	/*
+	/**
 	 
 	 * @Column() 
 	 */
