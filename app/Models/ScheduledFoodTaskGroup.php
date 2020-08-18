@@ -50,7 +50,7 @@ class ScheduledFoodTaskGroup extends BaseModel
 	 protected $year;
 
 	 /** 
-	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST")
+	 *	@FormField(type="FIELD_TYPE_PLAIN_LIST", availableValues={"BREAKFAST","LUNCH","DINNER"})
 	  
 	 
 	 * @Column() 

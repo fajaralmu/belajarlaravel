@@ -1,5 +1,5 @@
 .entity-input-form {
-	layout: fixed;
+	table-layout: fixed;
 	display: grid;
 	grid-row-gap: 1em;
 	grid-column-gap: 1em;

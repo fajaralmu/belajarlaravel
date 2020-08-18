@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\EntityRepository;
+use App\Repositories\MealTaskGroupMemberRepository;
 use App\Repositories\PageRepository;
 use App\Repositories\ProfileRepository;
 use App\Repositories\UserRepository;
@@ -36,7 +37,9 @@ class MyAppCustomServiceProvider extends ServiceProvider
         $this->app->page_repository = new PageRepository();
         $this->app->user_repository = new UserRepository(); 
         $this->app->entity_repository = new EntityRepository();
+        $this->app->meal_task_group_member_repo = new MealTaskGroupMemberRepository();
         $this->app->web_config_service = new WebConfigService( $this->app->entity_repository);
+        $this->app->entity_service = new EntityService($this->app->entity_repository, $this->app->web_config_service);
         //Repositories//
         $this->app->bind('App\Repositories\UserRepository', function ($app) {
             return $app->user_repository;
@@ -55,15 +58,18 @@ class MyAppCustomServiceProvider extends ServiceProvider
         $this->app->bind('App\Services\AccountService', function ($app) {
             return new AccountService($app->user_repository);
         });
-         $this->app->bind('App\Services\ComponentService', function ($app) {
-            return new ComponentService($app->profile_repository, $app->page_repository, $app->web_config_service);
+        $this->app->bind('App\Services\EntityService', function ($app) {
+            return  ($app->entity_service );
+        });
+        $this->app->bind('App\Services\ComponentService', function ($app) {
+            $service = new ComponentService($app->profile_repository, $app->page_repository, $app->web_config_service, $app->meal_task_group_member_repo);
+            $service->setEntityRepoAndEntitySvc($app->entity_repository, $app->entity_service);
+            return $service;
         });
         $this->app->bind('App\Services\WebConfigService', function ($app) {
             return $app->web_config_service;
         });
-        $this->app->bind('App\Services\EntityService', function ($app) {
-            return new EntityService($app->entity_repository, $app->web_config_service);
-        });
+       
           
     }
 }

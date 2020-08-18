@@ -7,6 +7,7 @@ use App\Helpers\EntityUtil;
 use App\Helpers\StringUtil;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
+use Throwable;
 
 class EntityRepository
 {
@@ -70,6 +71,28 @@ class EntityRepository
         DB::table($tableName)->where([['id', '=', $id ]])
             ->update($arr);
         return true;
+    }
+
+    public function findWithKeys(ReflectionClass $reflectionClass,   array $filter)
+    {
+        try{
+            $tableName = $this->getTableName($reflectionClass);  
+            $result = DB::table($tableName)->where($filter) ->get();
+            return $result->toArray();
+        }catch(Throwable $th){
+            return [];
+        }
+    }
+
+    public function deleteById(ReflectionClass $reflectionClass,     $id)
+    {
+        try{
+            $tableName = $this->getTableName($reflectionClass);  
+            DB::table($tableName)->delete($id);
+            return true;
+        }catch(Throwable $th){
+            return false;
+        }
     }
 
     public function filter(ReflectionClass $reflectionClass, Filter $filter)
@@ -179,13 +202,17 @@ class EntityRepository
                     $values = [];
                     foreach($rawForeignKeys as $fk){ 
                         $obj = $this->findByClassNameAndId($className, $fk);
+                        //no recursive?
                         array_push( $values, $obj);
                     }
                     $entity->$propName = $values;
                 }else{
                     
                     $referenceObject = $this->findByClassNameAndId($className, $propValue);  
-                    $entity->$propName = $referenceObject;
+
+                    //recursive
+                    $validated = $this->validateEntityValuesAfterFilter(new ReflectionClass($className), $referenceObject, true);
+                    $entity->$propName = $validated;
                 }
             }
             else

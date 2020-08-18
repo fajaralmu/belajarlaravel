@@ -56,7 +56,7 @@
 				}
 			}
 
-			postReq("{{$context_path}}/api/mealtasks/createschedule/"  
+			postReq("{{$context_path}}/api/admin/createmealschedule/"  
 					+ beginningGroupMemberId, requestObject, function(xhr) {
 				infoDone();
 				var response = (xhr.data);
