@@ -24,7 +24,7 @@ class ComponentService {
     protected PageRepository $page_repository;
     protected WebConfigService $webConfigService;
     protected MealTaskGroupMemberRepository $mealTaskGroupMemberRepo;
-    protected EntityRepository $entityRepositry;
+    protected EntityRepository $entityRepository;
     protected EntityService $entityService;
 
 
@@ -38,7 +38,7 @@ class ComponentService {
 
     public function setEntityRepoAndEntitySvc(EntityRepository $repo, EntityService $svc){
         $this->entityService = $svc;
-        $this->entityRepositry = $repo;
+        $this->entityRepository = $repo;
     }
 
     public function getFoodTaskGroupMember(){
@@ -62,7 +62,7 @@ class ComponentService {
 
     public function createMealSchedule(WebRequest $webRequest, int $beginningIndex, Request $request){
         $allGroups = $this->mealTaskGroupMemberRepo->getAll();
-        $dbRecord = $this->entityRepositry->findById(new ReflectionClass(FoodTaskGroupMember::class), $beginningIndex);
+        $dbRecord = $this->entityRepository->findById(new ReflectionClass(FoodTaskGroupMember::class), $beginningIndex);
         if(is_null($dbRecord)){
             return WebResponse::failed("Selected record not FOUND");
         } 
@@ -112,7 +112,7 @@ class ComponentService {
         $month = $filter->month;
         $year = $filter->year;
         $class = new ReflectionClass(ScheduledFoodTaskGroup::class);
-		$existings = $this->entityRepositry->findWithKeys(  $class, [ "month"=>$month, "year"=>$year]);
+		$existings = $this->entityRepository->findWithKeys(  $class, [ "month"=>$month, "year"=>$year]);
 
         out("clearDataForSelectedMonth: ".$month."/".$year);
 
@@ -120,7 +120,7 @@ class ComponentService {
              out("sizeof(existings ):".sizeof($existings ));
              $deleted = 0;
 			foreach ($existings as $existing) {
-                $this->entityRepositry->deleteById($class, $existing->id ); 
+                $this->entityRepository->deleteById($class, $existing->id ); 
                 $deleted++;
             }
             out("deleted: ".$deleted);

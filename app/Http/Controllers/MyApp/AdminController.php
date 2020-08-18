@@ -26,6 +26,21 @@ class AdminController extends BaseController{
             return $this->errorPage($request,$th ); 
         }
     }
+    
+    public function meal_group_order(Request $request){
+        try{
+            return $this->appView($request, 'webpage.sequenceordering', [
+                'title'=>'Meal Group Order',
+                "displayField"=>"group.name",
+                "entityName"=>"foodtaskgroupmember",
+                "idField"=>"id",
+                "additional_style_paths" => ["sequenceordering" ]
+                ]);
+
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
+    }
 
     public function meal_scheduling(Request $request){
         try{   

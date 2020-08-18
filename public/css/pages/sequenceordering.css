@@ -3,13 +3,19 @@
 	height: 50px;
 	border: solid 2px maroon;
 	padding: 10px;
+	transition-duration: 400ms;
+	border: solid 2px greenyellow;
+	border-radius: 5px;
 }
 
 .page-item:hover {
-	background-color: lime;
+	background-color: cadetblue;
+	color: white;
+
 	cursor: pointer;
 }
 
 .page-selected {
-	background-color: lime;
+	background-color: cadetblue;
+	color: white;
 }
