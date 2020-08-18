@@ -6,6 +6,7 @@ use App\Dto\Filter;
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
 use App\Helpers\EntityUtil;
+use App\Helpers\FileUtil;
 use App\Models\BaseModel;
 use App\Repositories\EntityRepository; 
 use ReflectionClass;
@@ -27,26 +28,34 @@ class EntityService {
     } 
 
     private function validateEntityValuesBeforePersist($entity){
+        $class = new ReflectionClass($entity);
+        $props = $class->getProperties();
+        // $joinColumns = $this->webConfigService->getJoinColumns(new ReflectionClass($entity));
+        foreach ($props as $prop) {
 
-        $joinColumns = $this->webConfigService->getJoinColumns(new ReflectionClass($entity));
-        foreach ($joinColumns as $prop) {
             $propName = $prop->name;
-            $propValue =  $entity->$propName;
-            if(!isset($propValue)){
+            $propValue = $entity->$propName;  
+            $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
+            if(is_null($formField) || !isset($propValue)){
                 continue;
             }
-            $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-            $foreignKey = $formField->foreignKey;
-            $entity->$foreignKey =  $propValue->id;
-            unset($entity->$propName);
+             
+            if( $formField->foreignKey != "" ){
+                $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
+                $foreignKey = $formField->foreignKey;
+                $entity->$foreignKey =  $propValue->id;
+                unset($entity->$propName);
+            }else if($formField->type == "FIELD_TYPE_IMAGE"){
+                $imgName = FileUtil::writeBase64File($propValue, "IMG_".rand(1,999));
+                $entity->$propName = $imgName;
+            }
+            
         }
         return ($entity);
     }
 
     private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn){
          
-        $joinColumns = $this->webConfigService->getJoinColumns($class); 
-
         $props = $class->getProperties();
         
         foreach($props as $prop){
