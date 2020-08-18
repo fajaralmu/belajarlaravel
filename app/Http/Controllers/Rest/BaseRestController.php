@@ -34,7 +34,11 @@ class BaseRestController extends Controller {
         if(null!=$message){
             $response->message = $message;
         }
-        return response()->json($this->object_to_array($response)); 
+        $statusCode = 200;
+        if($code!="00"){
+            $statusCode = 500;
+        }
+        return response(json_encode($this->object_to_array($response)),   $statusCode ); 
     }
 
     function object_to_array($data)
@@ -52,6 +56,7 @@ class BaseRestController extends Controller {
     }
     
     protected function json_response(WebResponse $response, array $header = null){
+         
         if(null == $header ){
             return response( )->json($this->object_to_array($response)); 
         } 

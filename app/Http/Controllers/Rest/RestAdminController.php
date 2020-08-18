@@ -17,10 +17,13 @@ class RestAdminController extends BaseRestController {
     }
 
     public function update_order(Request $request, string $code){ 
-        $webRequest = $this->getWebRequest($request);
-       
-        $response = $this->component_service->saveEntitySequence($webRequest, $code);
-        return $this->json_response($response); 
+        try{
+            $webRequest = $this->getWebRequest($request); 
+            $response = $this->component_service->saveEntitySequence($webRequest, $code);
+            return $this->json_response($response); 
+        } catch (\Throwable $th) {
+            return $this->webResponse("01", $th->getMessage()); 
+        }
     }
 
     protected function guard()

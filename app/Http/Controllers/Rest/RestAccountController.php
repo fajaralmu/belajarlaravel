@@ -15,13 +15,17 @@ class RestAccountController extends BaseRestController {
     }
 
     public function login(Request $request){ 
-        $webResponse = $this->account_service->loginAttemp($request); 
-        $header = null;
-        if($webResponse->code == "00"){
-            $header = ["location"=>$request->session()->get("latest_request_url")];
-        }
+        try{
+            $webResponse = $this->account_service->loginAttemp($request); 
+            $header = null;
+            if($webResponse->code == "00"){
+                $header = ["location"=>$request->session()->get("latest_request_url")];
+            }
 
-        return $this->json_response($webResponse,  $header);
+            return $this->json_response($webResponse,  $header);
+        } catch (\Throwable $th) {
+            return $this->webResponse("01", $th->getMessage()); 
+        }
     }
     protected function guard()
     {
