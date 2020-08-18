@@ -15,8 +15,7 @@ class ManagementController extends BaseController{
             if(null ==  $entityProperty){
                 return $this->error($request, "EntityCode:".$model_code." Not Found");
             }
-
-            return $this->appView($request, 'webpage.entity-management-page', [
+            $data =  [
                 "entityProperty"=>$entityProperty,
                 "additional_style_paths"=>["entitymanagement"],
                 "additional_script_paths"=>["entitymanagement"],
@@ -24,7 +23,8 @@ class ManagementController extends BaseController{
                 "entityId"=>null,
                 "singleRecord"=>false,
                 "title"=>StringUtil::extractCamelCase($entityProperty->entityName)
-            ]);
+            ];
+            return $this->appView($request, 'webpage.entity-management-page',$data);
         } catch (\Throwable $th) {
             return $this->errorPage($request,$th ); 
         }

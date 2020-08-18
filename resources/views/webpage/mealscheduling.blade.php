@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%><!DOCTYPE html>
+@extends('layouts.app')
+@section('content') 
 <div class="content">
 	<h2>Time Line</h2>
 
@@ -12,9 +9,10 @@
 	</div>
 	<div>
 		First Order Group Name: <select id="groupMembers">
-			<c:forEach var="groupMember" items="${groupMembers}">
-				<option value="${groupMember.id }">${groupMember.group.name }</option>
-			</c:forEach>
+			@foreach ($groupMembers as $groupMember)
+			<option value="{{$groupMember->id }}"> {{$groupMember->group->name }}</option>
+			@endforeach
+		 
 		</select>
 		<button class="btn btn-secondary" onclick="createSchedule()">Create
 			Schedule For Selected Month</button>
@@ -52,13 +50,13 @@
 			}
 			infoLoading();
 			var requestObject = {
-				'filter' : {
-					'month' : MONTH_NOW + 1,
+				'filter' : { 
+					'month' :( MONTH_NOW + 1), 
 					'year' : YEAR_NOW
 				}
 			}
 
-			postReq("<spring:url value="/api/mealtasks/createschedule/" />"
+			postReq("{{$context_path}}/api/mealtasks/createschedule/"  
 					+ beginningGroupMemberId, requestObject, function(xhr) {
 				infoDone();
 				var response = (xhr.data);
@@ -73,17 +71,13 @@
 
 		function loadScheduleData(m, y) {
 			const requestObject = {
-				"entity" : "scheduledfoodtask",
+				"entity" : "scheduledfoodtaskgroup",
 				"filter" : {
 					"page" : 0,
-					"fieldsFilter" : {
-						"month" : m,
-						"year" : y
-					}
-
+					"fieldsFilter" : { "month" : m, "year" : y } 
 				}
 			};
-			doLoadEntities("<spring:url value="/api/entity/get" />",
+			doLoadEntities("{{$context_path}}/api/entity/get"  ,
 					requestObject, function(response) {
 
 						const entities = response.entities;
@@ -108,5 +102,5 @@
 			}
 		}
 	</script>
-</div>
-
+</div> 
+@endsection

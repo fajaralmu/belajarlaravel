@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Dto\Filter;
 use App\Dto\WebRequest;
 use App\Dto\WebResponse;
+use App\Models\FoodTaskGroupMember;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Repositories\PageRepository;
@@ -24,6 +26,14 @@ class ComponentService {
         $this->profile_repository = $profile_repository;
         $this->page_repository =  $page_repository;
         $this->webConfigService = $webConfigService;
+    }
+
+    public function getFoodTaskGroupMember(){
+        $filter = new Filter();
+        $filter->orderBy = "sequence";
+
+        $result = $this->webConfigService->entityRepository->filter(new ReflectionClass(FoodTaskGroupMember::class), $filter, true);
+        return $result["resultList"];
     }
 
 
@@ -49,8 +59,7 @@ class ComponentService {
 			$dbRecord->sequence= $sequence ;
 			$this->webConfigService->entityRepository->updateWithKeys($cls, $id, ["sequence"=>$sequence]);
 		}
-    }
-
+    } 
 
     public function getProfile(){
         $profile_code = config("app.general.APP_CODE");

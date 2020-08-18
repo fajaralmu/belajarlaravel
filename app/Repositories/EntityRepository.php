@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Annotations\FormField;
 use App\Dto\Filter;
 use App\Helpers\EntityUtil;
 use App\Helpers\StringUtil;
@@ -130,12 +131,85 @@ class EntityRepository
             }
         }
 
-        $resultList = $db->get()
-            ->toArray();
+        $resultList = $db->get()->toArray();
         $count = $db_count->count();
 
-        return ["resultList" => $resultList, "count" => $count];
+        $validated = [];
+        foreach ($resultList as $res)
+        {
+            array_push($validated, $this->validateEntityValuesAfterFilter($reflectionClass, $res, true));
+        }
+
+        return ["resultList" => $validated, "count" => $count];
     }
 
+
+
+    private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn)
+    {
+        
+        $props = $class->getProperties();
+
+        foreach ($props as $prop)
+        {
+            $propName = $prop->name;
+            $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
+            if (is_null($formField))
+            {
+                continue;
+            }
+            if(!property_exists($entity, $propName)){
+                // dd($entity, $propName,"Does not exist");
+                $entity->{$propName} = [];
+            }
+            if ($formField->foreignKey != "" && $validateJoinColumn == true)
+            {
+                /**
+                 * join columns
+                 */
+                $foreignKey = $formField->foreignKey;
+                $propValue = $entity->$foreignKey;
+                if(!isset($propValue)){
+                    continue;
+                }
+                
+                $className = $formField->className;
+                if($formField->multipleSelect == true){
+                    $rawForeignKeys = explode("~", $propValue);
+                    $values = [];
+                    foreach($rawForeignKeys as $fk){ 
+                        $obj = $this->findByClassNameAndId($className, $fk);
+                        array_push( $values, $obj);
+                    }
+                    $entity->$propName = $values;
+                }else{
+                    
+                    $referenceObject = $this->findByClassNameAndId($className, $propValue);  
+                    $entity->$propName = $referenceObject;
+                }
+            }
+            else
+            {
+                /**
+                 * regular
+                 */ 
+                $propValue = $entity->$propName;
+                if ((is_null($propValue) || $propValue == "") && $formField->defaultValue != "")
+                {
+                    $entity->$propName = $formField->defaultValue;
+                }
+            }
+        }
+
+       
+        return $entity;
+    }
+
+
+    public function findByClassNameAndId(string $className, $id){
+        $referenceClass = new ReflectionClass($className);
+        $referenceObject = $this->findById($referenceClass, $id);
+            return  $referenceObject;
+    }
 }
 

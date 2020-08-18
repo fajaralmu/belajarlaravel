@@ -26,6 +26,21 @@ class AdminController extends BaseController{
             return $this->errorPage($request,$th ); 
         }
     }
+
+    public function meal_scheduling(Request $request){
+        try{   
+            $groupMembers = $this->component_service->getFoodTaskGroupMember();
+             
+            return $this->appView($request, 'webpage.mealscheduling',
+            [
+                 'title'=>'Meal Task Scheduling',
+                 'groupMembers'=>$groupMembers,
+                 'additional_script_paths'=>["full-cal"]
+            ]);
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
+    }
     
  
 }

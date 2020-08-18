@@ -85,75 +85,7 @@ class EntityService
 
         }
         return ($entity);
-    }
-
-    private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn)
-    {
-
-        $props = $class->getProperties();
-
-        foreach ($props as $prop)
-        {
-            $propName = $prop->name;
-            $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-            if (is_null($formField))
-            {
-                continue;
-            }
-            if(!property_exists($entity, $propName)){
-                // dd($entity, $propName,"Does not exist");
-                $entity->{$propName} = [];
-            }
-            if ($formField->foreignKey != "" && $validateJoinColumn == true)
-            {
-                /**
-                 * join columns
-                 */
-                $foreignKey = $formField->foreignKey;
-                $propValue = $entity->$foreignKey;
-                if(!isset($propValue)){
-                    continue;
-                }
-                
-                $className = $formField->className;
-                if($formField->multipleSelect == true){
-                    $rawForeignKeys = explode("~", $propValue);
-                    $values = [];
-                    foreach($rawForeignKeys as $fk){ 
-                        $obj = $this->findByClassNameAndId($className, $fk);
-                        array_push( $values, $obj);
-                    }
-                    $entity->$propName = $values;
-                }else{
-                    
-                    $referenceObject = $this->findByClassNameAndId($className, $propValue);  
-                    $entity->$propName = $referenceObject;
-                }
-            }
-            else
-            {
-                /**
-                 * regular
-                 */ 
-                $propValue = $entity->$propName;
-                if ((is_null($propValue) || $propValue == "") && $formField->defaultValue != "")
-                {
-                    $entity->$propName = $formField->defaultValue;
-                }
-            }
-        }
-
-        // foreach ($joinColumns as $prop) {
-        //     $propName = $prop->name;
-        //     $formField = EntityUtil::getPropertyAnnotation($prop, FormField::class);
-        //     $foreignKey = $formField->foreignKey;
-        //     $propValue =  $entity->$foreignKey;
-        //     $referenceClass = new ReflectionClass( $formField->className);
-        //     $referenceObject = $this->entityRepository->findById($referenceClass, $propValue );
-        //     $entity->$propName = $referenceObject;
-        // }
-        return $entity;
-    }
+    } 
 
     public function findByClassNameAndId(string $className, $id){
         $referenceClass = new ReflectionClass($className);
@@ -180,16 +112,10 @@ class EntityService
 
         $result = $this
             ->entityRepository
-            ->filter($reflectionClass, $filter);
-        $resultList = $result["resultList"];
-        $validated = [];
-        foreach ($resultList as $res)
-        {
-            array_push($validated, $this->validateEntityValuesAfterFilter($reflectionClass, $res, true));
-        }
+            ->filter($reflectionClass, $filter); 
 
         $response = new WebResponse();
-        $response->entities = $validated;
+        $response->entities =   $result["resultList"];
         $response->totalData = $result["count"];
         $response->filter = $filter;
         return $response;

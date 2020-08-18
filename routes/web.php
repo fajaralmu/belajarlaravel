@@ -40,6 +40,7 @@ Route::group(['middleware' => [ 'auth', MyAppMiddleware::class], 'prefix' => 'ad
        
     Route::get('home', 'MyApp\AdminController@home_page')->name('admin_home');
     Route::get('sidemenudisplayorder', 'MyApp\AdminController@menu_order')->name('menu_rder');
+    Route::get('mealschedule', 'MyApp\AdminController@meal_scheduling')->name('meal_scheduling');
 });
 
 //MANAGEMENT

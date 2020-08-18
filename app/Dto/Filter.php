@@ -12,4 +12,5 @@ class Filter{
     public int $yearTo = 0;
     public array $fieldsFilter = [];
     public bool $exacts = false;
+    public bool $withCount = false;
 }
