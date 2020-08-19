@@ -52,21 +52,29 @@ class EntityRepositoryImpl implements EntityRepository
         return null;
     }
 
-    public function update(ReflectionClass $reflectionClass, object $entityObject):bool
+    public function add(ReflectionClass $reflectionClass, object $entityObject):object{
+            unset($entityObject->id);
+            $entityObject->created_at = now();
+            $entityObject->save();
+            return $entityObject;
+    }
+    public function update(ReflectionClass $reflectionClass, object $entityObject):object
     {
         $tableName = $this->getTableName($reflectionClass); 
          
         $arr = EntityUtil::objecttoarrayforpersist($entityObject);
-        try{
-        DB::table($tableName)->where([['id', '=', $entityObject
+        // try{
+            $arr['updated_at'] = now();
+            DB::table($tableName)->where([['id', '=', $entityObject
             ->id]])
             ->update($arr);
-             
-            return true;
-        }catch(Throwable $th){
-            Log::error('Error update entity: '.$th->getMessage());
-            return false;
-        }
+           
+            $result = $this->findById($reflectionClass, $entityObject->id);
+            return $result;
+        // }catch(Throwable $th){
+        //     Log::error('Error update entity: '.$th->getMessage());
+        //     return [];
+        // }
     }
 
     public function updateWithKeys(ReflectionClass $reflectionClass, $id, array $arr):bool

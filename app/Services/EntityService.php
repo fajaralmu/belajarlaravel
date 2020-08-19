@@ -138,8 +138,7 @@ class EntityService
         }
 
         $validatedObj = $this->validateEntityValuesBeforePersist($entityObject);
-        unset($validatedObj->id);
-        $validatedObj->save();
+       $this->entityRepository->add($reflectionClass, $validatedObj);
        
         $response = new WebResponse();
         $response->entity = json_decode(json_encode($validatedObj));
@@ -188,7 +187,7 @@ class EntityService
             ->update($reflectionClass, $validatedObj);
         // dd($queries);
         $response = new WebResponse();
-        $response->message = $result;
+        $response->entity = $result;
         return $response;
     }
 }

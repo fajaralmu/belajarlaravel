@@ -38,9 +38,10 @@
 			console.info("MONTH LOADED:", (m+1), "-", y)
 			loadScheduleData(m + 1, y);
 		}
+		
+		 
 		loadCalendar();
-
-	
+		  
 		function loadScheduleData(m, y) {
 			if(scheduledData[m+"-"+y]!=null){
 				this.fillScheduleData(m, y);

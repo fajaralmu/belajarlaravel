@@ -8,9 +8,8 @@ use App\Annotations\FormField;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionProperty;
-use ReflectionClass;
-use ReflectionNamedType;
-use ReflectionType;
+use ReflectionClass; 
+use Throwable;
 
 class EntityUtil
 {
@@ -60,7 +59,7 @@ class EntityUtil
         $entityProperty->entityName = strtolower($clazz->getShortName());
         $entityProperty->isQuestionare = $isQuestionare;
 
-        // try {
+         try {
         $fieldList = $clazz->getProperties();
 
         if ($isQuestionare)
@@ -96,7 +95,6 @@ class EntityUtil
             array_push($entityElements, $entityElement);
         }
 
-        // $entityProperty->alias(dto.value().isEmpty() ? StringUtil::extractCamelCase($clazz.getSimpleName()) : dto.value());
         $entityProperty->alias = StringUtil::extractCamelCase($clazz->getShortName());
         $entityProperty->editable = true; //(dto.editable());
         $entityProperty->setElementJsonList();
@@ -105,19 +103,17 @@ class EntityUtil
         $entityProperty->dateElementsJson = (json_encode($entityProperty->dateElements));
         $entityProperty->fieldNames = (json_encode($fieldNames)); //, JSON_UNESCAPED_SLASHES ));
         $entityProperty->fieldNameList = ($fieldNames);
-        // echo  ($entityProperty->fieldNames);
-        // out($entityProperty->fieldNames);
-        // dd($entityProperty->fieldNames);
+         
         $entityProperty->formInputColumn = 2; //(dto.formInputColumn().value);
         $entityProperty->determineIdField();
 
         out("============ENTITY PROPERTY: Created");
 
         return $entityProperty;
-        // } catch (Exception e) {
-        // 	e.printStackTrace();
-        // 	throw e;
-        // }
+         } catch (Throwable $e) {
+        out("==error creating entity property:". $e->getMessage());
+        throw $e;
+          }
         
     }
 
@@ -141,6 +137,9 @@ class EntityUtil
         $props = $reflectionClass->getProperties();
         foreach ($props as $prop)
         {
+            if($prop->name == "created_at" || $prop->name == "updated_at"){
+                continue;
+            }
             if (is_null(EntityUtil::getPropertyAnnotation($prop, Column::class)))
             {
                 continue;
@@ -148,7 +147,7 @@ class EntityUtil
             $propName = $prop->name;
             $arr[$propName] = $obj->$propName;
         }
-
+       
         return $arr;
     }
 
@@ -182,4 +181,3 @@ class EntityUtil
     }
 
 }
-
