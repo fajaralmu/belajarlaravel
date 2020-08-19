@@ -34,6 +34,8 @@ class WebRequest {
      */
     public string $entity = "";
 
+    public string $username;
+
     public function __construct(){
         $this->filter = new Filter();
     }

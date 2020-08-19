@@ -20,11 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //AUTO api prefixed
 Route::prefix('account')->group(function () { 
     Route::post('login', 'Rest\RestAccountController@login');
+    Route::post('register', 'Rest\RestAccountController@register');
+    Route::post('checkusername', 'Rest\RestAccountController@checkusername');
 });
 
 Route::prefix('public')->group(function () { 
     Route::post('pagecode', 'Rest\PublicController@pageCode');
     Route::post('mealschedule', 'Rest\PublicController@mealschedule');
+   
 });
 
 Route:: group(['prefix' => 'entity' , 'middleware'=>'auth:api'  ],function () { 

@@ -2,16 +2,18 @@
 namespace App\Http\Controllers\Rest;
 
 use App\Dto\Filter;
+use App\Services\AccountService;
 use App\Services\EntityService;
 use Illuminate\Http\Request; 
 
 class PublicController extends BaseRestController {
 
-    protected $entity_service;
+    protected EntityService $entity_service;
+   
 
-    public function __construct( EntityService $entity_service)
+    public function __construct( EntityService $entity_service )
     {
-        $this->entity_service = $entity_service;
+        $this->entity_service = $entity_service; 
         parent::__construct();
     }
     public function pageCode(Request $request){ 
@@ -19,6 +21,9 @@ class PublicController extends BaseRestController {
         $msg = 'UNDER-CONSTRUCTION';
         return $this->webResponse("00", $msg);
     }
+
+   
+
     public function mealschedule(Request $request){ 
 
          try{   

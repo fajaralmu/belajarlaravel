@@ -58,7 +58,7 @@
 		const requestObject = {
 			'username' : username
 		}
-		postReq("{{$context_path}}/api/public/checkusername",
+		postReq("{{$context_path}}/api/account/checkusername",
 				requestObject, function(xhr) {
 					var response = xhr.data;
 					var msg;
@@ -93,7 +93,7 @@
 		
 		const requestObject = {
 			'user' : {
-				'displayName' : nameField.value,
+				'display_name' : nameField.value,
 				'username' : usernameField.value,
 				'password' : passwordField.value
 			}
