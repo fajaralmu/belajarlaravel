@@ -44,7 +44,7 @@ class EntityRepositoryImpl implements EntityRepository
 
         $db = DB::table($tableName)->where([['id', '=', $id]]); 
         $result = $db->get();
-        
+
         if (sizeof($result) > 0)
         {
             return $result[0];
@@ -120,7 +120,7 @@ class EntityRepositoryImpl implements EntityRepository
     public function filter(ReflectionClass $reflectionClass, Filter $filter):array
     {
         $tableName = $this->getTableName($reflectionClass);
-
+        DB::enableQueryLog();
         $db = DB::table($tableName); //->get()->toArray();
         $db_count = DB::table($tableName);
         $whereClause = [];
@@ -130,6 +130,7 @@ class EntityRepositoryImpl implements EntityRepository
             $filter = $filter;
             $fieldsFilter = $filter->fieldsFilter;
             $exactSearch = $filter->exacts == true;
+            $whereRaws = [];
 
             if (isset($fieldsFilter) && sizeof($fieldsFilter) > 0)
             {
@@ -143,6 +144,13 @@ class EntityRepositoryImpl implements EntityRepository
                         $partialExact = true;
                         $substringStart = strlen($key) - strlen("[EXACTS]");
                         $key = substr($key, 0, $substringStart);
+
+                    }else if(sizeof(explode("-", $key)) == 2 && StringUtil::ends_with_some($key, "-day","-month", "-year")){
+
+                        $param = explode("-", $key);
+                        $key = $param[1]."(`".  $param[0]."`)";
+                          $whereRaws  [$key]=  $value;
+                        continue;
                     }
 
                     if ($exactSearch || $partialExact)
@@ -157,9 +165,18 @@ class EntityRepositoryImpl implements EntityRepository
                     }
                     array_push($whereClause, [$key, $operator, $value]);
                 }
-
+               
                 $db = $db->where($whereClause);
+
+                if(sizeof($whereRaws)>0){
+                    foreach ($whereRaws as $key => $value) {
+ 
+                        $db = $db->whereRaw( $key ."=?", [$value]);
+                    }
+                }
+
                 $db_count = $db_count->where($whereClause);
+               
             }
             if (isset($filter->limit) && $filter->limit > 0)
             {
@@ -178,7 +195,7 @@ class EntityRepositoryImpl implements EntityRepository
 
         $resultList = $db->get()->toArray();
         $count = $db_count->count();
-
+        // dd($whereRaws, DB::getQueryLog());
         $validated = [];
         foreach ($resultList as $res)
         {

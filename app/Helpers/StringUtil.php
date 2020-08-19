@@ -1,5 +1,6 @@
 <?php
 namespace App\Helpers;
+use Illuminate\Support\Str;
 
 class StringUtil
 {
@@ -7,6 +8,24 @@ class StringUtil
     public static function strContains(string $string, string $word)
     {
         return strpos($string, $word) !== false;
+    }
+
+    public static function ends_with_some(string $string, string ... $suffixes){
+        for ($i=0; $i < sizeof($suffixes); $i++) { 
+            if(Str::endsWith  ($string, $suffixes[$i])){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static function strContainsSome(string $string, string ... $words)
+    {
+        for ($i=0; $i < sizeof($words); $i++) { 
+            if(Str::contains ($string, $words[$i])){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function getWordsAfterLastChar(string $word, string $char)
@@ -54,4 +73,3 @@ class StringUtil
         return $result;
     }
 }
-
