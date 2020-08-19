@@ -129,6 +129,7 @@ class EntityRepositoryImpl implements EntityRepository
         $db = DB::table($tableName); 
         $db_count = DB::table($tableName);
         $whereClause = [];
+        $joinKeys = [];
 
         if (isset($filter))
         { 
@@ -155,6 +156,10 @@ class EntityRepositoryImpl implements EntityRepository
                         $key = $param[1]."(`".  $param[0]."`)";
                           $whereRaws  [$key]=  $value;
                         continue;
+
+                    }else if(StringUtil::strContains($key, '.')){
+                        $joinKeys[$key] = $value;
+                        continue;
                     }
 
                     if ($exactSearch || $partialExact)
@@ -173,6 +178,9 @@ class EntityRepositoryImpl implements EntityRepository
                 $db = $db->where($whereClause); 
                 $db_count = $db_count->where($whereClause);
                
+                ///////////PROCESS JOIN COLS///////////
+                $db = $this->processJoinCols($reflectionClass, $db ,$joinKeys);
+
                 //////////RAW QUERIES/////////  
                 $db = $this->checkRawQuery($db, $whereRaws);
                 $db_count = $this->checkRawQuery($db_count, $whereRaws);
@@ -181,10 +189,10 @@ class EntityRepositoryImpl implements EntityRepository
             $db = $this->checkOffsetLimit($db, $filter);
             $db = $this->checkOrdering($db, $filter);
         }
-
+      
         $resultList = $db->get()->toArray();
         $count = $db_count->count();
-        // dd($whereRaws, DB::getQueryLog());
+        // dd(  DB::getQueryLog());
         $validated = [];
         foreach ($resultList as $res)
         {
@@ -194,7 +202,38 @@ class EntityRepositoryImpl implements EntityRepository
         return ["resultList" => $validated, "count" => $count];
     }
 
-    private function checkRawQuery(Builder $db, array $whereRaws){
+    //TODO: support exact search
+    private function processJoinCols(ReflectionClass $reflectionClass, Builder $db, array $joinKeys):Builder {
+        $thisTable = $this->getTableName($reflectionClass);
+        if(sizeof($joinKeys)>0){
+            foreach ($joinKeys as $key => $value) {
+                try {
+                    $rawKey = explode(".", $key);
+                    $prop = $reflectionClass->getProperty($rawKey[0]);
+                    $formField = EntityUtil::getFormField($prop);
+                    if(!isset($formField)){
+                        continue;
+                    } 
+
+                    $className = $formField->className;
+                    $foreignKey = $formField->foreignKey;
+                    $referenceClass = new ReflectionClass($className);
+                    $refTable = $this->getTableName($referenceClass);
+                    
+                    $db = $db->join($refTable,  $thisTable.'.'.$foreignKey, '=', $refTable.'.id');
+                    $db  = $db->whereRaw($refTable.'.'.$rawKey[1].' like ?', ["%".$value."%"]);
+
+                } catch (\Throwable $th) {
+                   continue;
+                }
+                
+            }
+        }
+
+        return $db;
+    }
+
+    private function checkRawQuery(Builder $db, array $whereRaws):Builder{
         if(sizeof($whereRaws)>0){
             foreach ($whereRaws as $key => $value) { 
                 $db = $db->whereRaw( $key ."=?", [$value]); 
@@ -203,7 +242,7 @@ class EntityRepositoryImpl implements EntityRepository
         return  $db;
     }
 
-    private function checkOffsetLimit(Builder $db, Filter $filter){
+    private function checkOffsetLimit(Builder $db, Filter $filter):Builder{
         if (isset($filter->limit) && $filter->limit > 0)
             {
                 $offset = $filter->page * $filter->limit;
@@ -212,7 +251,7 @@ class EntityRepositoryImpl implements EntityRepository
             return $db;
     }
 
-    private function checkOrdering(Builder $db, Filter $filter){
+    private function checkOrdering(Builder $db, Filter $filter):Builder{
         if (isset($filter->orderBy) && trim($filter->orderBy) != "")
             {
                 $orderType = "asc";

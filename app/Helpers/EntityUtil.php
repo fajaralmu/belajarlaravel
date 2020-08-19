@@ -37,6 +37,10 @@ class EntityUtil
         return $annotations;
     }
 
+    public static function getFormField(ReflectionProperty $prop):FormField{
+        return EntityUtil::getPropertyAnnotation($prop, FormField::class);
+    }
+
     public static function getPropertyAnnotation(ReflectionProperty $property, $annotationClass)
     {
         $reader = new AnnotationReader();

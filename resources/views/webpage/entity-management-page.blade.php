@@ -247,11 +247,10 @@
 				"limit" : this.limit,
 				"page" : page,
 				"orderBy" : this.orderBy,
-				"orderType" : this.orderType
-
-			}
-		};
-		requestObject.filter.fieldsFilter = {};
+				"orderType" : this.orderType,
+				"fieldsFilter":{}
+			} 
+		}; 
 		for (let i = 0; i < filterFields.length; i++) {
 			const filterField = filterFields[i];
 			const filterValue = filterField.value;
@@ -261,6 +260,10 @@
 
 				if (checkBoxExact != null && checkBoxExact.checked) {
 					fieldName = fieldName + "[EXACTS]";
+				}
+				 
+				if(filterField.getAttribute("itemnamefield")){
+					fieldName+="."+filterField.getAttribute("itemnamefield");
 				}
 				requestObject.filter.fieldsFilter[fieldName] = filterValue;
 			}
@@ -470,6 +473,9 @@
 				"input-group input-group-sm mb-3");
 		const input = createInputText("filter-" + fieldName,
 				"filter-field form-control");
+		if(_byId(fieldName).getAttribute("itemnamefield")){
+			input.setAttribute("itemnamefield", _byId(fieldName).getAttribute("itemnamefield"));
+		}
 		input.setAttribute("field", fieldName);
 		input.onkeyup = function() {
 			loadEntity();
