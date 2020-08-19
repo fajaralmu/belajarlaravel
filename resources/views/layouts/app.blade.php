@@ -8,6 +8,7 @@
 
      <link rel="stylesheet" type="text/css" href="{{ asset('css/shop.css') }}" />
      <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+     <link rel="stylesheet" href="{{ asset('css/bulma.min.css') }}" />
      <script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}"></script>
      <script src="{{ asset('js/popper.min.js') }}"></script>
      <script src="{{ asset('js/bootstrap.min.js') }}"></script>
