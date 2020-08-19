@@ -73,7 +73,7 @@ class BaseController extends Controller{
         $pageModel = new PageModel();
 
         $pageModel->context_path  = URL::to("");
-        $pageModel->page_token = '12345';
+        $pageModel->page_token =  $request->session()->get('api_token');
         $pageModel->registered_request_id = '12345';
         $pageModel->request_id = '12345'; 
         $pageModel->profile = $this->getProfile();

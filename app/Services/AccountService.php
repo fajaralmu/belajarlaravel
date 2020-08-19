@@ -5,6 +5,7 @@ use App\Dto\WebResponse;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AccountService {
 
@@ -38,11 +39,18 @@ class AccountService {
         $response = new WebResponse();
         $cred= ['username' =>$user['username'], 'password' => $user['password']];
         
+        
         if ( Auth::attempt($cred)) {
            
             out("SUCCESS LOGIN: ", Auth::user());
             out("Auth::name: ", Auth::getName());
             out($request->session()->get(Auth::getName()));
+
+            $token = Str::random(60);
+            $hashedToken = hash('sha256', $token); 
+            $this->user_repository->updateApiToken(Auth::user()->id, $hashedToken);
+             
+            $request->session()->put('api_token', $hashedToken);
         }else{ 
             $response->code = "01";
             $response->message = "FAILED";

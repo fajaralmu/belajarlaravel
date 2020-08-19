@@ -56,6 +56,10 @@ class User  extends Authenticatable
 	 *	@FormField(type="FIELD_TYPE_COLOR",defaultValue="#000000")
 	 */ 
 	 protected $font_color;
+	 /**
+	  * @Column()
+	  */
+	 protected $api_token;
 
  
 	public $created_at, $updated_at;

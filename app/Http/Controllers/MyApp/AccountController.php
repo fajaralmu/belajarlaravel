@@ -40,4 +40,17 @@ class AccountController extends BaseController{
         }
     }
 
+    public function register_page(Request $request){ 
+        try{
+            if(Auth::check()){
+                return redirect()->route('admin_home');
+            }
+            
+            return $this->appView($request, 'webpage.register-page', ['title'=>'Register']);
+
+        } catch (\Throwable $th) {
+            return $this->errorPage($request,$th ); 
+        }
+    }
+
 }

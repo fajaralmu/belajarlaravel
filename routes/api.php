@@ -27,7 +27,7 @@ Route::prefix('public')->group(function () {
     Route::post('mealschedule', 'Rest\PublicController@mealschedule');
 });
 
-Route:: group(['prefix' => 'entity' , 'middleware'=>'auth'  ],function () { 
+Route:: group(['prefix' => 'entity' , 'middleware'=>'auth:api'  ],function () { 
     Route::post('get', 'Rest\RestEntityController@get_entity');
     Route::post('add', 'Rest\RestEntityController@add_entity');
     Route::post('update', 'Rest\RestEntityController@update_entity');

@@ -42,9 +42,9 @@ class EntityRepositoryImpl implements EntityRepository
     {
         $tableName = $this->getTableName($reflectionClass);
 
-        $db = DB::table($tableName)->where([['id', '=', $id]]);
-
+        $db = DB::table($tableName)->where([['id', '=', $id]]); 
         $result = $db->get();
+        
         if (sizeof($result) > 0)
         {
             return $result[0];
@@ -53,24 +53,28 @@ class EntityRepositoryImpl implements EntityRepository
     }
 
     public function add(ReflectionClass $reflectionClass, object $entityObject):object{
-            unset($entityObject->id);
-            $entityObject->created_at = now();
-            $entityObject->save();
-            return $entityObject;
+        unset($entityObject->id);
+
+        $entityObject->created_at = now();
+        $entityObject->save();
+
+        return $entityObject;
     }
     public function update(ReflectionClass $reflectionClass, object $entityObject):object
     {
         $tableName = $this->getTableName($reflectionClass); 
          
         $arr = EntityUtil::objecttoarrayforpersist($entityObject);
-        // try{
-            $arr['updated_at'] = now();
-            DB::table($tableName)->where([['id', '=', $entityObject
-            ->id]])
-            ->update($arr);
-           
-            $result = $this->findById($reflectionClass, $entityObject->id);
-            return $result;
+        $arr['updated_at'] = now();
+
+        // try{ 
+
+        $db = DB::table($tableName)->where([['id', '=', $entityObject->id]]); 
+        $db->update($arr);
+        
+        $result = $this->findById($reflectionClass, $entityObject->id);
+
+        return $result;
         // }catch(Throwable $th){
         //     Log::error('Error update entity: '.$th->getMessage());
         //     return [];

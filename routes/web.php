@@ -21,6 +21,7 @@ Route::group(['middleware' => ['web', MyAppMiddleware::class]], function () {
     Route::prefix('account')->group(function () {
   
          Route::get('login', 'MyApp\AccountController@login_page')->name('login');
+         Route::get('register', 'MyApp\AccountController@register_page')->name('register');
          Route::get('logout', 'MyApp\AccountController@logout')->name('logout');
     });
  

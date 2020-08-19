@@ -1,13 +1,6 @@
 
-<%@ page language="java" contentType="text/html; charset=windows-1256"
-	pageEncoding="windows-1256"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-
-
+@extends('layouts.app')
+@section('content')
 <div class="content">
 	<p id="info" align="center"></p>
 	<div class="card" style="max-width: 400px; margin: auto">
@@ -65,7 +58,7 @@
 		const requestObject = {
 			'username' : username
 		}
-		postReq("<spring:url value="/api/public/checkusername" />",
+		postReq("{{$context_path}}/api/public/checkusername",
 				requestObject, function(xhr) {
 					var response = xhr.data;
 					var msg;
@@ -106,16 +99,17 @@
 			}
 		}
 		postReq(
-				"<spring:url value="/api/account/register" />",
+				"{{$context_path}}/api/account/register"  ,
 				requestObject,
 				function(xhr) {
 					var response = xhr.data;
 					if (response != null && response.code == "00") {
 						alert("register Success");
-						window.location.href = "<spring:url value="/account/login" />";
+						window.location.href = "{{$context_path}}/account/login";
 					} else {
 						alert("register Failed");
 					}
 				});
 	}
-</script>
+</script> 
+@endsection
