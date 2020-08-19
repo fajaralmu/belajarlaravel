@@ -5,6 +5,7 @@ use App\Annotations\FormField;
 use App\Dto\Filter;
 use App\Helpers\EntityUtil;
 use App\Helpers\StringUtil;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use ReflectionClass;
@@ -117,17 +118,20 @@ class EntityRepositoryImpl implements EntityRepository
         }
     }
 
+    private function isDateKey(string $key){
+        return sizeof(explode("-", $key)) == 2 && StringUtil::ends_with_some($key, "-day","-month", "-year");
+    }
+
     public function filter(ReflectionClass $reflectionClass, Filter $filter):array
     {
         $tableName = $this->getTableName($reflectionClass);
         DB::enableQueryLog();
-        $db = DB::table($tableName); //->get()->toArray();
+        $db = DB::table($tableName); 
         $db_count = DB::table($tableName);
         $whereClause = [];
 
         if (isset($filter))
-        {
-            $filter = $filter;
+        { 
             $fieldsFilter = $filter->fieldsFilter;
             $exactSearch = $filter->exacts == true;
             $whereRaws = [];
@@ -137,7 +141,7 @@ class EntityRepositoryImpl implements EntityRepository
                 foreach ($fieldsFilter as $key => $value)
                 {
                     $operator = null;
-                    $partialExact = false;
+                    $partialExact = false; 
 
                     if (StringUtil::strContains($key, "[EXACTS]"))
                     {
@@ -145,7 +149,7 @@ class EntityRepositoryImpl implements EntityRepository
                         $substringStart = strlen($key) - strlen("[EXACTS]");
                         $key = substr($key, 0, $substringStart);
 
-                    }else if(sizeof(explode("-", $key)) == 2 && StringUtil::ends_with_some($key, "-day","-month", "-year")){
+                    }else if($this->isDateKey($key)){
 
                         $param = explode("-", $key);
                         $key = $param[1]."(`".  $param[0]."`)";
@@ -166,31 +170,16 @@ class EntityRepositoryImpl implements EntityRepository
                     array_push($whereClause, [$key, $operator, $value]);
                 }
                
-                $db = $db->where($whereClause);
-
-                if(sizeof($whereRaws)>0){
-                    foreach ($whereRaws as $key => $value) {
- 
-                        $db = $db->whereRaw( $key ."=?", [$value]);
-                    }
-                }
-
+                $db = $db->where($whereClause); 
                 $db_count = $db_count->where($whereClause);
                
+                //////////RAW QUERIES/////////  
+                $db = $this->checkRawQuery($db, $whereRaws);
+                $db_count = $this->checkRawQuery($db_count, $whereRaws);
+               
             }
-            if (isset($filter->limit) && $filter->limit > 0)
-            {
-                $offset = $filter->page * $filter->limit;
-                $db = $db->offset($offset)->limit($filter->limit);
-            }
-            if (isset($filter->orderBy) && trim($filter->orderBy) != "")
-            {
-                $orderType = "asc";
-                if(strtolower($filter->orderType) != "asc"){
-                    $orderType = "desc";
-                }
-                $db = $db->orderBy($filter->orderBy, $orderType);
-            }
+            $db = $this->checkOffsetLimit($db, $filter);
+            $db = $this->checkOrdering($db, $filter);
         }
 
         $resultList = $db->get()->toArray();
@@ -203,6 +192,36 @@ class EntityRepositoryImpl implements EntityRepository
         }
 
         return ["resultList" => $validated, "count" => $count];
+    }
+
+    private function checkRawQuery(Builder $db, array $whereRaws){
+        if(sizeof($whereRaws)>0){
+            foreach ($whereRaws as $key => $value) { 
+                $db = $db->whereRaw( $key ."=?", [$value]); 
+            }
+        }
+        return  $db;
+    }
+
+    private function checkOffsetLimit(Builder $db, Filter $filter){
+        if (isset($filter->limit) && $filter->limit > 0)
+            {
+                $offset = $filter->page * $filter->limit;
+                $db = $db->offset($offset)->limit($filter->limit);
+            }
+            return $db;
+    }
+
+    private function checkOrdering(Builder $db, Filter $filter){
+        if (isset($filter->orderBy) && trim($filter->orderBy) != "")
+            {
+                $orderType = "asc";
+                if(strtolower($filter->orderType) != "asc"){
+                    $orderType = "desc";
+                }
+                $db = $db->orderBy($filter->orderBy, $orderType);
+            }
+            return $db;
     }
  
     private function validateEntityValuesAfterFilter(ReflectionClass $class, object $entity, bool $validateJoinColumn)
