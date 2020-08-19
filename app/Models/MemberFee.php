@@ -18,7 +18,7 @@ class MemberFee extends BaseModel
 	 * @Column() 
  */  		
  protected $member_id;
-
+	//FIELD_TYPE_DYNAMIC_LIST
 	 /** 
 	 *	@FormField(type="FIELD_TYPE_FIXED_LIST",lableName="Member",optionItemName="name",className="App\Models\Member",foreignKey="member_id")
 	 */ 
