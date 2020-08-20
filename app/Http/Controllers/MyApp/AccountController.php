@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MyApp;
 use App\Services\AccountService;
 use App\Services\ComponentService;
 use App\Services\WebConfigService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,10 @@ class AccountController extends BaseController{
     }
 
     public function register_page(Request $request){ 
+
+        if(true){
+            return $this->errorPage($request, new Exception("Under maintenance, please contact the admin"));
+        }
         try{
             if(Auth::check()){
                 return redirect()->route('admin_home');

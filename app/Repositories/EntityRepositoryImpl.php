@@ -202,31 +202,40 @@ class EntityRepositoryImpl implements EntityRepository
         return ["resultList" => $validated, "count" => $count];
     }
 
+    private function getFormField(ReflectionClass $class, string $fieldName):FormField{
+        $prop = $class->getProperty($fieldName);
+        $formField = EntityUtil::getFormField($prop);
+        return $formField;
+    }
+
+    private function getTableNameByClassName(string $className):string { 
+            $referenceClass = new ReflectionClass($className);
+            $table = $this->getTableName($referenceClass);
+            return $table;
+    }
+
     //TODO: support exact search
     private function processJoinCols(ReflectionClass $reflectionClass, Builder $db, array $joinKeys):Builder {
         $thisTable = $this->getTableName($reflectionClass);
         if(sizeof($joinKeys)>0){
             foreach ($joinKeys as $key => $value) {
                 try {
-                    $rawKey = explode(".", $key);
-                    $prop = $reflectionClass->getProperty($rawKey[0]);
-                    $formField = EntityUtil::getFormField($prop);
+                    $rawKey = explode(".", $key); 
+                    $formField = $this->getFormField($reflectionClass, $rawKey[0]);
                     if(!isset($formField)){
                         continue;
                     } 
 
                     $className = $formField->className;
-                    $foreignKey = $formField->foreignKey;
-                    $referenceClass = new ReflectionClass($className);
-                    $refTable = $this->getTableName($referenceClass);
+                    $foreignKey = $formField->foreignKey; 
+                    $refTable = $this->getTableNameByClassName($className);
                     
                     $db = $db->join($refTable,  $thisTable.'.'.$foreignKey, '=', $refTable.'.id');
                     $db  = $db->whereRaw($refTable.'.'.$rawKey[1].' like ?', ["%".$value."%"]);
 
                 } catch (\Throwable $th) {
                    continue;
-                }
-                
+                } 
             }
         }
 
